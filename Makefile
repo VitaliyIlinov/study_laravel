@@ -3,6 +3,7 @@ ROOT_DIR   := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 IMAGE_NAME = $(APP_NAME)
 BUILD_ID ?= $(shell /bin/date "+%Y%m%d-%H%M%S")
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
+MYSQL_DUMPS_DIR=storage/mysql/dumps
 
 E ?= ternarniy operator
 #VERSION ?= $(shell cat $(ROOT_DIR)/VERSION | head -n 1)
@@ -61,10 +62,23 @@ clean:
 		./storage/logs/nginx/* \
 		./storage/logs/php/*
 
+mysql-dump:
+	@mkdir -p $(MYSQL_DUMPS_DIR)
+	@docker exec $(shell docker-compose ps -q db) mysqldump --all-databases -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" > $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
+	@make resetOwner
+
+mysql-restore:
+	@docker exec -i $(shell docker-compose ps -q mysqldb) mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" < $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
+
 help:
 	@echo 'Targets:'
 	@echo ' - build         Build docker images'
 	@echo ' - up            Create and start containers'
+	@echo ' - bash          Enter in container'
+	@echo ' - logs [NAME]   Show container logs'
+	@echo ' - clean         Clean App logs'
+	@echo ' - mysql-dump    Create backup of all databases'
+	@echo ' - mysql-restore Restore backup of all databases'
 	@echo ' - up-d          Create and start containers in the background'
 	@echo ' - down          Stop and remove containers, networks, images, and volumes'
 	@echo ' - help          Show this help and exit'
