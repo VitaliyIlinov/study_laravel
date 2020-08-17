@@ -6,6 +6,7 @@ MAINTAINER vitaliy ilinov <ilinov123@gmail.com>
 # 1000 - is USER;
 # && creating file in MOUNT volume will be from current user
 ARG uid
+ARG user
 
 # Install and enable additional extensions
 
@@ -30,10 +31,12 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Create system user
-RUN usermod -u ${uid} www-data && groupmod -g ${uid} www-data
+RUN useradd -G www-data,root -u ${uid} -d /home/${user} ${user}
 
 COPY ./ /docker
 
 RUN cp /docker/php.ini-development "$PHP_INI_DIR/php.ini"
 #additional
 RUN bash /docker/after-build.sh
+
+USER ${user}

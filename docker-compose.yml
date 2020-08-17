@@ -13,6 +13,8 @@ services:
     #      - ./docker/php-fpm/pool.d/www.conf:/usr/local/etc/php-fpm.d/custom.conf
     links:
       - db
+    env_file:
+      - docker-compose.env
     networks:
       - app-network
 
@@ -39,6 +41,7 @@ services:
     environment:
       #from .env load configs
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
     ports:
       - 3307:3306
     volumes:

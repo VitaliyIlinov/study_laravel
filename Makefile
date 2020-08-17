@@ -5,6 +5,10 @@ BUILD_ID ?= $(shell /bin/date "+%Y%m%d-%H%M%S")
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
 MYSQL_DUMPS_DIR=storage/mysql/dumps
 
+
+.SILENT: ;               # no need for @
+.EXPORT_ALL_VARIABLES: ; # send all vars to shell
+
 E ?= ternarniy operator
 #VERSION ?= $(shell cat $(ROOT_DIR)/VERSION | head -n 1)
 ifeq ($(VERSION),)
@@ -31,10 +35,12 @@ ifeq ($(APP_NAME),)
 endif
 
 build: uid:=$(shell id -u)
+build: user:=$(shell id -u -n)
 build : check
 	@echo "build..."
 	 docker build \
   	--build-arg uid=$(uid) \
+  	--build-arg user=$(user) \
  	--force-rm  \
  	--no-cache \
  	-t $(IMAGE_NAME) ./docker/
