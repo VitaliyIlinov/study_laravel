@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     autoconf \
     make \
     wget \
+    npm \
     curl
 
 ## Install composer
@@ -32,6 +33,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Create system user
 RUN useradd -G www-data,root -u ${uid} -d /home/${user} ${user}
+RUN mkdir -p /home/${user}/.composer && \
+    chown -R ${user}:${user} /home/${user}
 
 COPY ./ /docker
 
