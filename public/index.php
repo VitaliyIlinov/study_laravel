@@ -5,7 +5,7 @@
 //      app create ass www-data but in console as root
 // 2. permission for mysql container
 // 3. docker/configs/mysql/conf.d/my.cnf permission denied if add path  to log
-
+//https://www.youtube.com/watch?v=cQWeTnOwlm4
 
 /**
  * Laravel - A PHP Framework For Web Artisans
