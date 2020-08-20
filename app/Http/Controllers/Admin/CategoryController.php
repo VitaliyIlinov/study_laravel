@@ -29,7 +29,7 @@ class CategoryController extends Controller
             'updated_at'  => ['trans' => 'updated_at'],
         ];
 
-        return view('admin.category', [
+        return view('admin.category.list', [
             'fields' => $fields,
             'rows'   => $rows,
         ]);
@@ -38,22 +38,26 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function create()
     {
-        //
+        return view('admin.category.create', [
+            'fields' => $this->getFields(),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param StoreCategory $request
+     * @return mixed
      */
-    public function store(Request $request)
+    public function store(StoreCategory $request)
     {
-        //
+        $info = new Category();
+        $info->fill($this->mergeStatus($request))->save();
+        return back()->with('success', 'Category was updated');
     }
 
     /**
@@ -64,49 +68,55 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $fields = [
-            'name'      => ['type' => 'text'],
-            'parent_id' => ['type' => 'option', 'values' => Category::all()->pluck('name', 'id')],
-            'status'    => ['type' => 'checkbox'],
-        ];
-        return view('admin.show', [
+        return view('admin.info.edit', [
             'row'    => $category,
-            'fields' => $fields,
+            'fields' => $this->getFields(),
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Category $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param StoreCategory        $request
-     * @param \App\Models\Category $category
+     * @param StoreCategory $request
+     * @param Category      $category
      * @return mixed
      */
     public function update(StoreCategory $request, Category $category)
     {
-         $category->fill($request->all())->save();
-         return back()->with('success', 'Category was updated');
+        $category->fill($this->mergeStatus($request))->save();
+        return back()->with('success', 'Category was updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Category $category
-     * @return \Illuminate\Http\Response
+     * @param Category $category
+     * @param Request  $request
+     * @return mixed
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category, Request $request)
     {
-        //
+        if (0 === $count = $category->info->count()) {
+            $category->delete();
+            return response()->json('success');
+        }
+        return response()->json(['message' => "There are {$count} info rows. Please delete them first"], 400);
+    }
+
+    /**
+     * @return array
+     */
+    private function getFields(): array
+    {
+        return $fields = [
+            'name'      => ['type' => 'text'],
+            'parent_id' => ['type' => 'option', 'values' => Category::all()->pluck('name', 'id')],
+            'status'    => ['type' => 'checkbox'],
+        ];
+    }
+
+    private function mergeStatus(Request $request)
+    {
+        return $request->all() + ['status' => 0];
     }
 }

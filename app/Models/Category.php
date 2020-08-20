@@ -10,7 +10,7 @@ class Category extends Model
 
     public function setStatusAttribute($value)
     {
-        $this->attributes['status'] = ($value == 'on') ? 1 : 0;
+        $this->attributes['status'] = $value === 'on' ? 1 : 0;
     }
 
     /**

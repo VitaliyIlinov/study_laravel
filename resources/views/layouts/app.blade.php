@@ -6,7 +6,7 @@
     <title>{{config('app.name')}} - @yield('title',''))</title>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-
+    <script src="/ckeditor5/build/ckeditor.js"></script>
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -28,7 +28,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ route('info_list') }}">
                                 <span data-feather="shopping-cart"></span> Info
                             </a>
                         </li>

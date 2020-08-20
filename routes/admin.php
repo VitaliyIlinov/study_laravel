@@ -22,3 +22,11 @@ Route::prefix('category')->group(function (\Illuminate\Routing\Router $router) {
     $router->post('/create', 'CategoryController@store');
     $router->delete('/{category}', 'CategoryController@destroy');
 });
+Route::prefix('info')->group(function (\Illuminate\Routing\Router $router) {
+    $router->get('/', 'InfoController@index')->name('info_list');
+    $router->get('/edit/{info}', 'InfoController@show');
+    $router->post('/edit/{info}', 'InfoController@update');
+    $router->get('/create', 'InfoController@create');
+    $router->post('/create', 'InfoController@store');
+    $router->delete('/{info}', 'InfoController@destroy');
+});
