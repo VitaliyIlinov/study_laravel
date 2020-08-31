@@ -1,0 +1,94 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+//mixins
+@import 'mixins';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
+
+body {
+
+}
+.arrow {
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    position: absolute;
+    right: 0;
+    top: 4px;
+}
+
+.right {
+    @include transform(rotate(-45deg));
+}
+
+.left {
+    @include transform(rotate(135deg));
+}
+
+.up {
+    @include transform(rotate(-135deg));
+}
+
+.down {
+    @include transform(rotate(45deg));
+}
+
+#sidebar {
+    color: $indigo;
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0 0 0 5px;
+
+        ul {
+            display: none;
+
+            li {
+                a {
+                    position: relative;
+                    padding-left: 1em;
+                    font-weight: 400;
+                    line-height: 1.25;
+                }
+            }
+        }
+
+        ul.t:after {
+
+        }
+
+        li.opened ul {
+            max-height: none;
+        }
+
+        li {
+            display: block;
+            padding: .65em 0;
+
+            a[href="#"] {
+                font-weight: 900;
+
+
+            }
+
+            a {
+                position: relative;
+                display: block;
+                font-size: .875em;
+                font-weight: 500;
+                color: #090910;
+                text-decoration: none;
+            }
+        }
+    }
+}

@@ -112,6 +112,7 @@ class CategoryController extends Controller
             'name'      => ['type' => 'text'],
             'parent_id' => ['type' => 'option', 'values' => Category::all()->pluck('name', 'id')],
             'status'    => ['type' => 'checkbox'],
+            'sort'      => ['type' => 'text'],
         ];
     }
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'status', 'parent_id'];
+    protected $fillable = ['name', 'status', 'parent_id','sort'];
 
     public function setStatusAttribute($value)
     {
@@ -19,5 +19,10 @@ class Category extends Model
     public function info()
     {
         return $this->hasMany(Info::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
     }
 }
