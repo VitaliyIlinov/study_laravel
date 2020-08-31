@@ -12,6 +12,8 @@
 
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 
+@import '~animate.css';
+
 
 body {
 
@@ -55,16 +57,9 @@ body {
 
             li {
                 a {
-                    position: relative;
-                    padding-left: 1em;
-                    font-weight: 400;
-                    line-height: 1.25;
+
                 }
             }
-        }
-
-        ul.t:after {
-
         }
 
         li.opened ul {
@@ -85,9 +80,15 @@ body {
                 position: relative;
                 display: block;
                 font-size: .875em;
+                line-height: 1.25;
                 font-weight: 500;
                 color: #090910;
                 text-decoration: none;
+                -webkit-transition: transform .3s ease;
+                transition: transform .3s ease;
+                &:hover{
+                    @include transform(translate3d(5px,0,0));
+                }
             }
         }
     }

@@ -33,7 +33,7 @@ class SideBar extends Component
             dump($query->time);
         });
 
-        $sidebar = Cache::remember('key', 10, function () {
+        $sidebar = Cache::remember('key', 200, function () {
             $data = Category::with([
                 'info' => function (HasMany $query) {
                     $query->select(['id', 'category_id', 'title'])->active();
