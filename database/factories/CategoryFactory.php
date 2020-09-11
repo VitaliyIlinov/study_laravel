@@ -9,6 +9,6 @@ $factory->define(Category::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'parent_id' => $faker->numberBetween(0,CategorySeeder::AMOUNT -1),
-        'sort' => $faker->numberBetween(0,20),
+        'sort' => rand(1, 20),
     ];
 });
