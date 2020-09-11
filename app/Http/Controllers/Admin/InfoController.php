@@ -127,6 +127,7 @@ class InfoController extends Controller
             'category_id' => ['type' => 'option', 'values' => Category::all()->pluck('name', 'id')],
             'status'      => ['type' => 'checkbox'],
             'text'        => ['type' => 'textarea'],
+            'sort'        => ['type' => 'number'],
         ];
     }
 

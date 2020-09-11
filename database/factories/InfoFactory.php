@@ -8,7 +8,8 @@ use Faker\Generator as Faker;
 $factory->define(Info::class, function (Faker $faker) {
     return [
         'title' => $faker->name,
-        'Text' => $faker->text,
-        'category_id' => $faker->numberBetween(1,19)
+        'text' => $faker->text,
+        'category_id' => $faker->numberBetween(1,CategorySeeder::AMOUNT - 1),
+        'sort' => $faker->numberBetween(0,20),
     ];
 });

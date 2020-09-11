@@ -19,6 +19,7 @@ class CreateInfosTable extends Migration
             $table->text('text');
             $table->boolean('status')->default(1);
             $table->foreignId('category_id')->constrained('categories');
+            $table->tinyInteger('sort')->default(0);
             $table->timestamps();
         });
     }

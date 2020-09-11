@@ -18,6 +18,7 @@
 body {
 
 }
+
 .arrow {
     border: solid black;
     border-width: 0 2px 2px 0;
@@ -48,46 +49,43 @@ body {
     color: $indigo;
 
     ul {
-        list-style-type: none;
         margin: 0;
         padding: 0 0 0 5px;
 
         ul {
             display: none;
-
-            li {
-                a {
-
-                }
-            }
         }
-
-        li.opened ul {
-            max-height: none;
-        }
-
         li {
+
             display: block;
             padding: .65em 0;
 
             a[href="#"] {
                 font-weight: 900;
+                color: #000000;
 
-
+                & .fa-chevron-down {
+                    transition: transform 300ms;
+                    opacity: .45;
+                    position: absolute;
+                    right: 3px;
+                    top: 6px;
+                }
             }
-
+            &.opened>a .fa-chevron-down{
+                @include transform(rotate(-180deg));
+            }
             a {
                 position: relative;
                 display: block;
-                font-size: .875em;
-                line-height: 1.25;
-                font-weight: 500;
-                color: #090910;
+                font-size: 0.9em;
+                color: #6c757d;
                 text-decoration: none;
-                -webkit-transition: transform .3s ease;
-                transition: transform .3s ease;
-                &:hover{
-                    @include transform(translate3d(5px,0,0));
+                -webkit-transition: color .4s ease;
+                transition: color .4s ease;
+
+                &:hover {
+                    color: #ea0909;
                 }
             }
         }

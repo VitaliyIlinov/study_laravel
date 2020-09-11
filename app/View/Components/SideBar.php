@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\Component;
 
 class SideBar extends Component
@@ -27,18 +28,19 @@ class SideBar extends Component
      */
     public function render()
     {
-        DB::listen(function ($query) {
-            dump($query->sql);
-            dump($query->bindings);
-            dump($query->time);
-        });
-
-        $sidebar = Cache::remember('key', 200, function () {
+//        DB::listen(function ($query) {
+//            dump($query->sql);
+//            dump($query->bindings);
+//            dump($query->time);
+//        });
+//        Cache::forget('key');
+        Storage::disk('local')->put('file.txt', 'Contents');
+        $sidebar = Cache::remember('key', 2, function () {
             $data = Category::with([
                 'info' => function (HasMany $query) {
                     $query->select(['id', 'category_id', 'title'])->active();
                 },
-            ])->active()->get()->keyBy('id')->toArray();
+            ])->has('info')->active()->get()->keyBy('id')->toArray();
 
             $tree = $this->getTree($data);
             return $this->renderSidebar($tree);
@@ -51,7 +53,7 @@ class SideBar extends Component
         static $menu;
         foreach ($data as $item) {
             $menu[] = "<li>";
-            $menu[] = "<a href=#>{$item['name']} <i class='arrow down'></i></a>";
+            $menu[] = "<a href=#>{$item['name']} <i class='fas fa-chevron-down'></i></a>";
             $menu[] = "<ul>";
             foreach ($item['info'] as $value) {
                 $menu[] = "<li><a href='/info/{$value['id']}'>{$value['title']}</a></li>";

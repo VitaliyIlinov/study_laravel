@@ -110,9 +110,9 @@ class CategoryController extends Controller
     {
         return $fields = [
             'name'      => ['type' => 'text'],
-            'parent_id' => ['type' => 'option', 'values' => Category::all()->pluck('name', 'id')],
+            'parent_id' => ['type' => 'option', 'values' => Category::all()->pluck('name', 'id')->prepend('Main', 0)],
             'status'    => ['type' => 'checkbox'],
-            'sort'      => ['type' => 'text'],
+            'sort'      => ['type' => 'number'],
         ];
     }
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'status', 'parent_id','sort'];
+    protected $fillable = ['name', 'status', 'parent_id', 'sort'];
 
     public function setStatusAttribute($value)
     {

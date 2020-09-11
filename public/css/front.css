@@ -15013,17 +15013,12 @@ a.text-dark:focus {
 }
 
 #sidebar ul {
-  list-style-type: none;
   margin: 0;
   padding: 0 0 0 5px;
 }
 
 #sidebar ul ul {
   display: none;
-}
-
-#sidebar ul li.opened ul {
-  max-height: none;
 }
 
 #sidebar ul li {
@@ -15033,20 +15028,31 @@ a.text-dark:focus {
 
 #sidebar ul li a[href="#"] {
   font-weight: 900;
+  color: #000000;
+}
+
+#sidebar ul li a[href="#"] .fa-chevron-down {
+  transition: transform 300ms;
+  opacity: 0.45;
+  position: absolute;
+  right: 3px;
+  top: 6px;
+}
+
+#sidebar ul li.opened > a .fa-chevron-down {
+  transform: rotate(-180deg);
 }
 
 #sidebar ul li a {
   position: relative;
   display: block;
-  font-size: 0.875em;
-  line-height: 1.25;
-  font-weight: 500;
-  color: #090910;
+  font-size: 0.9em;
+  color: #6c757d;
   text-decoration: none;
-  transition: transform 0.3s ease;
+  transition: color 0.4s ease;
 }
 
 #sidebar ul li a:hover {
-  transform: translate3d(5px, 0, 0);
+  color: #ea0909;
 }
 

@@ -11,6 +11,11 @@
 </head>
 <body>
 <div class="container-fluid">
+    <a href="/" class="d-inline-block" style="width: 70px;">
+        <img class="img-fluid w-100 p-2" src="/logo.png" alt="Main page">
+    </a>
+</div>
+<div class="container-fluid">
     <div class="row">
         @section('sidebar')
             <x-side-bar/>

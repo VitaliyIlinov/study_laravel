@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Info extends Model
 {
 
-    protected $fillable = ['title','text', 'status', 'category_id'];
+    protected $fillable = ['title','text', 'status', 'category_id', 'sort'];
 
     public function setStatusAttribute($value)
     {
