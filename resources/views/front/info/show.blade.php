@@ -7,4 +7,5 @@
     <div class="text-secondary p-3">
         {!! $result->text !!}
     </div>
+    <script>hljs.initHighlightingOnLoad();</script>
 @endsection

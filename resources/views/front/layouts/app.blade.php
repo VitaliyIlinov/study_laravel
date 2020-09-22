@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container-fluid">
-    <a href="/" class="d-inline-block" style="width: 70px;">
+    <a href="/" class="d-inline-block" style="width: 100px;">
         <img class="img-fluid w-100 p-2" src="/logo.png" alt="Main page">
     </a>
 </div>
