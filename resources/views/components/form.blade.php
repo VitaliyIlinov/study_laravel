@@ -86,6 +86,11 @@
                 {!! $buildTextarea($name) !!}
             </div>
             @stack('ClassicEditor')
+{{--            <script>--}}
+{{--                var editor = CodeMirror.fromTextArea(document.getElementById("text"), {--}}
+{{--                    lineNumbers: true,--}}
+{{--                });--}}
+{{--            </script>--}}
         @endif
     @endforeach
     <button type="submit" class="btn btn-primary">Submit</button>

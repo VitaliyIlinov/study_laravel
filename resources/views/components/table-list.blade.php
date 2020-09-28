@@ -17,9 +17,9 @@
             <tr>
                 @foreach ($fields  as $name => $field)
                     @if (isset($field['callback']))
-                        <td>{!! $field['callback']($row) !!} </td>
+                        <td>{{ $field['callback']($row) }} </td>
                     @else
-                        <td>{!! $row->$name !!}</td>
+                        <td>{{$row->$name }}</td>
                     @endif
                 @endforeach
                 <td>
