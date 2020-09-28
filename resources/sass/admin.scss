@@ -12,3 +12,10 @@
 @import '~toastr/toastr';
 
 @import "~codemirror";
+
+@import "~codemirror/theme/darcula.css";
+
+.ck-editor__editable {
+    min-height: 400px;
+    /*max-height: 500px;*/
+}

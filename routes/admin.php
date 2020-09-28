@@ -30,3 +30,11 @@ Route::prefix('info')->group(function (\Illuminate\Routing\Router $router) {
     $router->post('/create', 'InfoController@store');
     $router->delete('/{info}', 'InfoController@destroy');
 });
+Route::prefix('config')->group(function (\Illuminate\Routing\Router $router) {
+    $router->get('/', 'ConfigController@index')->name('config_list');
+    $router->get('/edit/{info}', 'ConfigController@show');
+    $router->post('/edit/{info}', 'ConfigController@update');
+    $router->get('/create', 'ConfigController@create');
+    $router->post('/create', 'ConfigController@store');
+    $router->delete('/{info}', 'ConfigController@destroy');
+});
