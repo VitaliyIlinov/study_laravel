@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Category
+ * @mixin Builder
+ * @package App\Models
+ */
 class Category extends Model
 {
     protected $fillable = ['name', 'status', 'parent_id', 'sort'];

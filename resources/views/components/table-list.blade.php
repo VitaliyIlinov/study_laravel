@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-striped table-sm">
+    <table class="table table-bordered table-hover">
         <thead>
         <tr>
             @foreach ($fields as $name => $field)
@@ -23,10 +23,10 @@
                     @endif
                 @endforeach
                 <td>
-                    <a class="btn btn-success" href="{{$getLink('edit',$row->id)}}">
+                    <a class="btn" href="{{$getLink('edit',$row->id)}}">
                         <i class="far fa-edit"></i>
                     </a>
-                    <a class="btn btn-danger" data-method="delete" href="{{$getLink($row->id)}}">
+                    <a class="btn" data-method="delete" href="{{$getLink($row->id)}}">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>

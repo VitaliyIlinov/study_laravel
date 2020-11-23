@@ -4,6 +4,9 @@
 // Variables
 @import 'variables';
 
+//mixins
+@import 'mixins';
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
@@ -18,4 +21,39 @@
 .ck-editor__editable {
     min-height: 400px;
     /*max-height: 500px;*/
+}
+#sortable-items {
+
+    li.list-group-item{
+        padding-right: 0;
+        border: 1px solid rgb(0 0 0 / 8%);
+        &[data-status="0"] {
+            background-color: #dad9d9b0;;
+        }
+        .sortable-ghost {
+            opacity: .5;
+            background: #C8EBFB;
+        }
+
+        .sortable-chosen {
+        }
+
+        .sortable-drag {
+        }
+        span.badge{
+            position: absolute;
+            right: 10px;
+            top: 0;
+
+            .fa-edit,.fa-trash{
+                transition: color 0.1s;
+            }
+            .fa-edit:hover{
+                color: $green;
+            }
+            .fa-trash:hover{
+                color: $red;
+            }
+        }
+    }
 }

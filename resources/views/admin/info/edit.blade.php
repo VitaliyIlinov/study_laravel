@@ -3,5 +3,5 @@
 @section('title', 'Info edit')
 
 @section('content')
-    @include('helpers.form_wrap',['options'=>['form'=>'edit']])
+    @include('helpers.form_wrap')
 @endsection

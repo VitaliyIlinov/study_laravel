@@ -27,6 +27,7 @@
         "animate.css": "^4.1.0",
         "codemirror": "^5.58.1",
         "highlight.js": "^10.2.0",
+        "sortablejs": "^1.12.0",
         "toastr": "^2.1.4"
     }
 }

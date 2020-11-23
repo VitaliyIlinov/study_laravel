@@ -11,32 +11,27 @@ class Form extends Component
     /**
      * @var array
      */
-    public $fields;
+    private $fields;
 
     /**
      * @var Model|null
      */
-    public $row;
+    private $row;
 
     /**
      * @var string
      */
-    public $method;
+    private $method;
 
     /**
      * @var string
      */
-    public $action;
-
-    /**
-     * @var string
-     */
-    public $form;
+    private $action;
 
     /**
      * @var string|null
      */
-    public $currentPrefix;
+    private $currentPrefix;
 
     /**
      * Create a new component instance.
@@ -47,12 +42,49 @@ class Form extends Component
      */
     public function __construct(array $fields, array $options = [], ?Model $row = null)
     {
+        $this->currentPrefix = DIRECTORY_SEPARATOR . Route::current()->getPrefix() . DIRECTORY_SEPARATOR;
         $this->fields = $fields;
-        $this->method = $options['method'] ?? 'post';
-        $this->action = $options['action'] ?? '';
-        $this->form = $options['form'] ?? 'edit';
         $this->row = $row;
-        $this->currentPrefix = DIRECTORY_SEPARATOR . Route::current()->getPrefix();
+        $this->method ='post';
+        if($this->isFormCreate()){
+            $this->action = $this->currentPrefix . 'create';
+        }else{
+            $this->method ='post';
+            $this->action = $this->currentPrefix. 'edit' . DIRECTORY_SEPARATOR . $this->row->id;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getAction(): string
+    {
+        return $this->action;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return $this->method;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields(): array
+    {
+        return $this->fields;
+    }
+
+
+    /**
+     * if model is empty -> form create
+     */
+    private function isFormCreate(): bool
+    {
+        return is_null($this->row);
     }
 
     /**
@@ -131,7 +163,7 @@ class Form extends Component
 
     private function hasValue(): bool
     {
-        return $this->form === 'edit' && $this->row !== null;
+        return !$this->isFormCreate();
     }
 
     private function getValue(string $name)

@@ -11727,3 +11727,36 @@ span.CodeMirror-selectedtext {
   /*max-height: 500px;*/
 }
 
+#sortable-items li.list-group-item {
+  padding-right: 0;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+#sortable-items li.list-group-item[data-status="0"] {
+  background-color: #dad9d9b0;
+}
+
+#sortable-items li.list-group-item .sortable-ghost {
+  opacity: 0.5;
+  background: #C8EBFB;
+}
+
+#sortable-items li.list-group-item span.badge {
+  position: absolute;
+  right: 10px;
+  top: 0;
+}
+
+#sortable-items li.list-group-item span.badge .fa-edit,
+#sortable-items li.list-group-item span.badge .fa-trash {
+  transition: color 0.1s;
+}
+
+#sortable-items li.list-group-item span.badge .fa-edit:hover {
+  color: #38c172;
+}
+
+#sortable-items li.list-group-item span.badge .fa-trash:hover {
+  color: #e3342f;
+}
+

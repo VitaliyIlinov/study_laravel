@@ -1,6 +1,6 @@
-<form method="{{$method}}" action="{{$action}}" class="px-md-4">
+<form method="{{$getMethod()}}" action="{{$getAction()}}" class="px-md-4">
     @csrf
-    @foreach ($fields as $name => $field)
+    @foreach ($getFields() as $name => $field)
         @if (in_array($field['type'],['text','number','email']))
             <div class="form-group">
                 {!! $buildLabel($name) !!}
@@ -25,6 +25,6 @@
         @endif
     @endforeach
     <button type="submit" class="btn btn-primary">Submit</button>
-    <button type="button" class="btn btn-secondary" onclick="location.href='{{$currentPrefix}}'">Back</button>
+{{--    <button type="button" class="btn btn-secondary" onclick="location.href='{{url()->previous()}}'">Back</button>--}}
 </form>
 @stack('editor')

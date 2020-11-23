@@ -68,7 +68,7 @@ class SideBar extends Component
         return implode(PHP_EOL, $menu);
     }
 
-    function getTree($dataset)
+    public function getTree($dataset)
     {
         $tree = [];
 

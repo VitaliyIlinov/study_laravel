@@ -29,7 +29,8 @@ class CategoryController extends Controller
             'updated_at'  => ['trans' => 'updated_at'],
         ];
 
-        return view('admin.category.list', [
+//        return view('admin.category.list', [
+        return view('admin.category.list_sortable', [
             'fields' => $fields,
             'rows'   => $rows,
         ]);
@@ -38,13 +39,21 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Request $request
      * @return mixed
+     * @throws \Throwable
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.category.create', [
+        $response = [
             'fields' => $this->getFields(),
-        ]);
+        ];
+
+        if ($request->ajax()) {
+            return response()->json(['form' => view('helpers.form_wrap', $response)->render()]);
+        }
+
+        return view('admin.category.create', $response);
     }
 
     /**
@@ -55,8 +64,11 @@ class CategoryController extends Controller
      */
     public function store(StoreCategory $request)
     {
-        $info = new Category();
-        $info->fill($this->mergeStatus($request))->save();
+        $category = new Category();
+        $result = $category->fill($this->mergeStatus($request))->save();
+        if ($request->ajax()) {
+            return response()->json($result);
+        }
         return back()->with('success', 'Category was updated');
     }
 
@@ -64,10 +76,17 @@ class CategoryController extends Controller
      * Display the specified resource.
      *
      * @param Category $category
+     * @param Request  $request
      * @return mixed
      */
-    public function show(Category $category)
+    public function show(Category $category, Request $request)
     {
+        if ($request->ajax()) {
+            return response()->json(['form' => view('helpers.form_wrap', [
+                'row'    => $category,
+                'fields' => $this->getFields(['status','name']),
+            ])->render()]);
+        }
         return view('admin.info.edit', [
             'row'    => $category,
             'fields' => $this->getFields(),
@@ -83,8 +102,29 @@ class CategoryController extends Controller
      */
     public function update(StoreCategory $request, Category $category)
     {
-        $category->fill($this->mergeStatus($request))->save();
+        $result = $category->fill($this->mergeStatus($request))->save();
+        if ($request->ajax()) {
+            return response()->json($result);
+        }
         return back()->with('success', 'Category was updated');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function ajaxUpdateSort(Request $request)
+    {
+        $categories = array_filter($request->get('list'));
+        foreach ($categories as $parentId => $category) {
+            $childCategory = explode('|', $category);
+            foreach ($childCategory as $order => $id) {
+                Category::findOrFail($id)->update(['sort' => $order, 'parent_id' => $parentId]);
+            }
+        }
+        return response()->json('success');
     }
 
     /**
@@ -98,22 +138,31 @@ class CategoryController extends Controller
     {
         if (0 === $count = $category->info->count()) {
             $category->delete();
-            return response()->json('success');
+            return response()->json(['message'=>'success','function' =>'']);
         }
         return response()->json(['message' => "There are {$count} info rows. Please delete them first"], 400);
     }
 
     /**
+     * @param array $allowedFields
      * @return array
      */
-    private function getFields(): array
+    private function getFields(array $allowedFields = []): array
     {
-        return $fields = [
+        $fields = [
             'name'      => ['type' => 'text'],
             'parent_id' => ['type' => 'option', 'values' => Category::all()->pluck('name', 'id')->prepend('Main', 0)],
             'status'    => ['type' => 'checkbox'],
             'sort'      => ['type' => 'number'],
         ];
+
+        if(!empty($allowedFields)){
+            $fields = array_filter($fields, function($k) use($allowedFields) {
+                return in_array($k, $allowedFields);
+            }, ARRAY_FILTER_USE_KEY);
+        }
+
+        return $fields;
     }
 
     private function mergeStatus(Request $request)
