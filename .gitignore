@@ -1,6 +1,12 @@
 /node_modules
 /public/hot
 /public/storage
+#webpack
+/public/css/front.css
+/public/css/admin.css
+/public/js/front.js
+/public/js/admin.js
+
 /storage/*.key
 /storage/mysql
 /vendor
