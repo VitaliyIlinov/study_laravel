@@ -51,8 +51,11 @@ up:
 down:
 	@docker-compose down
 
+dependency: up
+	@docker-compose exec study bash -c "composer install && npm install && npm run dev"
+
 bash:
-	@docker-compose exec $(IMAGE_NAME) bash
+	@docker-compose exec study bash
 
 logs:
 	@docker-compose logs ${ARGS}

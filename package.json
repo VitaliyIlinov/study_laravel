@@ -23,7 +23,7 @@
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.14.0",
+        "@fortawesome/fontawesome-free": "^5.15.1",
         "animate.css": "^4.1.0",
         "codemirror": "^5.58.1",
         "highlight.js": "^10.2.0",
