@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{config('app.name')}} - @yield('title',''))</title>
+    <title>{{config('app.name')}} - @yield('title','')</title>
     <!-- Scripts -->
     <script src="{{ asset('js/admin.js') }}"></script>
     <script src="/ckeditor5/build/ckeditor.js"></script>
@@ -35,6 +35,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('config_list') }}">
                                 <span data-feather="shopping-cart"></span> Config
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('todo_list') }}">
+                                <span data-feather="shopping-cart"></span> To Do list
                             </a>
                         </li>
                     </ul>

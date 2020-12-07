@@ -2,108 +2,64 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Traits\CrudService;
 use App\Http\Controllers\Controller;
 use App\Models\Config;
 use Illuminate\Http\Request;
 
 class ConfigController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return mixed
-     */
+    use CrudService {
+        CrudService::index as crudIndex;
+        CrudService::show as crudShow;
+        CrudService::create as crudCreate;
+        CrudService::destroy as crudDelete;
+        CrudService::update as crudUpdate;
+        CrudService::store as crudStore;
+    }
+
+    protected const IS_CRUD_BY_AJAX = true;
+
+    protected function fields(): array
+    {
+        return [
+            'id'          => ['show_in_table' => true, 'trans' => 'Id'],
+            'name'        => ['show_in_table' => true, 'type' => 'text', 'trans' => 'name'],
+            'value'       => ['show_in_table' => true, 'type' => 'text', 'trans' => 'value'],
+            'description' => ['show_in_table' => true, 'type' => 'text', 'trans' => 'description'],
+            'updated_at'  => ['show_in_table' => true, 'trans' => 'updated_at'],
+            'created_at'  => ['trans' => 'updated_at'],
+        ];
+    }
+
     public function index()
     {
         $rows = Config::all()->keyBy('id');
-        $fields = [
-            'id'          => ['trans' => 'Id'],
-            'name'        => ['trans' => 'name'],
-            'value'       => ['trans' => 'value'],
-            'description' => ['trans' => 'description'],
-            'updated_at'  => ['trans' => 'updated_at'],
-            'created_at'  => ['trans' => 'updated_at'],
-        ];
-
-        return view('admin.config.list', [
-            'fields' => $fields,
-            'rows'   => $rows,
-        ]);
+        return $this->crudIndex($rows);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return mixed
-     */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.config.create', [
-            'fields' => $this->getFields(),
-        ]);
+        return $this->crudCreate($request);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return mixed
-     */
     public function store(Request $request)
     {
-        $info = new Config();
-        $info->fill($request->all())->save();
-        return back()->with('success', 'Config was updated');
+        return $this->crudUpdate($request, new Config(), 'config_list');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param Config $config
-     * @return mixed
-     */
-    public function show(Config $config)
+    public function show(Config $config, Request $request)
     {
-        return view('admin.config.edit', [
-            'row'    => $config,
-            'fields' => $this->getFields(),
-        ]);
+        return $this->crudShow($config, $request);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Config  $config
-     * @return mixed
-     */
     public function update(Request $request, Config $config)
     {
-        $config->fill($request->all())->save();
-        return back()->with('success', 'Config was updated');
+        return $this->crudUpdate($request, $config, 'config_list');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Config $config
-     * @return mixed
-     */
     public function destroy(Config $config)
     {
-        $config->delete();
-        return response('success');
-    }
-
-    /**
-     * @return array
-     */
-    private function getFields(): array
-    {
-        return $fields = [
-            'name'        => ['type' => 'text'],
-            'value'       => ['type' => 'text'],
-            'description' => ['type' => 'text'],
-        ];
+        return $this->crudDelete($config);
     }
 }

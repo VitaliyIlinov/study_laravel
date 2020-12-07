@@ -1,6 +1,7 @@
 <form method="{{$getMethod()}}" action="{{$getAction()}}" class="px-md-4">
     @csrf
     @foreach ($getFields() as $name => $field)
+        @continue(!isset($field['type']))
         @if (in_array($field['type'],['text','number','email']))
             <div class="form-group">
                 {!! $buildLabel($name) !!}
@@ -24,7 +25,6 @@
             @include('helpers.editor', ['id' => $name])
         @endif
     @endforeach
-    <button type="submit" class="btn btn-primary">Submit</button>
-{{--    <button type="button" class="btn btn-secondary" onclick="location.href='{{url()->previous()}}'">Back</button>--}}
+    <button onclick="editor.updateSourceElement();" type="submit" class="btn btn-primary">Submit</button>
 </form>
 @stack('editor')

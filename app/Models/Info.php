@@ -2,17 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\JsonTimestampSerializable;
 use Illuminate\Database\Eloquent\Model;
 
 class Info extends Model
 {
+    use JsonTimestampSerializable;
 
-    protected $fillable = ['title','text', 'status', 'category_id', 'sort'];
-
-    public function setStatusAttribute($value)
-    {
-        $this->attributes['status'] = $value === 'on' ? 1 : 0;
-    }
+    protected $fillable = ['title', 'text', 'status', 'category_id', 'sort'];
 
     /**
      * Get the category that owns the row.

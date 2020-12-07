@@ -27,6 +27,7 @@ class StoreInfo extends FormRequest
             'title' => 'required|max:55',
             'category_id' => 'required|int',
             'text' => 'required|string',
+            'sort' => 'required|int',
         ];
     }
 }

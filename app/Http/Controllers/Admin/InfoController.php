@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Traits\CrudService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInfo;
 use App\Models\Category;
@@ -11,128 +12,79 @@ use Illuminate\Support\Str;
 
 class InfoController extends Controller
 {
+    use CrudService {
+        CrudService::index as crudIndex;
+        CrudService::show as crudShow;
+        CrudService::create as crudCreate;
+        CrudService::destroy as crudDelete;
+        CrudService::update as crudUpdate;
+        CrudService::store as crudStore;
+    }
+
+    protected const IS_CRUD_BY_AJAX = true;
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return mixed
+     * @return array
      */
-    public function index()
+    protected function fields(): array
     {
-        $rows = Info::all()->keyBy('id');
         $category = Category::all()->keyBy('id');
-        $fields = [
-            'id'            => ['trans' => 'Id'],
-            'title'         => ['trans' => 'Title'],
+        return [
+            'id'            => ['show_in_table' => true, 'trans' => 'Id'],
+            'title'         => ['show_in_table' => true, 'type' => 'text', 'trans' => 'Title'],
             'text'          => [
-                'trans'    => 'Text',
-                'callback' => function (Info $info) use ($category) {
+                'show_in_table' => true,
+                'trans'         => 'Text',
+                'type'          => 'textarea',
+                'callback'      => function (Info $info) use ($category) {
                     return Str::limit($info->text, 200);
                 },
             ],
             'category_id'   => [
-                'trans'    => 'Category ID',
+                'show_in_table' => false,
+                'type'          => 'option',
+                'values'        => Category::all()->pluck('name', 'id'),
+                'trans'         => 'Category ID',
             ],
-            'category_name'   => [
+            'category_name' => [
                 'trans'    => 'Category name',
                 'callback' => function (Info $info) use ($category) {
                     return $category[$info->category_id]->name;
                 },
             ],
-            'status'        => ['trans' => 'status'],
-            'updated_at'    => ['trans' => 'updated_at'],
+            'status'        => ['show_in_table' => true, 'type' => 'checkbox', 'trans' => 'status'],
+            'sort'          => ['show_in_table' => false, 'type' => 'number'],
+            'updated_at'    => ['show_in_table' => true,'trans' => 'updated_at'],
         ];
-
-        return view('admin.info.list', [
-            'fields' => $fields,
-            'rows'   => $rows,
-        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return mixed
-     */
-    public function create()
+    public function index()
     {
-        return view('admin.info.create', [
-            'fields' => $this->getFields(),
-        ]);
+        return $this->crudIndex(Info::all()->keyBy('id'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param StoreInfo $request
-     * @return mixed
-     */
+    public function create(Request $request)
+    {
+        return $this->crudCreate($request);
+    }
+
     public function store(StoreInfo $request)
     {
-        $info = new Info();
-        $info->fill($this->mergeStatus($request))->save();
-        return back()->with('success', 'Info was updated');
+        return $this->crudUpdate($this->mergeStatus($request), new Info(), 'info_list');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param Info    $info
-     * @param Request $request
-     * @return mixed
-     */
     public function show(Info $info, Request $request)
     {
-        return view('admin.info.edit', [
-            'row'    => $info,
-            'fields' => $this->getFields(),
-        ]);
+        return $this->crudShow($info, $request);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param StoreInfo $request
-     * @param Info      $info
-     * @return mixed
-     */
     public function update(StoreInfo $request, Info $info)
     {
-        $info->fill($this->mergeStatus($request))->save();
-        return back()->with('success', 'Info was updated');
+        return $this->crudUpdate($this->mergeStatus($request), $info, 'info_list');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Info    $info
-     * @param Request $request
-     * @return mixed
-     */
-    public function destroy(Info $info, Request $request)
+    public function destroy(Info $info)
     {
-        $info->delete();
-        if ($request->ajax()) {
-            return response()->json('success');
-        }
-        return response('success');
-    }
-
-    /**
-     * @return array
-     */
-    private function getFields(): array
-    {
-        return $fields = [
-            'title'       => ['type' => 'text'],
-            'category_id' => ['type' => 'option', 'values' => Category::all()->pluck('name', 'id')],
-            'status'      => ['type' => 'checkbox'],
-            'text'        => ['type' => 'textarea'],
-            'sort'        => ['type' => 'number'],
-        ];
-    }
-
-    private function mergeStatus(Request $request)
-    {
-        return $request->all() + ['status' => 0];
+        return $this->crudDelete($info);
     }
 }

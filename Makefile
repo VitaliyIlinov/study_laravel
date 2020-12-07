@@ -52,7 +52,7 @@ down:
 	@docker-compose down
 
 dependency: up
-	@docker-compose exec study bash -c "composer install && npm install && npm run dev"
+	@docker-compose exec study bash -c "composer install && npm install && npm run dev && php artisan migrate:fresh --seed"
 
 bash:
 	@docker-compose exec study bash

@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
 //             InfoSeeder::class,
              CategoryInfoSeeder::class,
              ConfigSeeder::class,
+             TodoListSeeder::class,
          ]);
     }
 }
