@@ -37,7 +37,7 @@ class InfoController extends Controller
                 'trans'         => 'Text',
                 'type'          => 'textarea',
                 'callback'      => function (Info $info) use ($category) {
-                    return Str::limit($info->text, 200);
+                    return $this->textFormatter($info->text);
                 },
             ],
             'category_id'   => [
@@ -54,7 +54,7 @@ class InfoController extends Controller
             ],
             'status'        => ['show_in_table' => true, 'type' => 'checkbox', 'trans' => 'status'],
             'sort'          => ['show_in_table' => false, 'type' => 'number'],
-            'updated_at'    => ['show_in_table' => true,'trans' => 'updated_at'],
+            'updated_at'    => ['show_in_table' => true, 'trans' => 'updated_at'],
         ];
     }
 
@@ -80,11 +80,25 @@ class InfoController extends Controller
 
     public function update(StoreInfo $request, Info $info)
     {
-        return $this->crudUpdate($this->mergeStatus($request), $info, 'info_list');
+        $result = $this->crudUpdate($this->mergeStatus($request), $info, 'info_list');
+        if ($request->ajax()) {
+            $result = json_decode($result->content(), true);
+            $result['model']['text'] = htmlspecialchars($this->textFormatter($result['model']['text']), ENT_QUOTES);
+            return response()->json([
+                'result' => $result['result'],
+                'model'  => $result['model'],
+            ]);
+        }
+        return $result;
     }
 
     public function destroy(Info $info)
     {
         return $this->crudDelete($info);
+    }
+
+    private function textFormatter(string $text): string
+    {
+        return Str::limit($text, 200);
     }
 }

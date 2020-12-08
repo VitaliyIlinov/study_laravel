@@ -3,5 +3,5 @@
 @section('title', 'Category list')
 
 @section('content')
-    <x-category :rows="$rows"/>
+    <x-category :fields="$fields" :rows="$rows" crudAjax="true"/>
 @endsection

@@ -41,7 +41,7 @@ Route::prefix('config')->group(function (Router $router) {
     $router->post('/edit/{config}', 'ConfigController@update');
     $router->get('/create', 'ConfigController@create');
     $router->post('/create', 'ConfigController@store');
-    $router->delete('/{info}', 'ConfigController@destroy');
+    $router->delete('/{config}', 'ConfigController@destroy');
 });
 Route::prefix('todo')->group(function (Router $router) {
     $router->get('/', 'TodoListController@index')->name('todo_list');

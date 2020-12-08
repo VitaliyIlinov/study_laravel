@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\JsonTimestampSerializable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,12 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Category extends Model
 {
-    protected $fillable = ['name', 'status', 'parent_id', 'sort'];
+    use JsonTimestampSerializable;
 
-    public function setStatusAttribute($value)
-    {
-        $this->attributes['status'] = $value === 'on' ? 1 : 0;
-    }
+    protected $fillable = ['name', 'status', 'parent_id', 'sort'];
 
     /**
      * Get the comments for the blog post.

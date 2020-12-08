@@ -108,7 +108,7 @@ class Form extends Component
 
     private function generateInput(string $name, string $classname = 'form-control', ?string $attributes = null)
     {
-        return strtr("<input type=':type' :other class=':class' name=':name' id=':id' placeholder=':placeholder'>",
+        return strtr("<input type=':type' autocomplete='off' :other class=':class' name=':name' id=':id' placeholder=':placeholder'>",
             [
                 ':type'        => $this->fields[$name]['type'],
                 ':class'       => $classname,

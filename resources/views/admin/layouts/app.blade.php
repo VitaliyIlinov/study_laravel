@@ -2,11 +2,9 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{config('app.name')}} - @yield('title','')</title>
-    <!-- Scripts -->
-    <script src="{{ asset('js/admin.js') }}"></script>
-    <script src="/ckeditor5/build/ckeditor.js"></script>
     <!-- Styles -->
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 </head>
@@ -77,11 +75,14 @@
         @show
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-            <x-message isToastr=1 :errors="$errors" />
+            <x-message isToastr=1 :errors="$errors"/>
             @yield('content')
         </main>
-        @stack('scripts')
     </div>
 </div>
+<!-- Scripts -->
+<script src="{{ asset('js/admin.js') }}"></script>
+<script src="/ckeditor5/build/ckeditor.js"></script>
+@stack('scripts')
 </body>
 </html>

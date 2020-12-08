@@ -7,16 +7,18 @@
     </div>
 @endforeach
 @if($isToastrScript)
-    <script>
-        var messages = @json($messages);
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-        };
-        $.each(messages, function (type, value) {
-            toastr[type](value);
-        });
-    </script>
+    @push('scripts')
+        <script>
+            var messages = @json($messages);
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+            };
+            $.each(messages, function (type, value) {
+                toastr[type](value);
+            });
+        </script>
+    @endpush
 @else
     @foreach ($messages as $type => $message)
         <div class="alert alert-{{$type}} alert-block fade show">

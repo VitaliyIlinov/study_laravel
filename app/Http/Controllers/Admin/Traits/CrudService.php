@@ -109,7 +109,7 @@ trait CrudService
         if ($request->ajax()) {
             return response()->json([
                 'result' => $result,
-                'model'  => $model->toArray(),
+                'model'  => $model,
             ]);
         }
         return redirect()->route($route)->with('success', 'Row was updated');

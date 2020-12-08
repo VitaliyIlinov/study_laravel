@@ -57,6 +57,10 @@ main{
             position: absolute;
             right: 10px;
             top: 0;
+            &[data-name="updated_at"]{
+                right: 100px;
+                top: 15px
+            }
         }
     }
 }

@@ -6,11 +6,9 @@
     </div>
     <div class="col-1">
         <div class="fixed-top" style="left:calc(100% - 70px);top:5%">
-            <a class="btn btn-primary" data-onsave="createRow" data-href="{{ $getLink('create') }}" data-method="get">
-                Create
-            </a>
-            <a id="save" class="btn btn-primary" href="#" role="button"
-               onclick="ajaxSend({url:'{{ route('ajaxCatUpdate') }}',data:{list:JSON.parse(localStorage.getItem('cat_list'))}})">
+            {!! $buildCreateButton() !!}
+            <a class="btn btn-primary" href="#" role="button"
+               onclick="ajaxSend({url:'{{ route('ajaxCatUpdate') }}',data:{list:JSON.parse(localStorage.getItem('cat_listcat_list'))}})">
                 Save
             </a>
         </div>
@@ -23,77 +21,6 @@
     <script>
         window.onbeforeunload = function () {
             return false ? 'There are unsaved data.' : null;
-        }
-
-        function deleteRow(el,response){
-            el.closest('li').fadeOut(500, function () {
-                $(this).remove();
-            });
-        }
-
-        function saveRow(el,response,formData){
-            var catStatus = 0;
-            for (i=0; i<formData.length; i++) {
-                if(formData[i].name==='name'){
-                    el.closest('li').children('span.name').html(formData[i].value);
-                }
-                if(formData[i].name==='status'){
-                    catStatus=1
-                }
-            }
-            el.closest('li').attr('data-status',catStatus);
-        }
-
-        function createRow(el,response,formData){
-            location.reload();
-        }
-
-        const ajaxSend = (data) => {
-            var options = $.extend(true, {
-                dataType: 'json',
-                method: 'post',
-                url: '',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                },
-                success: function (data) {
-                    toastr.success(data);
-                },
-                error: function (e) {
-                    toastr.error(e.responseJSON.message);
-                }
-            }, data);
-
-            $.ajax(options);
-        }
-
-        const formEdit = (el,response) => {
-            var modal = $('#modal');
-            var onsave_func = el.data('onsave');
-            var form = $(response.form).on('submit', function (e) {
-                var form = $(this);
-                var formData = form.serializeArray();
-                var options = {
-                    method: form.attr('method'),
-                    url: form.attr('action'),
-                    data: formData,
-                    success: function (data) {
-                        if(onsave_func!==undefined){
-                            window[onsave_func](el,response,formData);
-                        }else{
-                            toastr.success(data);
-                        }
-                    },
-                    error: function (e) {
-                        toastr.error(e.responseJSON.message);
-                    }
-                };
-                modal.modal('hide');
-                e.preventDefault();
-                ajaxSend(options);
-            });
-            modal.find('.modal-body').html(form);
-            modal.modal();
         }
 
         var el = [].slice.call(document.querySelectorAll('.nested-sortable'));
@@ -133,23 +60,44 @@
             });
         }
 
-        $('a.btn[data-href]').on('click', function (e) {
-            //edit,delete,create
-            e.preventDefault();
-            var target = $(this);
-            var onsuccess_func = target.data('onsuccess');
-            var options = {
-                method: target.data('method'),
-                url: target.data('href'),
-                success: function (response) {
-                    if(onsuccess_func!==undefined){
-                        window[onsuccess_func](target,response);
-                    }else{
-                        formEdit(target,response)
+        function deleteRow(el, response) {
+            el.closest('li').fadeOut(500, function () {
+                $(this).remove();
+            });
+        }
+
+        function saveRow(el, response) {
+
+            var onResponse = function (data) {
+                var result = data.result, model = data.model, li = el.closest('li');
+                if (!result) {
+                    toastr.error(result);
+                    return;
+                }
+                for (var key in model) {
+                    li.find('[data-name=' + key + ']').html(model[key]);
+                    if (key === 'status') {
+                        li.attr('data-status', model[key])
                     }
-                },
+                }
             };
-            ajaxSend(options);
-        });
+
+            formEdit(el, response, onResponse)
+        }
+
+        function createRow(el, response) {
+            var onResponse = function (data) {
+                var result = data.result, model = data.model, tr = el.closest('li');
+                if (!result) {
+                    toastr.error(result);
+                    return;
+                }
+                toastr.success(result);
+                location.reload();
+            };
+
+            formEdit(el, response, onResponse)
+        }
+
     </script>
 @endpush
