@@ -1,17 +1,15 @@
-<div class="container-fluid">
-    <div class="col-11">
-        <ul id="sortable-items" class="list-group nested-sortable" data-id="0">
-            @include('admin.category.child_category',['categories'=>$tree($rows)])
-        </ul>
-    </div>
-    <div class="col-1">
-        <div class="fixed-top" style="left:calc(100% - 70px);top:5%">
-            {!! $buildCreateButton() !!}
-            <a class="btn btn-primary" href="#" role="button"
-               onclick="ajaxSend({url:'{{ route('ajaxCatUpdate') }}',data:{list:JSON.parse(localStorage.getItem('cat_listcat_list'))}})">
-                Save
-            </a>
-        </div>
+<div class="col-11">
+    <ul id="sortable-items" class="list-group nested-sortable" data-id="0">
+        @include('admin.category.child_category',['categories'=>$tree($rows)])
+    </ul>
+</div>
+<div class="col-1 position-relative">
+    <div style="position: fixed">
+        {!! $buildCreateButton() !!}
+        <a class="btn btn-primary" href="#" role="button"
+           onclick="ajaxSend({url:'{{ route('ajaxCatUpdate') }}',data:{list:JSON.parse(localStorage.getItem('cat_listcat_list'))}})">
+            Save
+        </a>
     </div>
 </div>
 

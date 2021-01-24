@@ -35,7 +35,7 @@ class ConfigController extends Controller
     public function index()
     {
         $rows = Config::all()->keyBy('id');
-        return $this->crudIndex($rows);
+        return $this->crudIndex($rows,'Config List');
     }
 
     public function create(Request $request)

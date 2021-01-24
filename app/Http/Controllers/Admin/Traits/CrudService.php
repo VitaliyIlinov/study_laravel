@@ -19,12 +19,14 @@ trait CrudService
      * Display a listing of the resource.
      *
      * @param Collection $rows
+     * @param string|null $title
      * @return Application|Factory|View
      */
-    public function index(Collection $rows)
+    public function index(Collection $rows, ?string $title = null)
     {
         return view('helpers.tables.list', [
             'fields'   => $this->getFields(),
+            'title'    => $title,
             'rows'     => $rows,
             'crudAjax' => self::IS_CRUD_BY_AJAX,
         ]);

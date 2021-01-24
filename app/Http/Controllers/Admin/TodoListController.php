@@ -32,7 +32,7 @@ class TodoListController extends Controller
 
     public function index()
     {
-        return $this->crudIndex(TodoList::all());
+        return $this->crudIndex(TodoList::all(),'Todo List');
     }
 
     public function create(Request $request)
