@@ -53,7 +53,7 @@
         </li>
         <li class="nav-item">
             <a href="{{ route('config_list') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
+                <i class="nav-icon fas fa-tools"></i>
                 <p>
                     Config
                     <span class="right badge badge-danger">New</span>
@@ -62,7 +62,7 @@
         </li>
         <li class="nav-item">
             <a href="{{ route('todo_list') }}" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
+                <i class="nav-icon fas fa-tasks"></i>
                 <p>
                     To Do list
                 </p>

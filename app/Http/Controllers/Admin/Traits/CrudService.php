@@ -18,13 +18,14 @@ trait CrudService
     /**
      * Display a listing of the resource.
      *
-     * @param Collection $rows
+     * @param Collection  $rows
      * @param string|null $title
+     * @param string      $view
      * @return Application|Factory|View
      */
-    public function index(Collection $rows, ?string $title = null)
+    public function index(Collection $rows, ?string $title = null, string $view = 'helpers.tables.list')
     {
-        return view('helpers.tables.list', [
+        return view($view, [
             'fields'   => $this->getFields(),
             'title'    => $title,
             'rows'     => $rows,

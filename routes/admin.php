@@ -50,4 +50,8 @@ Route::prefix('todo')->group(function (Router $router) {
     $router->get('/create', 'TodoListController@create');
     $router->post('/create', 'TodoListController@store');
     $router->delete('/{todoList}', 'TodoListController@destroy');
+    $router->group(['prefix' => 'ajax', 'middleware' => OnlyAjax::class], function (Router $router) {
+        $router->post('/sort_update', 'TodoListController@ajaxUpdateSort')->name('ajaxToDoUpdate');
+        $router->post('/change_status/{todoList}', 'TodoListController@changeStatus')->name('todoStatus');
+    });
 });

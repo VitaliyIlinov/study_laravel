@@ -9,6 +9,5 @@ class TodoList extends Model
 {
     use JsonTimestampSerializable;
 
-    protected $fillable = ['description', 'status'];
-
+    protected $fillable = ['description', 'label', 'status', 'sort'];
 }

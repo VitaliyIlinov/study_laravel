@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\Traits\CrudService;
 use App\Http\Controllers\Controller;
 use App\Models\TodoList;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TodoListController extends Controller
@@ -25,14 +26,16 @@ class TodoListController extends Controller
         return [
             'id'          => ['show_in_table' => true,'trans' => 'Id'],
             'description' => ['show_in_table' => true,'trans' => 'description', 'type' => 'text'],
+            'label'       => ['show_in_table' => true,'trans' => 'label', 'type' => 'text'],
             'status'      => ['show_in_table' => true,'trans' => 'status', 'type' => 'checkbox'],
+            'sort'        => ['show_in_table' => true,'trans' => 'sort', 'type' => 'text'],
             'updated_at'  => ['show_in_table' => true,'trans' => 'updated_at'],
         ];
     }
 
     public function index()
     {
-        return $this->crudIndex(TodoList::all(),'Todo List');
+        return $this->crudIndex(TodoList::all()->sortBy('sort'),'Todo List','admin.todo.todo');
     }
 
     public function create(Request $request)
@@ -55,8 +58,26 @@ class TodoListController extends Controller
         return $this->crudUpdate($this->mergeStatus($request), $todoList, 'todo_list');
     }
 
-    public function destroy(TodoList $todoList)
+    public function destroy(TodoList $todoList):JsonResponse
     {
         return $this->crudDelete($todoList);
     }
+
+    public function ajaxUpdateSort(Request $request):JsonResponse
+    {
+        $lists = explode('|', $request->get('list'));
+        $i = 0;
+        foreach ($lists as $id) {
+            TodoList::findOrFail($id)->update(['sort' => ++$i]);
+        }
+        return response()->json('success');
+    }
+
+    public function changeStatus(TodoList $todoList,Request $request):JsonResponse
+    {
+        $todoList->status= $request->get('status');
+        $todoList->save();
+        return response()->json('success');
+    }
+
 }

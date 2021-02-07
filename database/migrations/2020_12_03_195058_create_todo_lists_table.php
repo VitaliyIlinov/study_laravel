@@ -16,7 +16,9 @@ class CreateTodoListsTable extends Migration
         Schema::create('todo_lists', function (Blueprint $table) {
             $table->id();
             $table->text('description');
+            $table->mediumText('label')->nullable();
             $table->boolean('status')->default(1);
+            $table->tinyInteger('sort')->nullable();
             $table->timestamps();
         });
     }
