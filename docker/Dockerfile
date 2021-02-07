@@ -31,15 +31,11 @@ RUN apt-get update && apt-get install -y \
 ## Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Create system user
-RUN useradd -G www-data,root -u ${uid} -d /home/${user} ${user}
-RUN mkdir -p /home/${user}/.composer && \
-    chown -R ${user}:${user} /home/${user}
+# Create user
+RUN useradd ${user}
 
 COPY ./ /docker
 
 RUN cp /docker/php.ini-development "$PHP_INI_DIR/php.ini"
 #additional
 RUN bash /docker/after-build.sh
-
-USER ${user}

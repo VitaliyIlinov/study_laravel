@@ -6,6 +6,8 @@ services:
     image: ${APP_NAME}
     container_name: ${APP_NAME}
     working_dir: /var/www
+    # current user uid && gid
+    user: 1000:1000
     volumes:
       - ./:/var/www
       - ./storage/logs/php:/var/log/php
