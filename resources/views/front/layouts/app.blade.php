@@ -53,9 +53,10 @@
             </div>
         </nav>
         <div>
-            https://colorlib.com/wp/bootstrap-sidebar/
-            https://colorlib.com/etc/bootstrap-sidebar/sidebar-02/#
-            @yield('content')
+            @yield('content',
+            'https://colorlib.com/wp/bootstrap-sidebar/
+            https://colorlib.com/etc/bootstrap-sidebar/sidebar-02/#'
+            )
         </div>
     </div>
 </div>

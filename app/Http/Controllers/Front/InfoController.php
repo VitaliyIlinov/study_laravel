@@ -11,7 +11,7 @@ class InfoController extends Controller
     public function show(Info $info)
     {
         return view('front.info.show',[
-            'result' => $info
+            'result' => $info,
         ]);
     }
 }

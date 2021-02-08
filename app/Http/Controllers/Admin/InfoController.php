@@ -47,6 +47,7 @@ class InfoController extends Controller
                 'trans'         => 'Category ID',
             ],
             'category_name' => [
+                'show_in_table' => true,
                 'trans'    => 'Category name',
                 'callback' => function (Info $info) use ($category) {
                     return $category[$info->category_id]->name;

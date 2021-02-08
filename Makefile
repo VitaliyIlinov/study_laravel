@@ -3,7 +3,7 @@ ROOT_DIR   := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 IMAGE_NAME = $(APP_NAME)
 BUILD_ID ?= $(shell /bin/date "+%Y%m%d-%H%M%S")
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
-MYSQL_DUMP=storage/mysql/dumps/dump.sql
+MYSQL_DUMP=dumps/dump.sql
 
 
 .SILENT: ;               # no need for @

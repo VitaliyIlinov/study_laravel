@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Info Create')
+@section('title', $result->title)
 
 @section('content')
     <h2 class="mb-4">{!! $result->title !!}</h2>

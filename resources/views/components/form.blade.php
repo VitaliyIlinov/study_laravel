@@ -23,6 +23,12 @@
                 {!! $buildTextarea($name) !!}
             </div>
             @include('helpers.editor', ['id' => $name])
+            <script>
+                // var editor = CodeMirror.fromTextArea(document.getElementById("text"), {
+                //     mode: "text/html",
+                //     matchBrackets: true
+                // });
+            </script>
         @endif
     @endforeach
     <button onclick="if(typeof(editor) != 'undefined') editor.updateSourceElement();" type="submit" class="btn btn-primary">Submit</button>
