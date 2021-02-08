@@ -3,7 +3,7 @@ ROOT_DIR   := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 IMAGE_NAME = $(APP_NAME)
 BUILD_ID ?= $(shell /bin/date "+%Y%m%d-%H%M%S")
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
-MYSQL_DUMPS_DIR=storage/mysql/dumps
+MYSQL_DUMP=storage/mysql/dumps/dump.sql
 
 
 .SILENT: ;               # no need for @
@@ -52,10 +52,10 @@ down:
 	@docker-compose down
 
 dependency: up
-	@docker-compose exec study bash -c "composer install && npm install && npm run dev && php artisan migrate:fresh --seed"
+	@docker-compose exec ${APP_NAME} bash -c "composer install && npm install && npm run dev && php artisan migrate:fresh --seed"
 
 bash:
-	@docker-compose exec study bash
+	@docker-compose exec ${APP_NAME} bash
 
 logs:
 	@docker-compose logs ${ARGS}
@@ -63,21 +63,14 @@ logs:
 config:
 	@docker-compose config
 
-del:
-	@docker container rm $(shell docker ps -aq) -f
-
 clean:
-	@sudo rm -f \
-		./storage/logs/nginx/* \
-		./storage/logs/php/*
+	@docker exec ${APP_NAME} rm -R ./storage/logs/*
 
 mysql-dump:
-	@mkdir -p $(MYSQL_DUMPS_DIR)
-	@docker exec $(shell docker-compose ps -q db) mysqldump --all-databases -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" > $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
-	@make resetOwner
+	@docker exec db mysqldump --extended-insert=FALSE --databases $(DB_DATABASE) -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"  2>/dev/null
 
 mysql-restore:
-	@docker exec -i $(shell docker-compose ps -q mysqldb) mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" < $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
+	@docker exec -i db mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" < $(MYSQL_DUMP) 2>/dev/null
 
 help:
 	@echo 'Targets:'
