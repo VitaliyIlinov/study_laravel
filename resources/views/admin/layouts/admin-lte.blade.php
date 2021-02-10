@@ -9,6 +9,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+
+    <!-- REQUIRED SCRIPTS -->
+    <script src="{{ asset('js/admin.js') }}"></script>
+    <script src="/ckeditor5/build/ckeditor.js"></script>
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -18,7 +23,7 @@
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                <a class="nav-link" data-widget="pushmenu" data-enable-remember="true" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="/" class="nav-link">Home</a>
@@ -168,7 +173,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">@yield('title','')</h1>
+                        <h1 class="m-0 text-dark" data-render="title">@yield('title','')</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         @include('admin.lte.breadcrump-lte')
@@ -181,7 +186,7 @@
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
+                <div class="row" data-render="content">
                     @yield('content')
                 </div>
                 <!-- /.row -->
@@ -214,9 +219,7 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
-<script src="{{ asset('js/admin.js') }}"></script>
-<script src="/ckeditor5/build/ckeditor.js"></script>
 @stack('scripts')
+@include('helpers.modal')
 </body>
 </html>

@@ -278,7 +278,7 @@ CREATE TABLE `todo_lists` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,9 +287,11 @@ CREATE TABLE `todo_lists` (
 
 LOCK TABLES `todo_lists` WRITE;
 /*!40000 ALTER TABLE `todo_lists` DISABLE KEYS */;
-INSERT INTO `todo_lists` VALUES (11,'Add count info for each  category',0,'category',NULL,'2021-02-08 23:22:06','2021-02-08 23:22:06');
-INSERT INTO `todo_lists` VALUES (12,'Add list for info by category(for sort and moving to another category)',0,'category',NULL,'2021-02-08 23:25:14','2021-02-08 23:25:14');
-INSERT INTO `todo_lists` VALUES (13,'add ability for change editor in article(codemiror, simple texarea or ck_editor)',0,'editor',NULL,'2021-02-08 23:41:27','2021-02-08 23:41:27');
+INSERT INTO `todo_lists` VALUES (11,'Add count info for each  category',0,'category',1,'2021-02-08 23:22:06','2021-02-10 21:40:01');
+INSERT INTO `todo_lists` VALUES (12,'Add list for info by category(for sort and moving to another category)',0,'category',2,'2021-02-08 23:25:14','2021-02-10 21:40:01');
+INSERT INTO `todo_lists` VALUES (13,'add ability for change editor in article(codemiror, simple texarea or ck_editor)',0,'editor',3,'2021-02-08 23:41:27','2021-02-10 21:40:01');
+INSERT INTO `todo_lists` VALUES (14,'category,todo,table_list(save,del,edit) refactor  function',0,'JS',NULL,'2021-02-10 23:08:59','2021-02-10 23:08:59');
+INSERT INTO `todo_lists` VALUES (15,'table.js :fix animate.css',0,'JS',NULL,'2021-02-10 23:10:02','2021-02-10 23:10:02');
 /*!40000 ALTER TABLE `todo_lists` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -586,7 +588,7 @@ CREATE TABLE `todo_lists` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -595,9 +597,11 @@ CREATE TABLE `todo_lists` (
 
 LOCK TABLES `todo_lists` WRITE;
 /*!40000 ALTER TABLE `todo_lists` DISABLE KEYS */;
-INSERT INTO `todo_lists` VALUES (11,'Add count info for each  category',0,'category',NULL,'2021-02-08 23:22:06','2021-02-08 23:22:06');
-INSERT INTO `todo_lists` VALUES (12,'Add list for info by category(for sort and moving to another category)',0,'category',NULL,'2021-02-08 23:25:14','2021-02-08 23:25:14');
-INSERT INTO `todo_lists` VALUES (13,'add ability for change editor in article(codemiror, simple texarea or ck_editor)',0,'editor',NULL,'2021-02-08 23:41:27','2021-02-08 23:41:27');
+INSERT INTO `todo_lists` VALUES (11,'Add count info for each  category',0,'category',1,'2021-02-08 23:22:06','2021-02-10 21:40:01');
+INSERT INTO `todo_lists` VALUES (12,'Add list for info by category(for sort and moving to another category)',0,'category',2,'2021-02-08 23:25:14','2021-02-10 21:40:01');
+INSERT INTO `todo_lists` VALUES (13,'add ability for change editor in article(codemiror, simple texarea or ck_editor)',0,'editor',3,'2021-02-08 23:41:27','2021-02-10 21:40:01');
+INSERT INTO `todo_lists` VALUES (14,'category,todo,table_list(save,del,edit) refactor  function',0,'JS',NULL,'2021-02-10 23:08:59','2021-02-10 23:08:59');
+INSERT INTO `todo_lists` VALUES (15,'table.js :fix animate.css',0,'JS',NULL,'2021-02-10 23:10:02','2021-02-10 23:10:02');
 /*!40000 ALTER TABLE `todo_lists` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -640,4 +644,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-08 23:41:36
+-- Dump completed on 2021-02-10 23:11:02

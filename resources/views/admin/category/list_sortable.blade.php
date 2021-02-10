@@ -3,5 +3,5 @@
 @section('title', 'Category list')
 
 @section('content')
-    <x-category :fields="$fields" :rows="$rows" crudAjax="true"/>
+    @include('admin.category.list_sortable_ajax')
 @endsection

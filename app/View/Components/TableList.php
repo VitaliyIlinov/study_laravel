@@ -71,7 +71,7 @@ class TableList extends Component
                 '[:href]'    => $crudAjax ? "data-href='{$href}'" : "href='{$href}'",
                 ':method'    => $method,
                 ':OnSuccess' => $jsOnSuccess,
-                ':class'     => 'btn',
+                ':class'     => 'btn p-1',
                 ':iClass'    => $iClass,
             ]);
     }

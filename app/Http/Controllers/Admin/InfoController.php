@@ -30,8 +30,15 @@ class InfoController extends Controller
     {
         $category = Category::all()->keyBy('id');
         return [
-            'id'            => ['show_in_table' => true, 'trans' => 'Id'],
-            'title'         => ['show_in_table' => true, 'type' => 'text', 'trans' => 'Title'],
+            'id'            => [
+                'show_in_table' => true,
+                'trans'         => 'Id',
+            ],
+            'title'         => [
+                'show_in_table' => true,
+                'type'          => 'text',
+                'trans'         => 'Title',
+            ],
             'text'          => [
                 'show_in_table' => true,
                 'trans'         => 'Text',
@@ -48,20 +55,33 @@ class InfoController extends Controller
             ],
             'category_name' => [
                 'show_in_table' => true,
-                'trans'    => 'Category name',
-                'callback' => function (Info $info) use ($category) {
+                'trans'         => 'Category name',
+                'callback'      => function (Info $info) use ($category) {
                     return $category[$info->category_id]->name;
                 },
             ],
-            'status'        => ['show_in_table' => true, 'type' => 'checkbox', 'trans' => 'status'],
-            'sort'          => ['show_in_table' => false, 'type' => 'number'],
-            'updated_at'    => ['show_in_table' => true, 'trans' => 'updated_at'],
+            'status'        => [
+                'show_in_table' => true,
+                'type'          => 'checkbox',
+                'trans'         => 'status',
+            ],
+            'sort'          => [
+                'show_in_table' => false,
+                'type'          => 'number',
+            ],
+            'updated_at'    => [
+                'show_in_table' => true,
+                'trans'         => 'updated_at',
+                'callback'      => function (Info $info) use ($category) {
+                    return $this->textFormatter($info->updated_at->format('Y-m-d H:i'));
+                },
+            ],
         ];
     }
 
     public function index()
     {
-        return $this->crudIndex(Info::all()->keyBy('id'),'Info List');
+        return $this->crudIndex(Info::all()->keyBy('id'), 'Info List');
     }
 
     public function create(Request $request)

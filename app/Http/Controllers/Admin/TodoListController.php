@@ -24,18 +24,34 @@ class TodoListController extends Controller
     protected function fields(): array
     {
         return [
-            'id'          => ['show_in_table' => true,'trans' => 'Id'],
-            'description' => ['show_in_table' => true,'trans' => 'description', 'type' => 'text'],
-            'label'       => ['show_in_table' => true,'trans' => 'label', 'type' => 'text'],
-            'status'      => ['show_in_table' => true,'trans' => 'status', 'type' => 'checkbox'],
-            'sort'        => ['show_in_table' => true,'trans' => 'sort', 'type' => 'text'],
-            'updated_at'  => ['show_in_table' => true,'trans' => 'updated_at'],
+            'id'          => [
+                'trans' => 'Id',
+            ],
+            'description' => [
+                'trans' => 'description',
+                'type'  => 'text',
+            ],
+            'label'       => [
+                'trans' => 'label',
+                'type'  => 'text',
+            ],
+            'status'      => [
+                'trans' => 'status',
+                'type'  => 'checkbox',
+            ],
+            'sort'        => [
+                'trans' => 'sort',
+                'type'  => 'text',
+            ],
+            'updated_at'  => [
+                'trans' => 'updated_at',
+            ],
         ];
     }
 
     public function index()
     {
-        return $this->crudIndex(TodoList::all()->sortBy('sort'),'Todo List','admin.todo.todo');
+        return $this->crudIndex(TodoList::all()->sortBy('sort'), 'Todo List', 'admin.todo.todo');
     }
 
     public function create(Request $request)
@@ -58,12 +74,12 @@ class TodoListController extends Controller
         return $this->crudUpdate($this->mergeStatus($request), $todoList, 'todo_list');
     }
 
-    public function destroy(TodoList $todoList):JsonResponse
+    public function destroy(TodoList $todoList): JsonResponse
     {
         return $this->crudDelete($todoList);
     }
 
-    public function ajaxUpdateSort(Request $request):JsonResponse
+    public function ajaxUpdateSort(Request $request): JsonResponse
     {
         $lists = explode('|', $request->get('list'));
         $i = 0;
@@ -73,9 +89,9 @@ class TodoListController extends Controller
         return response()->json('success');
     }
 
-    public function changeStatus(TodoList $todoList,Request $request):JsonResponse
+    public function changeStatus(TodoList $todoList, Request $request): JsonResponse
     {
-        $todoList->status= $request->get('status');
+        $todoList->status = $request->get('status');
         $todoList->save();
         return response()->json('success');
     }

@@ -18,19 +18,27 @@ trait CrudService
     /**
      * Display a listing of the resource.
      *
-     * @param Collection  $rows
+     * @param Collection $rows
      * @param string|null $title
-     * @param string      $view
-     * @return Application|Factory|View
+     * @param string $view
+     * @return mixed
      */
     public function index(Collection $rows, ?string $title = null, string $view = 'helpers.tables.list')
     {
-        return view($view, [
+        $data = [
             'fields'   => $this->getFields(),
             'title'    => $title,
             'rows'     => $rows,
-            'crudAjax' => self::IS_CRUD_BY_AJAX,
-        ]);
+            'crudAjax' => static::IS_CRUD_BY_AJAX,
+        ];
+        if (request()->ajax()) {
+            return response()->json([
+                'content' => view("{$view}_ajax", $data)->render(),
+                'title'   => $title,
+            ]);
+        }
+
+        return view($view, $data);
     }
 
     /**
@@ -57,7 +65,7 @@ trait CrudService
     /**
      * Display the specified resource.
      *
-     * @param Model   $model
+     * @param Model $model
      * @param Request $request
      * @return Application|Factory|JsonResponse|View
      * @throws Throwable
@@ -82,8 +90,8 @@ trait CrudService
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @param Model   $model
-     * @param string  $route
+     * @param Model $model
+     * @param string $route
      * @return JsonResponse|RedirectResponse
      */
     public function store(Request $request, Model $model, string $route)
@@ -102,8 +110,8 @@ trait CrudService
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Model   $model
-     * @param string  $route
+     * @param Model $model
+     * @param string $route
      * @return JsonResponse|RedirectResponse
      */
     public function update(Request $request, Model $model, string $route)

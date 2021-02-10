@@ -12,90 +12,86 @@
         </a>
     </div>
 </div>
+<script>
+    window.onbeforeunload = function () {
+        return false ? 'There are unsaved data.' : null;
+    }
 
-@include('helpers.modal')
-
-@push('scripts')
-    <script>
-        window.onbeforeunload = function () {
-            return false ? 'There are unsaved data.' : null;
-        }
-
-        var el = [].slice.call(document.querySelectorAll('.nested-sortable'));
-        var list = [];
-        for (var i = 0; i < el.length; i++) {
-            list[i] = new Sortable(el[i], {
-                group: 'nested',
-                handle: '.handle', // handle's class
-                fallbackOnBody: true,
-                swapThreshold: 0.65,
-                animation: 250,
-                store: {
-                    /**
-                     * Get the order of elements. Called once during initialization.
-                     * @param   {Sortable}  sortable
-                     * @returns {Array}
-                     */
-                    get: function (sortable) {
-                        // var order = localStorage.getItem('co');
-                        // // console.log(JSON.parse(order));
-                        // return order ? order.split("|") : [];
-                    },
-
-                    /**
-                     * Save the order of elements. Called onEnd (when the item is dropped).
-                     * @param {Sortable}  sortable
-                     */
-                    set: function (sortable) {
-                        var order = sortable.toArray();
-                        var parent_id = $(sortable.el).closest('li').data('id') ?? 0;
-                        let itemsArray = localStorage.getItem('cat_list') ? JSON.parse(localStorage.getItem('cat_list')) : {};
-                        localStorage.setItem(parent_id, order.join("|"));
-                        itemsArray[parent_id] = order.join("|");
-                        localStorage.setItem('cat_list', JSON.stringify(itemsArray));
-                    },
+    var el = [].slice.call(document.querySelectorAll('.nested-sortable'));
+    var list = [];
+    for (var i = 0; i < el.length; i++) {
+        list[i] = new Sortable(el[i], {
+            group: 'nested',
+            handle: '.handle', // handle's class
+            fallbackOnBody: true,
+            swapThreshold: 0.65,
+            animation: 250,
+            store: {
+                /**
+                 * Get the order of elements. Called once during initialization.
+                 * @param   {Sortable}  sortable
+                 * @returns {Array}
+                 */
+                get: function (sortable) {
+                    // var order = localStorage.getItem('co');
+                    // // console.log(JSON.parse(order));
+                    // return order ? order.split("|") : [];
                 },
-            });
-        }
 
-        function deleteRow(el, response) {
-            el.closest('li').fadeOut(500, function () {
-                $(this).remove();
-            });
-        }
+                /**
+                 * Save the order of elements. Called onEnd (when the item is dropped).
+                 * @param {Sortable}  sortable
+                 */
+                set: function (sortable) {
+                    var order = sortable.toArray();
+                    var parent_id = $(sortable.el).closest('li').data('id') ?? 0;
+                    let itemsArray = localStorage.getItem('cat_list') ? JSON.parse(localStorage.getItem('cat_list')) : {};
+                    localStorage.setItem(parent_id, order.join("|"));
+                    itemsArray[parent_id] = order.join("|");
+                    localStorage.setItem('cat_list', JSON.stringify(itemsArray));
+                },
+            },
+        });
+    }
 
-        function saveRow(el, response) {
+    function deleteRow(el, response) {
+        el.closest('li').fadeOut(500, function () {
+            $(this).remove();
+        });
+    }
 
-            var onResponse = function (data) {
-                var result = data.result, model = data.model, li = el.closest('li');
-                if (!result) {
-                    toastr.error(result);
-                    return;
+    function saveRow(el, response) {
+
+        var onResponse = function (data) {
+            var result = data.result, model = data.model, li = el.closest('li');
+            if (!result) {
+                toastr.error(result);
+                return;
+            }
+            for (var key in model) {
+                li.find('[data-name=' + key + ']').html(model[key]);
+                if (key === 'status') {
+                    li.attr('data-status', model[key])
                 }
-                for (var key in model) {
-                    li.find('[data-name=' + key + ']').html(model[key]);
-                    if (key === 'status') {
-                        li.attr('data-status', model[key])
-                    }
-                }
-            };
+            }
+        };
 
-            formEdit(el, response, onResponse)
-        }
+        formEdit(el, response, onResponse)
+    }
 
-        function createRow(el, response) {
-            var onResponse = function (data) {
-                var result = data.result, model = data.model, tr = el.closest('li');
-                if (!result) {
-                    toastr.error(result);
-                    return;
-                }
-                toastr.success(result);
-                location.reload();
-            };
+    function createRow(el, response) {
+        var onResponse = function (data) {
+            var result = data.result, model = data.model, tr = el.closest('li');
+            if (!result) {
+                toastr.error(result);
+                return;
+            }
+            toastr.success(result);
+            location.reload();
+        };
 
-            formEdit(el, response, onResponse)
-        }
+        formEdit(el, response, onResponse)
+    }
 
-    </script>
-@endpush
+</script>
+

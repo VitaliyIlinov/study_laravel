@@ -23,19 +23,36 @@ class ConfigController extends Controller
     protected function fields(): array
     {
         return [
-            'id'          => ['show_in_table' => true, 'trans' => 'Id'],
-            'name'        => ['show_in_table' => true, 'type' => 'text', 'trans' => 'name'],
-            'value'       => ['show_in_table' => true, 'type' => 'text', 'trans' => 'value'],
-            'description' => ['show_in_table' => true, 'type' => 'text', 'trans' => 'description'],
-            'updated_at'  => ['show_in_table' => true, 'trans' => 'updated_at'],
+            'id'          => [
+                'show_in_table' => true,
+                'trans'         => 'Id',
+            ],
+            'name'        => [
+                'show_in_table' => true,
+                'type'          => 'text',
+                'trans'         => 'name',
+            ],
+            'value'       => [
+                'show_in_table' => true,
+                'type'          => 'text',
+                'trans'         => 'value',
+            ],
+            'description' => [
+                'show_in_table' => true,
+                'type'          => 'text',
+                'trans'         => 'description',
+            ],
+            'updated_at'  => [
+                'show_in_table' => true,
+                'trans'         => 'updated_at',
+            ],
             'created_at'  => ['trans' => 'updated_at'],
         ];
     }
 
     public function index()
     {
-        $rows = Config::all()->keyBy('id');
-        return $this->crudIndex($rows,'Config List');
+        return $this->crudIndex(Config::all()->keyBy('id'), 'Config List');
     }
 
     public function create(Request $request)

@@ -19,13 +19,25 @@ class CategoryController extends Controller
         CrudService::store as crudStore;
     }
 
+    protected const IS_CRUD_BY_AJAX = true;
+
     protected function fields(): array
     {
         return [
-            'id'         => ['show_in_table' => true, 'trans' => 'Id'],
-            'name'       => ['show_in_table' => true, 'type' => 'text', 'trans' => 'name'],
-            'status'     => ['show_in_table' => true, 'type' => 'checkbox', 'trans' => 'status'],
-            'updated_at' => ['show_in_table' => true, 'trans' => 'updated_at'],
+            'id'         => [
+                'trans' => 'Id',
+            ],
+            'name'       => [
+                'type'  => 'text',
+                'trans' => 'name',
+            ],
+            'status'     => [
+                'type'  => 'checkbox',
+                'trans' => 'status',
+            ],
+            'updated_at' => [
+                'trans' => 'updated_at',
+            ],
         ];
     }
 
@@ -34,13 +46,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $rows = Category::all()->keyBy('id');
-        $fields = $this->getFields();
-
-        return view('admin.category.list_sortable', [
-            'fields' => $fields,
-            'rows'   => $rows,
-        ]);
+        return $this->crudIndex(Category::all()->keyBy('id'), 'Category List', 'admin.category.list_sortable');
     }
 
     public function create(Request $request)
@@ -75,7 +81,10 @@ class CategoryController extends Controller
         foreach ($categories as $parentId => $category) {
             $childCategory = explode('|', $category);
             foreach ($childCategory as $order => $id) {
-                Category::findOrFail($id)->update(['sort' => $order, 'parent_id' => $parentId]);
+                Category::findOrFail($id)->update([
+                    'sort'      => $order,
+                    'parent_id' => $parentId,
+                ]);
             }
         }
         return response()->json('success');

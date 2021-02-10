@@ -1,12 +1,12 @@
 <div class="table-responsive">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover text-center">
         <thead>
         <tr>
             @foreach ($fields as $name => $field)
                 @continue(empty($field['show_in_table']))
                 <th>{{$field['trans']??$name}}</th>
             @endforeach
-            <th>
+            <th style="min-width: 80px">
                 {!! $buildCreateButton() !!}
             </th>
         </tr>
@@ -34,50 +34,46 @@
     </table>
 </div>
 
-@include('helpers.modal')
+<script>
 
-@push('scripts')
-    <script>
+    function deleteRow(el, response) {
+        el.closest('tr').fadeOut(500, function () {
+            $(this).remove();
+        });
+    }
 
-        function deleteRow(el, response) {
-            el.closest('tr').fadeOut(500, function () {
-                $(this).remove();
-            });
-        }
+    function saveRow(el, response) {
 
-        function saveRow(el, response) {
+        var onResponse = function (data) {
+            var result = data.result, model = data.model, tr = el.closest('tr');
+            if (!result) {
+                toastr.error(result);
+                return;
+            }
+            for (var key in model) {
+                tr.find('[data-name=' + key + ']').html(model[key]);
+            }
+            toastr.success(result);
+        };
 
-            var onResponse = function (data) {
-                var result = data.result, model = data.model, tr = el.closest('tr');
-                if (!result) {
-                    toastr.error(result);
-                    return;
-                }
-                for (var key in model) {
-                    tr.find('[data-name=' + key + ']').html(model[key]);
-                }
-                toastr.success(result);
-            };
+        formEdit(el, response, onResponse)
 
-            formEdit(el, response, onResponse)
+    }
 
-        }
+    function createRow(el, response) {
 
-        function createRow(el, response) {
+        var onResponse = function (data) {
+            var result = data.result, model = data.model, tr = el.closest('tr');
+            if (!result) {
+                toastr.error(result);
+                return;
+            }
+            toastr.success(result);
+            location.reload();
+        };
 
-            var onResponse = function (data) {
-                var result = data.result, model = data.model, tr = el.closest('tr');
-                if (!result) {
-                    toastr.error(result);
-                    return;
-                }
-                toastr.success(result);
-                location.reload();
-            };
+        formEdit(el, response, onResponse)
 
-            formEdit(el, response, onResponse)
+    }
 
-        }
-
-    </script>
-@endpush
+</script>
