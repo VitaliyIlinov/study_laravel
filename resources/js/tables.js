@@ -71,22 +71,50 @@ $(document).ready(function () {
     $('[data-widget] a[href!="#"]').on('click', function (e) {
         e.preventDefault();
         var $this = $(this);
-        if($this.hasClass('active')){
+        if ($this.hasClass('active')) {
             return;
         }
         ajaxSend({
             method: 'get',
             url: $this.attr('href'),
             success: function (data) {
-                // $('[data-render="title"]').html(data.title).addClass('animate__animated animate__fast animate__repeat-2 animate__delay-0.5s animate__backInUp');
-                $('[data-render="title"]').html(data.title).addClass('animate__animated animate__fast animate__backInUp');
-                $('[data-render="content"]').html(data.content).addClass('animate__animated animate__fast animate__backInUp');
+                animateCSS($('[data-render="title"]').html(data.title), 'fadeIn');
+                animateCSS($('[data-render="content"]').html(data.content), 'fadeIn');
                 $this.closest('ul').find('.nav-link.active').removeClass('active');
                 $this.addClass('active');
-                history.pushState(null, data.title,$this.attr('href'));
+                history.pushState(null, data.title, $this.attr('href'));
+            },
+            error: function (jqXHR, textStatus,errorThrown) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (textStatus === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (textStatus === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (textStatus === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                toastr.error(msg);
             },
         });
     });
+
+    animateCSS = (element, animation, prefix = 'animate__') => {
+        const animationName = `${prefix}${animation}`;
+
+        element.addClass(`${prefix}animated ${animationName}`);
+
+        element.on("animationend", function () {
+            element.removeClass(`${prefix}animated ${animationName}`);
+        })
+    };
 });
 
 
