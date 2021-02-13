@@ -1,5 +1,12 @@
 $(document).ready(function () {
-    window.formEdit = (el, response, onSuccess = null) => {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    })
+
+    formEdit = (el, response, onSuccess = null) => {
         var modal = $('#modal');
         var form = $(response.form).on('submit', function (e) {
             var form = $(this);
@@ -26,12 +33,8 @@ $(document).ready(function () {
         modal.find('.modal-body').html(form);
         modal.modal();
     }
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    })
-    window.ajaxSend = (data) => {
+
+    ajaxSend = (data) => {
         var options = $.extend(true, {
             dataType: 'json',
             method: 'post',
@@ -87,3 +90,41 @@ $(document).ready(function () {
 });
 
 
+deleteRow = (el, response) => {
+    el.closest('[data-id]').fadeOut(500, function () {
+        $(this).remove();
+    });
+}
+
+saveRow = (el, response) => {
+
+    var onResponse = function (data) {
+        var result = data.result, model = data.model, main_el = el.closest('[data-id]');
+        if (!result) {
+            toastr.error(result);
+            return;
+        }
+        for (var key in model) {
+            main_el.find('[data-name=' + key + ']').html(model[key]);
+            if (key === 'status') {
+                main_el.attr('data-status', model[key])
+            }
+        }
+    };
+
+    formEdit(el, response, onResponse)
+}
+
+createRow = (el, response) => {
+    var onResponse = function (data) {
+        var result = data.result, model = data.model, tr = el.closest('[data-id]');
+        if (!result) {
+            toastr.error(result);
+            return;
+        }
+        toastr.success(result);
+        location.reload();
+    };
+
+    formEdit(el, response, onResponse)
+}

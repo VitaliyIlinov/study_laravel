@@ -54,44 +54,5 @@
         });
     }
 
-    function deleteRow(el, response) {
-        el.closest('li').fadeOut(500, function () {
-            $(this).remove();
-        });
-    }
-
-    function saveRow(el, response) {
-
-        var onResponse = function (data) {
-            var result = data.result, model = data.model, li = el.closest('li');
-            if (!result) {
-                toastr.error(result);
-                return;
-            }
-            for (var key in model) {
-                li.find('[data-name=' + key + ']').html(model[key]);
-                if (key === 'status') {
-                    li.attr('data-status', model[key])
-                }
-            }
-        };
-
-        formEdit(el, response, onResponse)
-    }
-
-    function createRow(el, response) {
-        var onResponse = function (data) {
-            var result = data.result, model = data.model, tr = el.closest('li');
-            if (!result) {
-                toastr.error(result);
-                return;
-            }
-            toastr.success(result);
-            location.reload();
-        };
-
-        formEdit(el, response, onResponse)
-    }
-
 </script>
 
