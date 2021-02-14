@@ -154,7 +154,7 @@ class Form extends Component
     {
         $result = [];
         $option = $this->getValue($name);
-        foreach ($this->fields[$name]['values'] as $id => $value) {
+        foreach ($this->fields[$name]['values']() as $id => $value) {
             $isSelected = $id === $option ? 'selected' : '';
             $result[] = "<option {$isSelected} value={$id}>{$value}</option>";
         }

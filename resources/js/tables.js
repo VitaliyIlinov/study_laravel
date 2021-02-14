@@ -138,6 +138,7 @@ saveRow = (el, response) => {
                 main_el.attr('data-status', model[key])
             }
         }
+        toastr.success(data.message);
     };
 
     formEdit(el, response, onResponse)

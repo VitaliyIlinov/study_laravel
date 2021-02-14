@@ -99,8 +99,9 @@ trait CrudService
         $result = $model->fill($request->all())->save();
         if ($request->ajax()) {
             return response()->json([
-                'result' => $result,
-                'model'  => $model->toArray(),
+                'result'  => $result,
+                'model'   => $model->toArray(),
+                'message' => 'Row was created',
             ]);
         }
         return redirect()->route($route)->with('success', 'Row was created');
@@ -118,9 +119,16 @@ trait CrudService
     {
         $result = $model->fill($request->all())->save();
         if ($request->ajax()) {
+            $fields = $this->getFields();
+            foreach ($fields as $k => $v) {
+                if (!empty($v['show_in_table']) && !empty($v['callback'])) {
+                    $model->$k = $v['callback']($model);
+                }
+            }
             return response()->json([
                 'result' => $result,
-                'model'  => $model,
+                'model'  => $model->getDirty(),
+                'message' => 'Row was updated',
             ]);
         }
         return redirect()->route($route)->with('success', 'Row was updated');

@@ -28,7 +28,6 @@ class InfoController extends Controller
      */
     protected function fields(): array
     {
-        $category = Category::all()->keyBy('id');
         return [
             'id'            => [
                 'show_in_table' => true,
@@ -43,20 +42,24 @@ class InfoController extends Controller
                 'show_in_table' => true,
                 'trans'         => 'Text',
                 'type'          => 'textarea',
-                'callback'      => function (Info $info) use ($category) {
+                'callback'      => function (Info $info) {
                     return $this->textFormatter($info->text);
                 },
             ],
             'category_id'   => [
                 'show_in_table' => false,
                 'type'          => 'option',
-                'values'        => Category::all()->pluck('name', 'id'),
+                'values'        => function () {
+                    return Category::all()->pluck('name', 'id');
+                },
                 'trans'         => 'Category ID',
             ],
             'category_name' => [
                 'show_in_table' => true,
                 'trans'         => 'Category name',
-                'callback'      => function (Info $info) use ($category) {
+                'callback'      => function (Info $info) {
+                    static $category;
+                    $category = $category ?? Category::all()->keyBy('id');
                     return $category[$info->category_id]->name;
                 },
             ],
@@ -72,7 +75,7 @@ class InfoController extends Controller
             'updated_at'    => [
                 'show_in_table' => true,
                 'trans'         => 'updated_at',
-                'callback'      => function (Info $info) use ($category) {
+                'callback'      => function (Info $info) {
                     return $this->textFormatter($info->updated_at->format('Y-m-d H:i'));
                 },
             ],
@@ -101,16 +104,7 @@ class InfoController extends Controller
 
     public function update(StoreInfo $request, Info $info)
     {
-        $result = $this->crudUpdate($this->mergeStatus($request), $info, 'info_list');
-        if ($request->ajax()) {
-            $result = json_decode($result->content(), true);
-            $result['model']['text'] = htmlspecialchars($this->textFormatter($result['model']['text']), ENT_QUOTES);
-            return response()->json([
-                'result' => $result['result'],
-                'model'  => $result['model'],
-            ]);
-        }
-        return $result;
+        return $this->crudUpdate($this->mergeStatus($request), $info, 'info_list');
     }
 
     public function destroy(Info $info)
