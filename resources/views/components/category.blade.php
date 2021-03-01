@@ -7,7 +7,7 @@
     <div style="position: fixed">
         {!! $buildCreateButton() !!}
         <a class="btn btn-primary" href="#" role="button"
-           onclick="ajaxSend({url:'{{ route('ajaxCatUpdate') }}',data:{list:JSON.parse(localStorage.getItem('cat_listcat_list'))}})">
+           onclick="ajaxSend({url:'{{ route('ajaxCatUpdate') }}',data:{list:JSON.parse(localStorage.getItem('cat_list'))}})">
             Save
         </a>
     </div>
@@ -46,7 +46,6 @@
                     var order = sortable.toArray();
                     var parent_id = $(sortable.el).closest('li').data('id') ?? 0;
                     let itemsArray = localStorage.getItem('cat_list') ? JSON.parse(localStorage.getItem('cat_list')) : {};
-                    localStorage.setItem(parent_id, order.join("|"));
                     itemsArray[parent_id] = order.join("|");
                     localStorage.setItem('cat_list', JSON.stringify(itemsArray));
                 },

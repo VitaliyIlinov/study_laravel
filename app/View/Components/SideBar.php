@@ -23,15 +23,21 @@ class SideBar extends Component
 
     public function menu()
     {
+//        DB::listen(function ($query) {
+//            dump($query->sql);
+//            dump($query->bindings);
+//            dump($query->time);
+//        });
+
         $sidebar = Cache::remember('key', 2, function () {
             $data = Category::with([
                 'info' => function (HasMany $query) {
                     $query->select(['id', 'category_id', 'title'])->active();
                 },
-            ])->has('info')->active()->get()->keyBy('id')->toArray();
+            ])->active()->get()->keyBy('id')->toArray();
 
             $tree = $this->getTree($data);
-//            $this->sort($tree);
+            $this->sort($tree);
             return $tree;
         });
 
