@@ -34,6 +34,7 @@ Route::prefix('info')->group(function (Router $router) {
     $router->get('/create', 'InfoController@create');
     $router->post('/create', 'InfoController@store');
     $router->delete('/{info}', 'InfoController@destroy');
+    $router->post('/sort_update', 'InfoController@ajaxUpdateSort')->name('ajaxInfoUpdate');;
 });
 Route::prefix('config')->group(function (Router $router) {
     $router->get('/', 'ConfigController@index')->name('config_list');

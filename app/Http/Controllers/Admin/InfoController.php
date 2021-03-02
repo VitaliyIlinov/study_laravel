@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInfo;
 use App\Models\Category;
 use App\Models\Info;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -84,7 +85,65 @@ class InfoController extends Controller
 
     public function index()
     {
+        $data = Category::with([
+            'info' => function (HasMany $query) {
+                $query->select([
+                    'id',
+                    'category_id',
+                    'status',
+                    'sort',
+                    'title',
+                    'updated_at',
+                ])->orderBy('sort');
+            },
+        ])->orderBy('sort')->get()->keyBy('id')->toArray();
+        $tree = $this->getTree($data);
+        return view('admin.info.list', ['data' => $tree]);
+
         return $this->crudIndex(Info::all()->keyBy('id'), 'Info List');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function ajaxUpdateSort(Request $request)
+    {
+        $categories = array_filter($request->get('list'));
+        foreach ($categories as $categoryId => $info) {
+            $infos = explode('|', $info);
+            foreach ($infos as $order => $id) {
+                if (strpos($id,'info') !== false) {
+                    Info::findOrFail(substr($id, 0, -4))->update([
+                        'sort'      => $order,
+                        'category_id' => substr($categoryId, 0, -3),
+                    ]);
+                }
+                if (strpos($id,'cat') !== false) {
+                    Category::findOrFail(substr($id, 0, -3))->update([
+                        'sort'      => $order,
+                        'category_id' => substr($categoryId, 0, -3),
+                    ]);
+                }
+            }
+        }
+        return response()->json('success');
+    }
+
+    private function getTree($dataset)
+    {
+        $tree = [];
+
+        foreach ($dataset as $id => &$node) {
+            if (!$node['parent_id']) {
+                $tree[$id] = &$node;
+            } else {
+                $dataset[$node['parent_id']]['childs'][$id] = &$node;
+            }
+        }
+        return $tree;
     }
 
     public function create(Request $request)
