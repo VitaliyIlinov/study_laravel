@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\Component;
-use Illuminate\View\InvokableComponentVariable;
 
 class SideBar extends Component
 {
@@ -24,22 +23,22 @@ class SideBar extends Component
 
     public function menu()
     {
-        DB::listen(function ($query) {
-            dump($query->sql);
-            dump($query->bindings);
-            dump($query->time);
-        });
+//        DB::listen(function ($query) {
+//            dump($query->sql);
+//            dump($query->bindings);
+//            dump($query->time);
+//        });
 
         $sidebar = Cache::remember('key', 2, function () {
-            return Category::with([
+            $data = Category::with([
                 'info' => function (HasMany $query) {
-                    $query->select([
-                        'id',
-                        'category_id',
-                        'title',
-                    ])->active();
+                    $query->select(['id', 'category_id', 'title'])->active();
                 },
             ])->active()->get()->keyBy('id')->toArray();
+
+            $tree = $this->getTree($data);
+            $this->sort($tree);
+            return $tree;
         });
 
         return $sidebar;
@@ -49,22 +48,21 @@ class SideBar extends Component
     {
         $tree = $this->getTree($dataset);
 
-        $this->sort($tree);
+//        $this->sort($tree);
 
         return $tree;
     }
 
-    private function getTree(InvokableComponentVariable $dataset)
+    private function getTree($dataset)
     {
         $tree = [];
-        $dataset = $dataset->resolveDisplayableValue();
 
         foreach ($dataset as $id => &$node) {
             if (!$node['parent_id']) {
                 $tree[$id] = &$node;
             } else {
                 $dataset[$node['parent_id']]['childs'][$id] = &$node;
-//            $this->sort($dataset[$node['parent_id']]['childs'][$id]['info']);
+//                $this->sort($dataset[$node['parent_id']]['childs']);
             }
         }
         return $tree;

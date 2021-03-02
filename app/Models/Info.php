@@ -3,14 +3,8 @@
 namespace App\Models;
 
 use App\Models\Traits\JsonTimestampSerializable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Info
- * @mixin Builder
- * @package App\Models
- */
 class Info extends Model
 {
     use JsonTimestampSerializable;
@@ -25,7 +19,7 @@ class Info extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function scopeActive(Builder $query)
+    public function scopeActive($query)
     {
         return $query->where('status', 1);
     }

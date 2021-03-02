@@ -25,7 +25,7 @@ class Category extends Model
         return $this->hasMany(Info::class);
     }
 
-    public function scopeActive(Builder $query)
+    public function scopeActive($query)
     {
         return $query->where('status', 1);
     }
