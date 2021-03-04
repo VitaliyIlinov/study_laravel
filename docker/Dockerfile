@@ -5,8 +5,8 @@ MAINTAINER vitaliy ilinov <ilinov123@gmail.com>
 # console command: id -u
 # 1000 - is USER;
 # && creating file in MOUNT volume will be from current user
-ARG uid
-ARG user
+ARG GROUP_ID
+ARG USER_ID
 
 # Install and enable additional extensions
 
@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Create user
-RUN useradd ${user}
+RUN useradd -m ${USER_ID} --uid=${GROUP_ID}
 
 COPY ./ /docker
 

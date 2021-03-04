@@ -4,7 +4,8 @@ IMAGE_NAME = $(APP_NAME)
 BUILD_ID ?= $(shell /bin/date "+%Y%m%d-%H%M%S")
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
 MYSQL_DUMP=dumps/dump.sql
-
+USER_ID=$(shell id -u)
+GROUP_ID=$(shell id -g)
 
 .SILENT: ;               # no need for @
 .EXPORT_ALL_VARIABLES: ; # send all vars to shell
@@ -34,13 +35,11 @@ ifeq ($(APP_NAME),)
 	$(error Missed APP_NAME argument.)
 endif
 
-build: uid:=$(shell id -u)
-build: user:=$(shell id -u -n)
 build : check
 	@echo "build..."
 	 docker build \
-  	--build-arg uid=$(uid) \
-  	--build-arg user=$(user) \
+  	--build-arg USER_ID=$(USER_ID) \
+  	--build-arg GROUP_ID=$(GROUP_ID) \
  	--force-rm  \
  	--no-cache \
  	-t $(IMAGE_NAME) ./docker/
@@ -51,20 +50,20 @@ up:
 down:
 	@docker-compose down
 
-dependency: up
-	@docker-compose exec ${APP_NAME} bash -c "composer install && npm install && npm run dev && php artisan migrate:fresh --seed"
+dependency:
+	@docker-compose exec $(APP_NAME) bash -c "composer install && npm install && npm run dev && php artisan migrate:fresh --seed"
 
 bash:
-	@docker-compose exec ${APP_NAME} bash
+	@docker-compose exec $(APP_NAME) bash
 
 logs:
-	@docker-compose logs ${ARGS}
+	@docker-compose logs $(ARGS)
 
 config:
 	@docker-compose config
 
 clean:
-	@docker exec ${APP_NAME} rm -R ./storage/logs/*
+	@docker exec $(APP_NAME) rm -R ./storage/logs/*
 
 mysql-dump:
 	@docker exec db mysqldump --extended-insert=FALSE --databases $(DB_DATABASE) -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"  2>/dev/null
