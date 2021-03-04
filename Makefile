@@ -66,10 +66,10 @@ clean:
 	@docker exec $(APP_NAME) rm -R ./storage/logs/*
 
 mysql-dump:
-	@docker exec db mysqldump --extended-insert=FALSE --databases $(DB_DATABASE) -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"  2>/dev/null
+	@docker exec db mysqldump --extended-insert=FALSE -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"
 
 mysql-restore:
-	@docker exec -i db mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" < $(MYSQL_DUMP) 2>/dev/null
+	@docker exec -i db mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) < $(MYSQL_DUMP)
 
 help:
 	@echo 'Targets:'
