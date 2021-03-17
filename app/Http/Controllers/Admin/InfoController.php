@@ -76,7 +76,7 @@ class InfoController extends Controller
                 'show_in_table' => true,
                 'trans'         => 'updated_at',
                 'callback'      => function (Info $info) {
-                    return $this->textFormatter($info->updated_at->format('Y-m-d H:i'));
+                    return $info->updated_at->format('Y-m-d H:i');
                 },
             ],
         ];

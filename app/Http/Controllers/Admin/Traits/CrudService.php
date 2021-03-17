@@ -18,9 +18,9 @@ trait CrudService
     /**
      * Display a listing of the resource.
      *
-     * @param Collection $rows
+     * @param Collection  $rows
      * @param string|null $title
-     * @param string $view
+     * @param string      $view
      * @return mixed
      */
     public function index(Collection $rows, ?string $title = null, string $view = 'helpers.tables.list')
@@ -65,7 +65,7 @@ trait CrudService
     /**
      * Display the specified resource.
      *
-     * @param Model $model
+     * @param Model   $model
      * @param Request $request
      * @return Application|Factory|JsonResponse|View
      * @throws Throwable
@@ -90,8 +90,8 @@ trait CrudService
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @param Model $model
-     * @param string $route
+     * @param Model   $model
+     * @param string  $route
      * @return JsonResponse|RedirectResponse
      */
     public function store(Request $request, Model $model, string $route)
@@ -111,8 +111,8 @@ trait CrudService
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Model $model
-     * @param string $route
+     * @param Model   $model
+     * @param string  $route
      * @return JsonResponse|RedirectResponse
      */
     public function update(Request $request, Model $model, string $route)
@@ -120,14 +120,15 @@ trait CrudService
         $result = $model->fill($request->all())->save();
         if ($request->ajax()) {
             $fields = $this->getFields();
+            $customData = [];
             foreach ($fields as $k => $v) {
                 if (!empty($v['show_in_table']) && !empty($v['callback'])) {
-                    $model->$k = $v['callback']($model);
+                    $customData[$k] = $v['callback']($model);
                 }
             }
             return response()->json([
-                'result' => $result,
-                'model'  => $model->getDirty(),
+                'result'  => $result,
+                'model'   => array_merge($model->getChanges(), $customData),
                 'message' => 'Row was updated',
             ]);
         }

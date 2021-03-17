@@ -69,7 +69,9 @@
             @case('code_mirror')
             var editor = CodeMirror.fromTextArea(document.getElementById('<?=$id?>'), {
                 lineNumbers: true,
-                // theme:"darcula",
+                matchBrackets: true,
+                autoRefresh: true,
+                theme:"darcula"
             });
             @break
             @endswitch

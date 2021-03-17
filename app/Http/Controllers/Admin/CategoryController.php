@@ -66,7 +66,7 @@ class CategoryController extends Controller
 
     public function update(StoreCategory $request, Category $category)
     {
-        return $this->crudUpdate($this->mergeStatus($request), $category, 'config_list');
+        return $this->crudUpdate($this->mergeStatus($request), $category, 'category_list');
     }
 
     /**

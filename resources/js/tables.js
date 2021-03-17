@@ -9,7 +9,7 @@ $(document).ready(function () {
     formEdit = (el, response, onSuccess = null) => {
         var modal = $('#modal');
         var form = $(response.form).on('submit', function (e) {
-            var form = $(this);
+            var form = $(this).find('form');
             var formData = form.serializeArray();
             var options = {
                 method: form.attr('method'),
