@@ -7,11 +7,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInfo;
 use App\Models\Category;
 use App\Models\Info;
+use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class InfoController extends Controller
 {
+    /**
+     * @var CategoryRepository
+     */
+    private $repository;
+
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->repository = $categoryRepository;
+    }
+
     use CrudService {
         CrudService::index as crudIndex;
         CrudService::show as crudShow;
@@ -50,7 +61,7 @@ class InfoController extends Controller
                 'show_in_table' => false,
                 'type'          => 'option',
                 'values'        => function () {
-                    return Category::all()->pluck('name', 'id');
+                    return $this->repository->getCategoryForHtmlOption();
                 },
                 'trans'         => 'Category ID',
             ],

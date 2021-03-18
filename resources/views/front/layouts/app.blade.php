@@ -13,7 +13,7 @@
 <div class="wrapper d-flex align-items-stretch">
     @section('sidebar')
         <x-side-bar/>
-@show
+    @show
 
 <!-- Page Content  -->
     <div id="content" class="p-4 p-md-5">

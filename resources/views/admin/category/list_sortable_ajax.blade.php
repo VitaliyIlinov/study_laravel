@@ -1,1 +1,1 @@
-<x-category :fields="$fields" :rows="$rows" crudAjax="true"/>
+<x-category :fields="$fields" :rows="$rows" :crudAjax="$crudAjax"/>

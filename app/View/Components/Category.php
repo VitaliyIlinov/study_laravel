@@ -2,50 +2,29 @@
 
 namespace App\View\Components;
 
+use App\Repositories\CategoryRepository;
+use Illuminate\Database\Eloquent\Collection;
+
 class Category extends TableList
 {
     /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\View\View|string
+     * @var CategoryRepository
      */
+    private $repository;
+
+    public function __construct(CategoryRepository $repository, array $fields, Collection $rows, bool $crudAjax = false)
+    {
+        $this->repository = $repository;
+        parent::__construct($fields, $rows, $crudAjax);
+    }
+
     public function render()
     {
         return view('components.category');
     }
 
-    public function tree($dataset)
+    public function getMenu()
     {
-        $tree = $this->getTree($dataset);
-
-        $this->sort($tree);
-
-        return $tree;
-    }
-
-    private function getTree($dataset): array
-    {
-        $tree = [];
-
-        $dataset = $dataset->toArray();
-        foreach ($dataset as $id => &$node) {
-            if (!$node['parent_id']) {
-                $tree[$id] = &$node;
-            } else {
-                $dataset[$node['parent_id']]['childs'][$id] = &$node;
-                $this->sort($dataset[$node['parent_id']]['childs']);
-            }
-        }
-        return $tree;
-    }
-
-    private function sort(&$tree)
-    {
-        uasort($tree, function ($a, $b) {
-            if ($a['sort'] == $b['sort']) {
-                return 0;
-            }
-            return ($a['sort'] < $b['sort']) ? -1 : 1;
-        });
+        return $this->repository->getSortTree($this->getRows());
     }
 }

@@ -12,28 +12,29 @@ class TableList extends Component
     /**
      * @var array
      */
-    public $fields;
+    protected $fields;
 
     /**
-     * @var array
+     * @var Collection
      */
-    public $rows;
+    protected $rows;
 
     /**
      * @var bool
      */
-    private $crudAjax;
+    protected $crudAjax;
 
     /**
      * @var string|null
      */
-    private $currentPrefix;
+    protected $currentPrefix;
 
     /**
      * Create a new component instance.
      *
      * @param array      $fields
      * @param Collection $rows
+     * @param bool       $crudAjax
      */
     public function __construct(array $fields, Collection $rows, bool $crudAjax = false)
     {
@@ -51,12 +52,38 @@ class TableList extends Component
     public function render()
     {
         return view('components.table-list');
+
+    }
+
+    public function getFields(): array
+    {
+        return $this->fields;
+    }
+
+    public function getRows(): Collection
+    {
+        return $this->rows;
     }
 
     public function getLink(...$args)
     {
         $args = implode(DIRECTORY_SEPARATOR, $args);
         return DIRECTORY_SEPARATOR . $this->currentPrefix . DIRECTORY_SEPARATOR . $args;
+    }
+
+    public function buildCreateButton($iClass = 'fas fa-lg fa-plus')
+    {
+        return $this->generateButton($this->getLink('create'), 'get', $iClass, 'createRow', $this->crudAjax);
+    }
+
+    public function buildEditButton(int $id, $iClass = 'far fa-edit')
+    {
+        return $this->generateButton($this->getLink('edit', $id), 'get', $iClass, 'saveRow', $this->crudAjax);
+    }
+
+    public function buildDeleteButton(int $id, $iClass = 'fas fa-trash')
+    {
+        return $this->generateButton($this->getLink($id), 'delete', $iClass, 'deleteRow', true);
     }
 
     private function generateButton(
@@ -74,20 +101,5 @@ class TableList extends Component
                 ':class'     => 'btn p-1',
                 ':iClass'    => $iClass,
             ]);
-    }
-
-    public function buildCreateButton($iClass = 'fas fa-lg fa-plus')
-    {
-        return $this->generateButton($this->getLink('create'), 'get', $iClass, 'createRow', $this->crudAjax);
-    }
-
-    public function buildEditButton(int $id, $iClass = 'far fa-edit')
-    {
-        return $this->generateButton($this->getLink('edit', $id), 'get', $iClass, 'saveRow', $this->crudAjax);
-    }
-
-    public function buildDeleteButton(int $id, $iClass = 'fas fa-trash')
-    {
-        return $this->generateButton($this->getLink($id), 'delete', $iClass, 'deleteRow', true);
     }
 }

@@ -1,6 +1,6 @@
 <div class="col-11">
     <ul id="sortable-items" class="list-group nested-sortable" data-id="0">
-        @include('admin.category.child_category',['categories'=>$tree($rows)])
+        @include('admin.category.child_category',['categories'=>$getMenu()])
     </ul>
 </div>
 <div class="col-1 position-relative">
