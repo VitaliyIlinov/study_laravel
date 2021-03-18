@@ -13,7 +13,7 @@
         </thead>
         <tbody>
         @foreach ($getRows() as $row)
-            <tr data-id={{$row->id}}>
+            <tr data-id={{$row->id}} @isset($row->status) data-status={{$row->status}} @endisset>
                 @foreach ($getFields()  as $name => $field)
                     @continue(empty($field['show_in_table']))
                     <td data-name="{{$name}}">

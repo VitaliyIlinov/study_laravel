@@ -40,15 +40,15 @@ main{
 .fa-trash:hover{
     color: $red;
 }
-
+[data-status="0"] {
+    background-color: $grey;
+}
 #sortable-items {
 
     li.list-group-item{
         padding-right: 0;
         border: 1px solid rgb(0 0 0 / 8%);
-        &[data-status="0"] {
-            background-color: #dad9d9b0;;
-        }
+
         .sortable-ghost {
             opacity: .5;
             background: #C8EBFB;

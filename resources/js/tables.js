@@ -5,51 +5,7 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     })
-
-    formEdit = (el, response, onSuccess = null) => {
-        var modal = $('#modal');
-        var form = $(response.form).on('submit', function (e) {
-            var form = $(this).find('form');
-            var formData = form.serializeArray();
-            var options = {
-                method: form.attr('method'),
-                url: form.attr('action'),
-                data: formData,
-                success: function (data) {
-                    if (onSuccess !== null) {
-                        onSuccess(data);
-                    } else {
-                        toastr.success(data);
-                    }
-                },
-                error: function (e) {
-                    toastr.error(e.responseJSON.message);
-                }
-            };
-            modal.modal('hide');
-            e.preventDefault();
-            ajaxSend(options);
-        });
-        modal.find('.modal-body').html(form);
-        modal.modal();
-    }
-
-    ajaxSend = (data) => {
-        var options = $.extend(true, {
-            dataType: 'json',
-            method: 'post',
-            url: '',
-            data: {},
-            success: function (data) {
-                toastr.success(data);
-            },
-            error: function (e) {
-                toastr.error(e.responseJSON.message);
-            }
-        }, data);
-
-        $.ajax(options);
-    }
+    toastr.options.timeOut = 1500;
 
     $('.content-wrapper').on('click', '.btn[data-href]', function (e) {
         //edit,delete,create
@@ -84,7 +40,7 @@ $(document).ready(function () {
                 $this.addClass('active');
                 history.pushState(null, data.title, $this.attr('href'));
             },
-            error: function (jqXHR, textStatus,errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 var msg = '';
                 if (jqXHR.status === 0) {
                     msg = 'Not connect.\n Verify Network.';
@@ -106,17 +62,62 @@ $(document).ready(function () {
         });
     });
 
-    animateCSS = (element, animation, prefix = 'animate__') => {
-        const animationName = `${prefix}${animation}`;
-
-        element.addClass(`${prefix}animated ${animationName}`);
-
-        element.on("animationend", function () {
-            element.removeClass(`${prefix}animated ${animationName}`);
-        })
-    };
 });
 
+animateCSS = (element, animation, prefix = 'animate__') => {
+    const animationName = `${prefix}${animation}`;
+
+    element.addClass(`${prefix}animated ${animationName}`);
+
+    element.on("animationend", function () {
+        element.removeClass(`${prefix}animated ${animationName}`);
+    })
+};
+
+formEdit = (el, response, onSuccess = null) => {
+    var modal = $('#modal');
+    var form = $(response.form).on('submit', function (e) {
+        var form = $(this).find('form');
+        var formData = form.serializeArray();
+        var options = {
+            method: form.attr('method'),
+            url: form.attr('action'),
+            data: formData,
+            success: function (data) {
+                if (onSuccess !== null) {
+                    onSuccess(data);
+                } else {
+                    toastr.success(data);
+                }
+            },
+            error: function (e) {
+                toastr.error(e.responseJSON.message);
+            }
+        };
+        modal.modal('hide');
+        e.preventDefault();
+        ajaxSend(options);
+    });
+    modal.find('.modal-body').html(form);
+    modal.modal();
+}
+
+ajaxSend = (data) => {
+    var options = $.extend(true, {
+        dataType: 'json',
+        method: 'post',
+        url: '',
+        data: {},
+        success: function (data) {
+            toastr.success(data);
+        },
+        error: function (e) {
+            toastr.error(e.responseJSON.message, 'Error', {timeOut: 3500});
+        }
+    }, data);
+
+    $.ajax(options);
+}
 
 deleteRow = (el, response) => {
     el.closest('[data-id]').fadeOut(500, function () {

@@ -75,7 +75,7 @@ class InfoController extends Controller
                 },
             ],
             'status'        => [
-                'show_in_table' => true,
+                'show_in_table' => false,
                 'type'          => 'checkbox',
                 'trans'         => 'status',
             ],

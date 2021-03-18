@@ -1,11 +1,11 @@
 @extends('front.layouts.app')
 
-@section('title', $result->title)
+@section('title', $model->title)
 
 @section('content')
-    <h2 class="mb-4">{!! $result->title !!}</h2>
+    <h2 class="mb-4">{!! $model->title !!}</h2>
     <div>
-        {!! $result->text !!}
+        {!! $model->text !!}
     </div>
     <script>hljs.initHighlightingOnLoad();</script>
 @endsection

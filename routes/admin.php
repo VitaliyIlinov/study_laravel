@@ -43,6 +43,11 @@ Route::prefix('config')->group(function (Router $router) {
     $router->post('/create', 'ConfigController@store');
     $router->delete('/{config}', 'ConfigController@destroy');
 });
+Route::prefix('session')->group(function (Router $router) {
+    $router->get('/edit', 'SessionController@get');
+    $router->post('/edit', 'SessionController@set')->name('session_set');
+    $router->delete('/', 'SessionController@destroy');
+});
 Route::prefix('todo')->group(function (Router $router) {
     $router->get('/', 'TodoListController@index')->name('todo_list');
     $router->get('/edit/{todoList}', 'TodoListController@show');

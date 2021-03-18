@@ -199,7 +199,7 @@
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
         <!-- Control sidebar content goes here -->
-        <div class="p-3">
+        <div class="p-3" id="sidebar_config">
             @include('admin.lte.side-bar-right-lte')
         </div>
     </aside>
