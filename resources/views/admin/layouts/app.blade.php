@@ -82,7 +82,6 @@
 </div>
 <!-- Scripts -->
 <script src="{{ asset('js/admin.js') }}"></script>
-<script src="/ckeditor5/build/ckeditor.js"></script>
 @stack('scripts')
 </body>
 </html>

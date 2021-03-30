@@ -12,7 +12,6 @@
 
     <!-- REQUIRED SCRIPTS -->
     <script src="{{ asset('js/admin.js') }}"></script>
-    <script src="/ckeditor5/build/ckeditor.js"></script>
 
 </head>
 <body class="hold-transition sidebar-mini">

@@ -1,0 +1,25 @@
+window.FroalaEditor = require('froala-editor');
+require('froala-editor/js/plugins/align.min');
+require('froala-editor/js/plugins/char_counter.min');
+require('froala-editor/js/plugins/image.min');
+require('froala-editor/js/plugins/image_manager.min');
+require('froala-editor/js/plugins/code_view.min');
+require('froala-editor/js/plugins/code_beautifier.min');
+require('froala-editor/js/plugins/colors.min');
+require('froala-editor/js/plugins/font_family.min');
+require('froala-editor/js/plugins/font_size.min');
+require('froala-editor/js/plugins/line_height.min');
+require('froala-editor/js/plugins/link.min');
+require('froala-editor/js/plugins/lists.min');
+require('froala-editor/js/plugins/paragraph_format.min');
+require('froala-editor/js/plugins/paragraph_style.min');
+require('froala-editor/js/plugins/print.min');
+require('froala-editor/js/plugins/special_characters.min');
+require('froala-editor/js/plugins/table.min');
+require('froala-editor/js/plugins/url.min');
+require('froala-editor/js/plugins/video.min');
+require('froala-editor/js/plugins/word_paste.min');
+require('froala-editor/js/plugins/forms.min');
+require('froala-editor/js/plugins/fullscreen.min');
+require('froala-editor/js/languages/ru');
+

@@ -9,7 +9,7 @@ class SessionConfigs implements SessionConfigsInterface
 {
 
     public const AVAILABLE_KEYS = [
-        'editor' => ['ck_editor', 'code_mirror', 'default'],
+        'editor' => ['froala_editor', 'code_mirror', 'default'],
     ];
 
     /**

@@ -26,9 +26,7 @@
                 @include('helpers.editor', ['id' => $name])
             @endif
         @endforeach
-        <button onclick="if(typeof(editor) != 'undefined') editor.updateSourceElement();" type="submit"
-                class="btn btn-primary">Submit
-        </button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 

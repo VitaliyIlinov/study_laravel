@@ -4,7 +4,7 @@
     <div id="sidebar_config_editor">
         <div class="mb-1">
             <input type="radio" class="mr-1" value="ck_editor" name="editor">
-            <a target="_blank" href="https://ckeditor.com/">Ck editor</a>
+            <a target="_blank" href="https://froala.com/">Froala Editor</a>
         </div>
         <div class="mb-1">
             <input type="radio" class="mr-1" value="code_mirror" name="editor">
