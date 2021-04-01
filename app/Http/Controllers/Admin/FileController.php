@@ -31,6 +31,6 @@ class FileController extends Controller
         $filePath = $request->get('filePath');
         Storage::delete('public' . $filePath);
         File::query()->where('file_path', $filePath)->delete();
-        return response()->json(['message' => 'success']);
+        return response()->json('success');
     }
 }
