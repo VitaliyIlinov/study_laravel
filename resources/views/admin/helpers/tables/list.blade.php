@@ -3,5 +3,5 @@
 @section('title', $title ??' Table List')
 
 @section('content')
-    @include('helpers.tables.list_ajax')
+    @include('admin.helpers.tables.list_ajax')
 @endsection

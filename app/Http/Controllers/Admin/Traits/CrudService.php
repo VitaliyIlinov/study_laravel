@@ -23,7 +23,7 @@ trait CrudService
      * @param string      $view
      * @return mixed
      */
-    public function index(Collection $rows, ?string $title = null, string $view = 'helpers.tables.list')
+    public function index(Collection $rows, ?string $title = null, string $view = 'admin.helpers.tables.list')
     {
         $data = [
             'fields'   => $this->getFields(),
@@ -52,12 +52,12 @@ trait CrudService
     {
         if ($request->ajax()) {
             return response()->json([
-                'form' => view('helpers.forms.ajax_form', [
+                'form' => view('admin.helpers.forms.ajax_form', [
                     'fields' => $this->getFields(),
                 ])->render(),
             ]);
         }
-        return view('helpers.forms.form', [
+        return view('admin.helpers.forms.form', [
             'fields' => $this->getFields(),
         ]);
     }
@@ -74,13 +74,13 @@ trait CrudService
     {
         if ($request->ajax()) {
             return response()->json([
-                'form' => view('helpers.forms.ajax_form', [
+                'form' => view('admin.helpers.forms.ajax_form', [
                     'row'    => $model,
                     'fields' => $this->getFields(),
                 ])->render(),
             ]);
         }
-        return view('helpers.forms.form', [
+        return view('admin.helpers.forms.form', [
             'row'    => $model,
             'fields' => $this->getFields(),
         ]);

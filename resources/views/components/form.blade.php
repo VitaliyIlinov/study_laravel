@@ -23,7 +23,7 @@
                     {!! $buildLabel($name) !!}
                     {!! $buildTextarea($name) !!}
                 </div>
-                @include('helpers.editor', ['id' => $name])
+                @include('admin.helpers.editor', ['id' => $name])
             @endif
         @endforeach
         <button type="submit" class="btn btn-primary">Submit</button>

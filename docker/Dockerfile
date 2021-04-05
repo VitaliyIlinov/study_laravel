@@ -13,7 +13,11 @@ ARG USER_ID
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 
 # Install extensions by docker-php-ext-install.
-RUN install-php-extensions pdo_mysql xdebug
+RUN install-php-extensions pdo_mysql \
+    gd \
+    imagick \
+    zip \
+    xdebug
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \

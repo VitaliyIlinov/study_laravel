@@ -17,7 +17,7 @@ class FileController extends Controller
         $path = Str::afterLast($request->get('location_path'), '/');
 
         $fileName = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
-        $filePath = DIRECTORY_SEPARATOR . $file->storeAs("images/{$path}", $fileName, 'public');
+        $filePath = DIRECTORY_SEPARATOR . $file->storeAs("images/{$path}", $fileName);
 
         FileUploaded::dispatch($file, $filePath, $fileName);
 

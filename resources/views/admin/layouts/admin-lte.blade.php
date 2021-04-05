@@ -159,8 +159,13 @@
                     <a href="#" class="d-block">Alexander Pierce</a>
                 </div>
             </div>
-            @include('admin.lte.side-bar-lte')
-
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview"
+                    data-accordion="false">
+                    @include('admin.helpers.sidebar_menu')
+                </ul>
+            </nav>
         </div>
         <!-- /.sidebar -->
     </aside>
@@ -219,6 +224,6 @@
 <!-- ./wrapper -->
 
 @stack('scripts')
-@include('helpers.modal')
+@include('admin.helpers.modal')
 </body>
 </html>
