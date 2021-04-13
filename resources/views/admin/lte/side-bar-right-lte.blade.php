@@ -3,7 +3,7 @@
 <div class="d-flex flex-wrap mb-3">
     <div id="sidebar_config_editor">
         <div class="mb-1">
-            <input type="radio" class="mr-1" value="ck_editor" name="editor">
+            <input type="radio" class="mr-1" value="summernote_editor" name="editor">
             <a target="_blank" href="https://summernote.org/">Summernote Editor</a>
         </div>
         <div class="mb-1">
@@ -18,7 +18,7 @@
 </div>
 <script>
 
-    $('input[name="editor"][value="{{session('editor','ck_editor')}}"]').prop("checked", true);
+    $('input[name="editor"][value="{{session('editor','summernote_editor')}}"]').prop("checked", true);
 
     $('#sidebar_config')
         .on('change', 'input[name="editor"]', function () {
