@@ -29,7 +29,7 @@ class TodoListController extends Controller
             ],
             'description' => [
                 'trans' => 'description',
-                'type'  => 'text',
+                'type'  => 'textarea',
             ],
             'label'       => [
                 'trans' => 'label',

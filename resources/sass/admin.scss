@@ -26,33 +26,32 @@
 
 @import "~summernote/dist/summernote-bs4.min.css";
 
-/*froala for image edit popup */
-.fr-popup{
-    z-index: 1056 !important;
-}
+@import "~datatables.net-bs4";
 
-main{
+
+main {
     background-color: #efeff6;
 }
-.ck-editor__editable {
-    min-height: 400px;
-    /*max-height: 500px;*/
-}
-.fa-edit,.fa-trash,.fa-plus{
+
+.fa-edit, .fa-trash, .fa-plus {
     transition: color 0.1s;
 }
-.fa-edit:hover, .fa-plus:hover{
+
+.fa-edit:hover, .fa-plus:hover {
     color: $green;
 }
-.fa-trash:hover{
+
+.fa-trash:hover {
     color: $red;
 }
+
 [data-status="0"] {
     background-color: $grey;
 }
+
 #sortable-items {
 
-    li.list-group-item{
+    li.list-group-item {
         padding-right: 0;
         border: 1px solid rgb(0 0 0 / 8%);
 
@@ -66,13 +65,32 @@ main{
 
         .sortable-drag {
         }
-        span.badge{
+
+        span.badge {
             position: absolute;
             right: 10px;
             top: 0;
-            &[data-name="updated_at"]{
+
+            &[data-name="updated_at"] {
                 right: 100px;
                 top: 15px
+            }
+        }
+    }
+}
+
+//datatable
+table.dataTable {
+
+    thead {
+
+        th {
+            vertical-align: text-top;
+        }
+
+        .sorting {
+            &:before, &:after {
+                top: 5%;
             }
         }
     }

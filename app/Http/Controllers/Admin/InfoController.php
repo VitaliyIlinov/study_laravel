@@ -45,15 +45,17 @@ class InfoController extends Controller
                 'trans'         => 'Id',
             ],
             'title'         => [
-                'show_in_table' => true,
-                'type'          => 'text',
-                'trans'         => 'Title',
+                'show_in_table'     => true,
+                'show_table_filter' => true,
+                'type'              => 'text',
+                'trans'             => 'Title',
             ],
             'text'          => [
-                'show_in_table' => true,
-                'trans'         => 'Text',
-                'type'          => 'textarea',
-                'callback'      => function (Info $info) {
+                'show_in_table'     => true,
+                'show_table_filter' => 'input',
+                'trans'             => 'Text',
+                'type'              => 'textarea',
+                'callback'          => function (Info $info) {
                     return $this->textFormatter($info->text);
                 },
             ],
@@ -66,9 +68,10 @@ class InfoController extends Controller
                 'trans'         => 'Category ID',
             ],
             'category_name' => [
-                'show_in_table' => true,
-                'trans'         => 'Category name',
-                'callback'      => function (Info $info) {
+                'show_in_table'     => true,
+                'show_table_filter' => 'select',
+                'trans'             => 'Category name',
+                'callback'          => function (Info $info) {
                     static $category;
                     $category = $category ?? Category::all()->keyBy('id');
                     return $category[$info->category_id]->name;
@@ -125,6 +128,6 @@ class InfoController extends Controller
 
     private function textFormatter(string $text): string
     {
-        return Str::limit($text, 200);
+        return Str::limit($text, 150);
     }
 }

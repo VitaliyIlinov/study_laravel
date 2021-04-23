@@ -160,7 +160,7 @@
                 </div>
             </div>
             <!-- Sidebar Menu -->
-            <nav class="mt-2">
+            <nav id="sidebar" class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview"
                     data-accordion="false">
                     @include('admin.helpers.sidebar_menu')

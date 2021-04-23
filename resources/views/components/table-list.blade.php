@@ -1,10 +1,10 @@
 <div class="table-responsive">
-    <table class="table table-bordered table-hover text-center">
+    <table id="dataTable" class="table table-bordered table-hover text-center">
         <thead>
         <tr>
             @foreach ($getFields() as $name => $field)
                 @continue(empty($field['show_in_table']))
-                <th>{{$field['trans']??$name}}</th>
+                <th class="{{ $field['show_table_filter']??''}}">{{$field['trans']??$name}}</th>
             @endforeach
             <th style="min-width: 80px">
                 {!! $buildCreateButton() !!}

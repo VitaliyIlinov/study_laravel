@@ -24,21 +24,53 @@ $(document).ready(function () {
         ajaxSend(options);
     });
 
-    $('[data-widget] a[href!="#"]').on('click', function (e) {
+    var ob = {
+        data: {},
+        success: function (key, onsuccess) {
+
+            if (onsuccess && $.isFunction(onsuccess)) {
+                onsuccess(this.get(key));
+            }
+        },
+
+        set: function (key, data) {
+            this.data[key] = data;
+        },
+        get: function (key) {
+            return this.data[key];
+        },
+        isExist: function (key) {
+            return this.data[key] !== undefined;
+        },
+
+    };
+
+    $('[data-widget="treeview"] a[href!="#"]').on('click', function (e) {
         e.preventDefault();
         var $this = $(this);
+        var $href = $this.attr('href');
         if ($this.hasClass('active')) {
+            return;
+        }
+        var onsuccess = function(data){
+            animateCSS($('[data-render="title"]').html(data.title), 'fadeIn');
+            animateCSS($('[data-render="content"]').html(data.content), 'fadeIn');
+            dataTable('dataTable');
+            $this.closest('ul').find('.nav-link.active').removeClass('active');
+            $this.addClass('active');
+            window.history.pushState(null, data.title, $href);
+        };
+
+        if (ob.isExist($href)) {
+            ob.success($href, onsuccess);
             return;
         }
         ajaxSend({
             method: 'get',
-            url: $this.attr('href'),
+            url: $href,
             success: function (data) {
-                animateCSS($('[data-render="title"]').html(data.title), 'fadeIn');
-                animateCSS($('[data-render="content"]').html(data.content), 'fadeIn');
-                $this.closest('ul').find('.nav-link.active').removeClass('active');
-                $this.addClass('active');
-                history.pushState(null, data.title, $this.attr('href'));
+                ob.set($href, data);
+                ob.success($href, onsuccess);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 var msg = '';
@@ -62,7 +94,52 @@ $(document).ready(function () {
         });
     });
 
+    dataTable();
+
+    $('#sidebar a[href="' + location.href + '"]').addClass('active');
 });
+
+dataTable = (id) => {
+    $('#dataTable thead th.input').each(function () {
+        var title = $(this).text();
+        $(this).html(title + '<br><input type="text" placeholder="Search ' + title + '" />');
+    });
+    $('#dataTable').DataTable({
+        initComplete: function () {
+            this.api().columns('.select').every(function () {
+                var column = this;
+
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo($(column.header()))
+                    .on('change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+
+                        column
+                            .search(val ? '^' + val + '$' : '', true, false)
+                            .draw();
+                    });
+
+                column.data().unique().sort().each(function (d, j) {
+                    select.append('<option value="' + d + '">' + d + '</option>')
+                });
+            });
+
+            this.api().columns('.input').every(function () {
+                var that = this;
+
+                $('input', this.header()).on('keyup change clear', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                }).on('click', function (e) {
+                    e.stopPropagation();
+                });
+            });
+        }
+    });
+}
 
 animateCSS = (element, animation, prefix = 'animate__') => {
     const animationName = `${prefix}${animation}`;
