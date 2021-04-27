@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\Traits\CrudService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategory;
 use App\Models\Category;
+use App\Models\Info;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -46,7 +49,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return $this->crudIndex(Category::all()->keyBy('id'), 'Category List', 'admin.category.list_sortable');
+        $cat = Category::with([
+            'info' => function (HasMany $query) {
+                $query->orderBy('sort');
+            },
+        ])->get()->keyBy('id');
+        return $this->crudIndex($cat, 'Category List', 'admin.category.list_sortable');
     }
 
     public function create(Request $request)

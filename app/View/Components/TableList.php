@@ -76,14 +76,16 @@ class TableList extends Component
         return $this->generateButton($this->getLink('create'), 'get', $iClass, 'createRow', $this->crudAjax);
     }
 
-    public function buildEditButton(int $id, $iClass = 'far fa-edit')
+    public function buildEditButton($id, $iClass = 'far fa-edit')
     {
-        return $this->generateButton($this->getLink('edit', $id), 'get', $iClass, 'saveRow', $this->crudAjax);
+        $link = is_string($id) ?$id: $this->getLink('edit', $id);
+        return $this->generateButton($link, 'get', $iClass, 'saveRow', $this->crudAjax);
     }
 
-    public function buildDeleteButton(int $id, $iClass = 'fas fa-trash')
+    public function buildDeleteButton($id, $iClass = 'fas fa-trash')
     {
-        return $this->generateButton($this->getLink($id), 'delete', $iClass, 'deleteRow', true);
+        $link = is_string($id) ?$id: $this->getLink($id);
+        return $this->generateButton($link, 'delete', $iClass, 'deleteRow', true);
     }
 
     private function generateButton(

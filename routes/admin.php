@@ -64,3 +64,6 @@ Route::prefix('file')->group(function (Router $router) {
     $router->post('/store', 'FileController@store')->name('fileUpload');
     $router->delete('/delete', 'FileController@delete')->name('fileDelete');
 });
+Route::prefix('test')->group(function (Router $router) {
+    $router->get('/', 'TestController@index')->name('test');
+});

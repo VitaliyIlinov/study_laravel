@@ -58,7 +58,8 @@ $(document).ready(function () {
             dataTable('dataTable');
             $this.closest('ul').find('.nav-link.active').removeClass('active');
             $this.addClass('active');
-            window.history.pushState(null, data.title, $href);
+
+            window.history.pushState({ href: $href }, data.title, $href);
         };
 
         if (ob.isExist($href)) {
@@ -102,14 +103,14 @@ $(document).ready(function () {
 dataTable = (id) => {
     $('#dataTable thead th.input').each(function () {
         var title = $(this).text();
-        $(this).html(title + '<br><input type="text" placeholder="Search ' + title + '" />');
+        $(this).html(title + '<br><input class="form-control" type="text" placeholder="Search ' + title + '" />');
     });
     $('#dataTable').DataTable({
         initComplete: function () {
             this.api().columns('.select').every(function () {
                 var column = this;
 
-                var select = $('<select><option value=""></option></select>')
+                var select = $('<select style="width: initial;" class="form-control"><option value=""></option></select>')
                     .appendTo($(column.header()))
                     .on('change', function () {
                         var val = $.fn.dataTable.util.escapeRegex(
@@ -211,7 +212,7 @@ saveRow = (el, response) => {
             return;
         }
         for (var key in model) {
-            main_el.find('[data-name=' + key + ']').html(model[key]);
+            main_el.find('[data-name=' + key + ']').text(model[key]);
             if (key === 'status') {
                 main_el.attr('data-status', model[key])
             }

@@ -83,7 +83,7 @@ class InfoController extends Controller
                 'trans'         => 'status',
             ],
             'sort'          => [
-                'show_in_table' => false,
+                'show_in_table' => true,
                 'type'          => 'number',
             ],
             'updated_at'    => [
