@@ -44,6 +44,23 @@ class InfoController extends Controller
                 'show_in_table' => true,
                 'trans'         => 'Id',
             ],
+            'status'        => [
+                'show_in_table' => false,
+                'type'          => 'checkbox',
+                'trans'         => 'status',
+            ],
+            'sort'          => [
+                'show_in_table' => true,
+                'type'          => 'number',
+            ],
+            'category_id'   => [
+                'show_in_table' => false,
+                'type'          => 'option',
+                'values'        => function () {
+                    return $this->repository->getCategoryForHtmlOption();
+                },
+                'trans'         => 'Category ID',
+            ],
             'title'         => [
                 'show_in_table'     => true,
                 'show_table_filter' => true,
@@ -59,14 +76,6 @@ class InfoController extends Controller
                     return $this->textFormatter($info->text);
                 },
             ],
-            'category_id'   => [
-                'show_in_table' => false,
-                'type'          => 'option',
-                'values'        => function () {
-                    return $this->repository->getCategoryForHtmlOption();
-                },
-                'trans'         => 'Category ID',
-            ],
             'category_name' => [
                 'show_in_table'     => true,
                 'show_table_filter' => 'select',
@@ -76,15 +85,6 @@ class InfoController extends Controller
                     $category = $category ?? Category::all()->keyBy('id');
                     return $category[$info->category_id]->name;
                 },
-            ],
-            'status'        => [
-                'show_in_table' => false,
-                'type'          => 'checkbox',
-                'trans'         => 'status',
-            ],
-            'sort'          => [
-                'show_in_table' => true,
-                'type'          => 'number',
             ],
             'updated_at'    => [
                 'show_in_table' => true,

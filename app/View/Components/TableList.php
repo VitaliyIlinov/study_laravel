@@ -71,9 +71,10 @@ class TableList extends Component
         return DIRECTORY_SEPARATOR . $this->currentPrefix . DIRECTORY_SEPARATOR . $args;
     }
 
-    public function buildCreateButton($iClass = 'fas fa-lg fa-plus')
+    public function buildCreateButton(?string $link = null, $iClass = 'fas fa-lg fa-plus')
     {
-        return $this->generateButton($this->getLink('create'), 'get', $iClass, 'createRow', $this->crudAjax);
+        $link = is_string($link) ?$link: $this->getLink('create');
+        return $this->generateButton($link, 'get', $iClass, 'createRow', $this->crudAjax);
     }
 
     public function buildEditButton($id, $iClass = 'far fa-edit')

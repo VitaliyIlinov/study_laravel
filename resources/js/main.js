@@ -101,11 +101,21 @@ $(document).ready(function () {
 });
 
 dataTable = (id) => {
+    $.urlParam = function(name){
+        var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (!results)
+        {
+            return 0;
+        }
+        return results[1] || 0;
+    }
+
     $('#dataTable thead th.input').each(function () {
         var title = $(this).text();
         $(this).html(title + '<br><input class="form-control" type="text" placeholder="Search ' + title + '" />');
     });
     $('#dataTable').DataTable({
+        "oSearch": {"sSearch": $.urlParam('search')},
         initComplete: function () {
             this.api().columns('.select').every(function () {
                 var column = this;

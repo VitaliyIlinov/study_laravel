@@ -1,26 +1,17 @@
 @foreach ($categories as $category)
     <li class='list-group-item' data-status={{$category['status']}} data-id={{$category['id']}}>
         <i role="button" class="fas fa-arrows-alt handle"></i>
-        <span data-name="name">{{$category['name']}}</span>
+        <span data-name="name">
+            <a style="color: #212529;text-decoration: underline" target="_blank" href="{{route('info_list', ['search' => $category['name']])}}">
+                {{$category['name']}}
+            </a>
+        </span>
         <span class="badge badge-primary" data-name="updated_at">{{$category['updated_at']}}</span>
         <span class="badge">
+            {!! $category['info_count'] !!}
             {!! $buildEditButton($category['id']) !!}
             {!! $buildDeleteButton($category['id']) !!}
         </span>
-        <ul class="nested-sortable"></ul>
-        @isset($category['info'])
-            <ul class='nested-sortable infos d-none'>
-                @foreach ($category['info'] as $info)
-                    <li class='list-group-item ' data-status={{$info['status']}} data-id={{$info['id']}}>
-                        <i class="far fa-file handle"></i>
-                        {{$info['title']}}
-                        {!! $buildEditButton("/admin/info/edit/{$info['id']}") !!}
-                        {!! $buildDeleteButton("/admin/info/{$info['id']}") !!}
-                    </li>
-
-                @endforeach
-            </ul>
-        @endisset
         @isset($category['childs'])
             <ul class='nested-sortable'>
                 @include('admin.category.child_category',['categories'=>$category['childs']])
