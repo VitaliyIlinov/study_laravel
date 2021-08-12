@@ -45,7 +45,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
     ports:
-      - 3307:3306
+      - "3307:3306"
     volumes:
       - ./storage/mysql:/var/lib/mysql
       - ./storage/logs/mysql:/var/log/mysql
@@ -58,7 +58,7 @@ services:
     container_name: adminer
     restart: always
     ports:
-      - 8080:8080
+      - "8080:8080"
     networks:
       - app-network
 

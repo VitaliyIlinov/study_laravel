@@ -7,6 +7,9 @@ $(document).ready(function () {
     })
     toastr.options.timeOut = 1500;
 
+    $('#sidebar a[href="' + location.href + '"]').addClass('active');
+    dataTable();
+
     $('.content-wrapper').on('click', '.btn[data-href]', function (e) {
         //edit,delete,create
         e.preventDefault();
@@ -45,7 +48,7 @@ $(document).ready(function () {
 
     };
 
-    $('[data-widget="treeview"] a[href!="#"]').on('click', function (e) {
+    $('#sidebar [data-widget="treeview"] a[href!="#"]').on('click', function (e) {
         e.preventDefault();
         var $this = $(this);
         var $href = $this.attr('href');
@@ -55,7 +58,7 @@ $(document).ready(function () {
         var onsuccess = function(data){
             animateCSS($('[data-render="title"]').html(data.title), 'fadeIn');
             animateCSS($('[data-render="content"]').html(data.content), 'fadeIn');
-            dataTable('dataTable');
+            dataTable();
             $this.closest('ul').find('.nav-link.active').removeClass('active');
             $this.addClass('active');
 
@@ -74,12 +77,12 @@ $(document).ready(function () {
                 ob.success($href, onsuccess);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                var msg = '';
+                let msg = '';
                 if (jqXHR.status === 0) {
                     msg = 'Not connect.\n Verify Network.';
-                } else if (jqXHR.status == 404) {
+                } else if (jqXHR.status === 404) {
                     msg = 'Requested page not found. [404]';
-                } else if (jqXHR.status == 500) {
+                } else if (jqXHR.status === 500) {
                     msg = 'Internal Server Error [500].';
                 } else if (textStatus === 'parsererror') {
                     msg = 'Requested JSON parse failed.';
@@ -95,19 +98,16 @@ $(document).ready(function () {
         });
     });
 
-    dataTable();
-
-    $('#sidebar a[href="' + location.href + '"]').addClass('active');
 });
 
-dataTable = (id) => {
+dataTable = (id ='dataTable') => {
     $.urlParam = function(name){
         var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
         if (!results)
         {
-            return 0;
+            return '';
         }
-        return results[1] || 0;
+        return results[1] || '';
     }
 
     $('#dataTable thead th.input').each(function () {
@@ -115,7 +115,9 @@ dataTable = (id) => {
         $(this).html(title + '<br><input class="form-control" type="text" placeholder="Search ' + title + '" />');
     });
     $('#dataTable').DataTable({
-        "oSearch": {"sSearch": $.urlParam('search')},
+        "search": {
+            "search": $.urlParam('search')
+        },
         initComplete: function () {
             this.api().columns('.select').every(function () {
                 var column = this;
