@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Traits\CrudService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ConfigRequest;
 use App\Models\Config;
 use Illuminate\Http\Request;
 
@@ -60,7 +61,7 @@ class ConfigController extends Controller
         return $this->crudCreate($request);
     }
 
-    public function store(Request $request)
+    public function store(ConfigRequest $request)
     {
         return $this->crudUpdate($request, new Config(), 'config_list');
     }
@@ -70,7 +71,7 @@ class ConfigController extends Controller
         return $this->crudShow($config, $request);
     }
 
-    public function update(Request $request, Config $config)
+    public function update(ConfigRequest $request, Config $config)
     {
         return $this->crudUpdate($request, $config, 'config_list');
     }

@@ -179,12 +179,20 @@ formEdit = (el, response, onSuccess = null) => {
                 } else {
                     toastr.success(data);
                 }
+                modal.modal('hide');
             },
             error: function (e) {
+                form.find('.invalid-feedback').remove();
+                form.find('.is-invalid').removeClass('is-invalid');
+                for (var i in e.responseJSON.errors) {
+                    let input = form.find('#' + i).addClass('is-invalid');
+                    let errorObj = $('<div class="invalid-feedback"></div>');
+                    errorObj.insertAfter(input).text( e.responseJSON.errors[i])
+                }
                 toastr.error(e.responseJSON.message);
             }
         };
-        modal.modal('hide');
+
         e.preventDefault();
         ajaxSend(options);
     });

@@ -1,5 +1,5 @@
 <div class="col-12">
-    <form method="{{$getMethod()}}" action="{{$getAction()}}" class="px-md-4">
+    <form method="{{$getMethod()}}" action="{{$getAction()}}" class="px-md-4 needs-validation">
         @csrf
         @foreach ($getFields() as $name => $field)
             @continue(!isset($field['type']))

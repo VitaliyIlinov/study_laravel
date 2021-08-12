@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Traits\CrudService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TodoRequest;
 use App\Models\TodoList;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -64,12 +65,12 @@ class TodoListController extends Controller
         return $this->crudShow($todoList, $request);
     }
 
-    public function store(Request $request)
+    public function store(TodoRequest $request)
     {
         return $this->crudUpdate($this->mergeStatus($request), new TodoList(), 'todo_list');
     }
 
-    public function update(Request $request, TodoList $todoList)
+    public function update(TodoRequest $request, TodoList $todoList)
     {
         return $this->crudUpdate($this->mergeStatus($request), $todoList, 'todo_list');
     }
