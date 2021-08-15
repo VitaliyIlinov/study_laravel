@@ -1,54 +1,20 @@
 @if ($editor = session()->get('editor','summernote_editor'))
     @push('editor')
         <script>
-            var codeButton = function (context) {
-                var ui = $.summernote.ui;
-
-                // create button
-                var button = ui.button({
-                    contents: '<i class="fa fa-child"/> Code',
-                    tooltip: 'code',
-                    click: function () {
-
-                        var selection = window.getSelection(),
-                            selected = (selection.rangeCount > 0) && selection.getRangeAt(0);
-
-                        // Only wrap tag around selected text
-                        if (selected.startOffset !== selected.endOffset) {
-                            var range = selected.cloneRange();
-
-                            var pre = document.createElement('pre');
-                            var code = document.createElement('code');
-                            code.className = "hljs";
-                            range.surroundContents(code);
-                            range.surroundContents(pre);
-                            context.invoke('triggerEvent', 'change');
-                        }
-
-                        // var text = context.invoke('editor.getSelectedText');
-                        // // var text = window.getSelection().focusNode.parentElement;
-                        // var $node = $('<pre><code class="hljs">'+text+'</code></pre>');
-                        // context.invoke('editor.insertNode',$node[0]);
-                    }
-                });
-
-                return button.render();
-            }
-
             @switch($editor)
 
             @case('summernote_editor')
             $('#<?=$id?>').summernote({
                 dialogsInBody: true,
-                buttons: {
-                    code: codeButton
-                },
+                prettifyHtml: false,
                 codemirror: {
                     theme: 'monokai',
                     lineNumbers: true,
                     matchBrackets: true,
                     autoRefresh: true,
-                    lineWrapping: true,
+                    lineWrapping: true
+                    // htmlMode: true,
+                    // mode: "text/html"
                 },
                 addclass: {
                     debug: false,
@@ -83,8 +49,11 @@
                 },
                 toolbar: [
                     // [groupName, [list of button]]
-                    ['mybutton', ['code']],
-                    ['style', ['style', 'addclass']],
+                    ['own', ['highlight']],
+                    ['own', ['gxcode']],//code Wrapper(Add <PRE>)
+                    ['own', ['format']], //formating
+                    ['own', ['addclass']], //add own class
+                    ['style', ['style']],
                     ['font', ['bold', 'underline', 'clear']],
                     ['fontsize', ['fontsize']],
                     ['fontname', ['fontname']],
@@ -96,6 +65,10 @@
                     ['view', ['undo', 'redo', 'fullscreen', 'codeview', 'help']],
                 ],
                 callbacks: {
+                    onBlurCodeview: function (contents, $editable) {
+                        // $(#desc).val($(desc).summernote('code'));
+                        $(this).html(contents);
+                    },
                     // or you can use cntr + shift + e
                     // onPaste: function (e) {
                     //     var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
@@ -143,7 +116,7 @@
                 lineNumbers: true,
                 matchBrackets: true,
                 autoRefresh: true,
-                theme: "darcula"
+                theme: "monokai"
             });
             @break
             @endswitch
