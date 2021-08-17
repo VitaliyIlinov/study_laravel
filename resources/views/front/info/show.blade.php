@@ -3,7 +3,7 @@
 @section('title', $model->title)
 
 @section('content')
-    <h2 class="mb-4">{!! $model->title !!}</h2>
+    <h2 class="mb-4 text-center">{!! $model->title !!}</h2>
     <div>
         {!! $model->text !!}
     </div>

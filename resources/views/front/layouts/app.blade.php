@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{config('app.name')}} - @yield('title',''))</title>
+    <title>{{config('app.name')}} - @yield('title','')</title>
     <!-- Scripts -->
     <script src="{{ asset('js/front.js') }}"></script>
     <!-- Styles -->

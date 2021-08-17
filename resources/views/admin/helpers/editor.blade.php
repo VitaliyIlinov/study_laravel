@@ -68,6 +68,7 @@
                     onBlurCodeview: function (contents, $editable) {
                         // $(#desc).val($(desc).summernote('code'));
                         $(this).html(contents);
+                        console.log('onBlurCodeview event fire');
                     },
                     // or you can use cntr + shift + e
                     // onPaste: function (e) {
