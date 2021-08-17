@@ -75,9 +75,10 @@ trait CrudService
         if ($request->ajax()) {
             return response()->json([
                 'form' => view('admin.helpers.forms.ajax_form', [
-                    'row'    => $model,
+                    'row' => $model,
                     'fields' => $this->getFields(),
                 ])->render(),
+                'id' => $model->{$model->getKeyName()}
             ]);
         }
         return view('admin.helpers.forms.form', [

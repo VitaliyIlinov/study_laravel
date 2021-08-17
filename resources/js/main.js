@@ -196,6 +196,10 @@ formEdit = (el, response, onSuccess = null) => {
         e.preventDefault();
         ajaxSend(options);
     });
+    let title = el.closest('[data-id]').data('id') !== undefined
+        ? ' ID: ' + el.closest('[data-id]').data('id')
+        : ' New ';
+    modal.find('.modal-title').html("<span>" + title + "</span>");
     modal.find('.modal-body').html(form);
     modal.modal();
 }

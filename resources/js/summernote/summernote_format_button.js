@@ -55,9 +55,9 @@ function prettierFormat(html) {
                             el.summernote("code", content);
                         } catch (e) {
                             console.log(e);
-                            // alert(
-                            //     "Something went wrong. Did not format! Devs can check console for error"
-                            // );
+                            alert(
+                                "Something went wrong. Did not format! Devs can check console for error"
+                            );
                         }
                     }
 
