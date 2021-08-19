@@ -55,6 +55,11 @@ class AdminMenuSideBarComposer
                 'trans'      => 'To Do list',
                 'icon_class' => 'fas fa-tasks',
             ],
+            [
+                'url'        => route('main_question'),
+                'trans'      => 'Interview Questions',
+                'icon_class' => 'fas fa-question',
+            ],
 
         ]);
 

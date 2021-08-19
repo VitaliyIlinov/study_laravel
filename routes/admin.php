@@ -60,6 +60,10 @@ Route::prefix('todo')->group(function (Router $router) {
         $router->post('/change_status/{todoList}', 'TodoListController@changeStatus')->name('todoStatus');
     });
 });
+Route::prefix('questions')->group(function (Router $router) {
+    $router->get('/', 'QuestionController@index')->name('main_question');
+});
+
 Route::prefix('file')->group(function (Router $router) {
     $router->post('/store', 'FileController@store')->name('fileUpload');
     $router->delete('/delete', 'FileController@delete')->name('fileDelete');

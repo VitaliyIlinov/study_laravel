@@ -24,7 +24,7 @@ class StoreInfo extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:55',
+            'title' => 'required|max:255',
             'category_id' => 'required|int',
             'text' => 'required|string',
             'sort' => 'required|int',

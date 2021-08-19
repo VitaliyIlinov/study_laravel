@@ -49,10 +49,6 @@ class InfoController extends Controller
                 'type'          => 'checkbox',
                 'trans'         => 'status',
             ],
-            'sort'          => [
-                'show_in_table' => true,
-                'type'          => 'number',
-            ],
             'category_id'   => [
                 'show_in_table' => false,
                 'type'          => 'option',
@@ -68,7 +64,7 @@ class InfoController extends Controller
                 'trans'             => 'Title',
             ],
             'text'          => [
-                'show_in_table'     => true,
+                'show_in_table'     => false,
                 'show_table_filter' => 'input',
                 'trans'             => 'Text',
                 'type'              => 'textarea',
@@ -85,6 +81,10 @@ class InfoController extends Controller
                     $category = $category ?? Category::all()->keyBy('id');
                     return $category[$info->category_id]->name;
                 },
+            ],
+            'sort'          => [
+                'show_in_table' => true,
+                'type'          => 'number',
             ],
             'updated_at'    => [
                 'show_in_table' => true,
