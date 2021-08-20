@@ -146,7 +146,7 @@ class Form extends Component
             ':id'    => $name,
             ':name'  => $name,
             ':value' => $this->getValue($name),
-            ':rows'  => 25,
+            ':rows'  => 15,
         ]);
     }
 

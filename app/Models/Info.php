@@ -3,13 +3,18 @@
 namespace App\Models;
 
 use App\Models\Traits\JsonTimestampSerializable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
+/**
+ * @mixin Builder
+ */
 class Info extends Model
 {
     use JsonTimestampSerializable;
 
-    protected $fillable = ['title', 'text', 'status', 'category_id', 'sort'];
+    protected $fillable = ['title', 'text', 'slug', 'status', 'category_id', 'sort'];
 
     /**
      * Get the category that owns the row.
@@ -22,5 +27,10 @@ class Info extends Model
     public function scopeActive($query)
     {
         return $query->where('status', 1);
+    }
+
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = Str::slug($value ?? $this->title, '-');
     }
 }

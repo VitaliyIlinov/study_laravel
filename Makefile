@@ -51,7 +51,7 @@ down:
 	@docker-compose down
 
 dependency:
-	@docker-compose exec $(APP_NAME) bash -c "composer install && npm install && npm run dev && php artisan migrate:fresh --seed"
+	@docker-compose exec $(APP_NAME) bash -c "php artisan storage:link && composer install && npm install && npm run dev && php artisan migrate:fresh --seed"
 
 bash:
 	@docker-compose exec $(APP_NAME) bash

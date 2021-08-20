@@ -35,7 +35,7 @@ class SideBar extends Component
         return Cache::remember('front_menu', 2, function () {
             return Category::with([
                 'info' => function (HasMany $query) {
-                    $query->select(['id', 'category_id', 'title'])->active();
+                    $query->select(['id', 'category_id', 'title', 'slug'])->active();
                 },
             ])->active()->get()->keyBy('id');
         });

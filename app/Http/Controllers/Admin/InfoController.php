@@ -63,6 +63,12 @@ class InfoController extends Controller
                 'type'              => 'text',
                 'trans'             => 'Title',
             ],
+            'slug'         => [
+                'show_in_table'     => false,
+                'show_table_filter' => true,
+                'type'              => 'text',
+                'trans'             => 'slug',
+            ],
             'text'          => [
                 'show_in_table'     => false,
                 'show_table_filter' => 'input',
