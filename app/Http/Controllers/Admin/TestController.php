@@ -10,12 +10,6 @@ class TestController extends Controller
 {
     public function index()
     {
-        return response()->json([
-            'data'            => [],
-            "draw"            => 3,
-            "recordsTotal"    => 57,
-            "recordsFiltered" => 57,
-//           'data' => Info::all()->toArray()
-        ]);
+        return view('test.test');
     }
 }

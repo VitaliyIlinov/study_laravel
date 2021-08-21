@@ -1,30 +1,55 @@
+<style>
+    caption {
+        caption-side: inherit;
+    }
+</style>
 <div class="col-lg-12">
 
     <table class="table table-bordered">
+        <caption>Проектирование<br>
+            Парадигмы, SOLID, DRY, KISS
+        </caption>
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th>Junior</th>
+            <th>Middle</th>
+            <th>Senior</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
+            <td>Спросить значение любой из букв SOLID:
+                <ul>
+                    <li>
+                        Принцип единственной ответственности (The Single Responsibility Principle)
+                    </li>
+                    <li>
+                        Принцип открытости/закрытости (The Open Closed Principle)
+                    </li>
+                    <li>
+                        Принцип подстановки Барбары Лисков (The Liskov Substitution Principle)
+                    </li>
+                    <li>
+                        Принцип разделения интерфейса (The Interface Segregation Principle)
+                    </li>
+                    <li>
+                        Принцип инверсии зависимостей (The Dependency Inversion Principle)
+                    </li>
+                </ul>
+            </td>
+            <td>Нужно реализовать функционал авторизации. На какие компоненты вы бы его разделили, так, чтобы соблюсти
+                принцип Single responsibility?
+            </td>
             <td>@mdo</td>
         </tr>
         <tr>
-            <th scope="row">2</th>
+            <td>DRY – Do not repeat your self.</td>
             <td>Jacob</td>
-            <td>Thornton</td>
             <td>@fat</td>
         </tr>
         <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
+            <td>KISS – Keep it simple, stupid</td>
+            <td>Larry the Bird</td>
             <td>@twitter</td>
         </tr>
         </tbody>

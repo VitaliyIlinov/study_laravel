@@ -35,7 +35,7 @@
             var $editor = context.layoutInfo.editor;
             var options = context.options;
             var lang = options.langInfo;
-
+            let range;
 
             // add button
 
@@ -45,6 +45,7 @@
                     contents: '<i class="fas fa-air-freshener"></i>',
                     tooltip: 'Highlight Code',
                     click: function () {
+                        range = window.getSelection().getRangeAt(0);
                         self.show()
                     }
                 });
@@ -119,7 +120,8 @@
 
                         $extHighlightBtn.one('click', function (event) {
                             event.preventDefault();
-                            context.invoke('editor.insertNode', self.createCodeNode(codeInfo, $extHighlightSelect.val()));
+                            // context.invoke('editor.insertNode', self.createCodeNode(codeInfo, $extHighlightSelect.val()));
+                            range.insertNode(self.createCodeNode(codeInfo, $extHighlightSelect.val()));
 
                             self.$dialog.modal('hide');
                         });

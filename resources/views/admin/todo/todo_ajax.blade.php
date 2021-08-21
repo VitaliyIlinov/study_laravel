@@ -22,7 +22,7 @@
                                    id="{{$row->id}}"
                             >
                             <label for="{{$row->id}}" data-name="description"
-                                   class="custom-control-label">{{$row->description}}</label>
+                                   class="custom-control-label">{!! $row->description !!}</label>
                         </div>
                         <span class="badge badge-success" data-name="label">{{$row->label}}</span>
                         <span class="badge badge-primary" data-name="updated_at">{{$row->updated_at}}</span>

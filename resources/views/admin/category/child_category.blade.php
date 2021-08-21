@@ -17,5 +17,6 @@
                 @include('admin.category.child_category',['categories'=>$category['childs']])
             </ul>
         @endisset
+        <ul class='nested-sortable'></ul>
     </li>
 @endforeach

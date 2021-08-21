@@ -133,7 +133,7 @@ trait CrudService
                 'message' => 'Row was updated',
             ]);
         }
-        return redirect()->route($route)->with('success', 'Row was updated');
+        return redirect()->back()->with('success', 'Row was updated');
     }
 
     /**
