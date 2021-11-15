@@ -7,7 +7,7 @@ services:
     container_name: study
     working_dir: /var/www
     # current user uid && gid
-    user: ${USER_ID}:${GROUP_ID}
+    #user: ${USER_ID}:${GROUP_ID}
     volumes:
       - ./:/var/www
       - ./storage/logs/php:/var/log/php

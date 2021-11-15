@@ -1,6 +1,6 @@
 include .env
 ROOT_DIR   := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-IMAGE_NAME = $(APP_NAME)
+IMAGE_NAME = study
 BUILD_ID ?= $(shell /bin/date "+%Y%m%d-%H%M%S")
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
 MYSQL_DUMP=dumps/dump.sql
@@ -51,7 +51,7 @@ down:
 	@docker-compose down
 
 dependency:
-	@docker-compose exec $(APP_NAME) bash -c "php artisan storage:link && composer install && npm install && npm run dev && php artisan migrate:fresh --seed"
+	@docker-compose exec $(APP_NAME) bash -c "composer install && npm run dev"
 
 bash:
 	@docker-compose exec $(APP_NAME) bash

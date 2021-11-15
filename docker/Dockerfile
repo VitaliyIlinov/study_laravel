@@ -8,8 +8,11 @@ MAINTAINER vitaliy ilinov <ilinov123@gmail.com>
 ARG GROUP_ID
 ARG USER_ID
 
-# Install and enable additional extensions
+# new UID && GID for the user
+RUN usermod --non-unique --uid ${USER_ID} www-data \
+  && groupmod --non-unique --gid ${GROUP_ID} www-data
 
+# Install and enable additional extensions
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 
 # Install extensions by docker-php-ext-install.
@@ -34,9 +37,6 @@ RUN apt-get update && apt-get install -y \
 
 ## Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Create user
-RUN useradd -m ${USER_ID} --uid=${GROUP_ID}
 
 COPY ./ /docker
 
