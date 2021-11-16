@@ -4,8 +4,9 @@ IMAGE_NAME = study
 BUILD_ID ?= $(shell /bin/date "+%Y%m%d-%H%M%S")
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
 MYSQL_DUMP=dumps/dump.sql
-USER_ID=$(shell id -u)
-GROUP_ID=$(shell id -g)
+#see permission in project
+USER=1000
+GROUP_ID=root
 
 .SILENT: ;               # no need for @
 .EXPORT_ALL_VARIABLES: ; # send all vars to shell
@@ -38,10 +39,9 @@ endif
 build : check
 	@echo "build..."
 	 docker build \
-  	--build-arg USER_ID=$(USER_ID) \
+  	--build-arg USER=$(USER) \
   	--build-arg GROUP_ID=$(GROUP_ID) \
  	--force-rm  \
- 	--no-cache \
  	-t $(IMAGE_NAME) ./docker/
 
 up:

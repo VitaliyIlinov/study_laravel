@@ -6,8 +6,8 @@ services:
     image: ${IMAGE_NAME}
     container_name: study
     working_dir: /var/www
-    # current user uid && gid
-    #user: ${USER_ID}:${GROUP_ID}
+    # current user and group
+    user: ${USER}:${GROUP_ID}
     volumes:
       - ./:/var/www
       - ./storage/logs/php:/var/log/php
