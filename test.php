@@ -15,7 +15,6 @@ class User
         $this->name = $name;
         $this->friends = $friends;
     }
-
 }
 
 function copyObjectOld(User &$user): User

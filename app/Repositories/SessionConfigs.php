@@ -29,7 +29,7 @@ class SessionConfigs implements SessionConfigsInterface
 
     public function put(string $key, $value)
     {
-        $this->request->session()->put($key,$value);
+        $this->request->session()->put($key, $value);
     }
 
     public function forget(string $key)

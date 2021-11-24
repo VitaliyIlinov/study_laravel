@@ -66,4 +66,3 @@ class AdminMenuSideBarComposer
         self::$isLoaded = true;
     }
 }
-

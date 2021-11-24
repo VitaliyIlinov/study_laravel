@@ -96,5 +96,4 @@ class TodoListController extends Controller
         $todoList->save();
         return response()->json('success');
     }
-
 }

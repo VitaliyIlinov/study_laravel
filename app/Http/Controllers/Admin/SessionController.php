@@ -34,4 +34,3 @@ class SessionController extends Controller
         return $this->sessionConfigs->forget($request->get('key'));
     }
 }
-

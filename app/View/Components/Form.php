@@ -46,9 +46,9 @@ class Form extends Component
         $this->fields = $fields;
         $this->row = $row;
         $this->method ='post';
-        if($this->isFormCreate()){
+        if ($this->isFormCreate()) {
             $this->action = $this->currentPrefix . 'create';
-        }else{
+        } else {
             $this->method ='post';
             $this->action = $this->currentPrefix. 'edit' . DIRECTORY_SEPARATOR . $this->row->id;
         }
@@ -108,7 +108,8 @@ class Form extends Component
 
     private function generateInput(string $name, string $classname = 'form-control', ?string $attributes = null)
     {
-        return strtr("<input type=':type' autocomplete='off' :other class=':class' name=':name' id=':id' placeholder=':placeholder'>",
+        return strtr(
+            "<input type=':type' autocomplete='off' :other class=':class' name=':name' id=':id' placeholder=':placeholder'>",
             [
                 ':type'        => $this->fields[$name]['type'],
                 ':class'       => $classname,
@@ -116,7 +117,8 @@ class Form extends Component
                 ':id'          => $name,
                 ':placeholder' => $name,
                 ':other'       => $attributes,
-            ]);
+            ]
+        );
     }
 
     public function buildCheckbox(string $name, string $classname = 'form-check-input')

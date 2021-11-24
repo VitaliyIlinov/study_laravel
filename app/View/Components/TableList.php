@@ -52,7 +52,6 @@ class TableList extends Component
     public function render()
     {
         return view('components.table-list');
-
     }
 
     public function getFields(): array
@@ -96,13 +95,15 @@ class TableList extends Component
         string $jsOnSuccess,
         bool $crudAjax
     ) {
-        return strtr("<a [:href] data-method=':method' data-onsuccess=':OnSuccess' class=':class'><i class=':iClass'></i></a>",
+        return strtr(
+            "<a [:href] data-method=':method' data-onsuccess=':OnSuccess' class=':class'><i class=':iClass'></i></a>",
             [
                 '[:href]'    => $crudAjax ? "data-href='{$href}'" : "href='{$href}'",
                 ':method'    => $method,
                 ':OnSuccess' => $jsOnSuccess,
                 ':class'     => 'btn p-1',
                 ':iClass'    => $iClass,
-            ]);
+            ]
+        );
     }
 }

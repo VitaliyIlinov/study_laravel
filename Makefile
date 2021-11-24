@@ -1,35 +1,15 @@
+#  Makefile for Docker Nginx PHP Composer MySQL
+
 include .env
-ROOT_DIR   := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-IMAGE_NAME = study
-BUILD_ID ?= $(shell /bin/date "+%Y%m%d-%H%M%S")
+
+CURRENT_UID=$(shell id -u):$(shell id -g)
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
 MYSQL_DUMP=dumps/dump.sql
-#see permission in project
-USER=1000
-GROUP_ID=root
 
 .SILENT: ;               # no need for @
 .EXPORT_ALL_VARIABLES: ; # send all vars to shell
 
-E ?= ternarniy operator
-#VERSION ?= $(shell cat $(ROOT_DIR)/VERSION | head -n 1)
-ifeq ($(VERSION),)
-VERSION := 0.0.1
-endif
 default: help
-
-test: foo:=7.2
-test: foo1:=nginx
-test:$(foo) $(foo1)
-	echo $(E)
-	echo $(ARGS)
-	echo $(foo)
-	echo $(foo1)
-ifneq ($(foo),)
-	@echo "with foo"
-else
-	@echo "without foo"
-endif
 
 check:
 ifeq ($(APP_NAME),)
@@ -38,11 +18,11 @@ endif
 
 build : check
 	@echo "build..."
-	 docker build \
-  	--build-arg USER=$(USER) \
-  	--build-arg GROUP_ID=$(GROUP_ID) \
- 	--force-rm  \
- 	-t $(IMAGE_NAME) ./docker/
+	 docker-compose build --force-rm
+
+code-sniff:
+	echo "Checking the standard code..."
+	docker-compose exec -T app ./vendor/bin/phpcs ./
 
 up:
 	docker-compose up -d
@@ -51,10 +31,10 @@ down:
 	@docker-compose down
 
 dependency:
-	@docker-compose exec $(APP_NAME) bash -c "composer install && npm run dev"
+	@docker-compose exec -T app composer install && npm run dev
 
 bash:
-	@docker-compose exec $(APP_NAME) bash
+	@docker-compose exec app bash
 
 logs:
 	@docker-compose logs $(ARGS)
@@ -63,7 +43,7 @@ config:
 	@docker-compose config
 
 clean:
-	@docker exec $(APP_NAME) rm -R ./storage/logs/*
+	@rm -R ./storage/logs/*
 
 mysql-dump:
 	@docker exec db mysqldump --extended-insert=FALSE -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"
@@ -72,7 +52,10 @@ mysql-restore:
 	@docker exec -i db mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) < $(MYSQL_DUMP)
 
 help:
-	@echo 'Targets:'
+	@echo ""
+	@echo "usage: make COMMAND"
+	@echo ""
+	@echo "Commands:"
 	@echo ' - build         Build docker images'
 	@echo ' - up            Create and start containers'
 	@echo ' - bash          Enter in container'
@@ -80,6 +63,7 @@ help:
 	@echo ' - clean         Clean App logs'
 	@echo ' - mysql-dump    Create backup of all databases'
 	@echo ' - mysql-restore Restore backup of all databases'
-	@echo ' - up-d          Create and start containers in the background'
+	@echo ' - up            Create and start containers in the background'
 	@echo ' - down          Stop and remove containers, networks, images, and volumes'
+	@echo ' - dependency    Bash to container & Install composer and npm'
 	@echo ' - help          Show this help and exit'
