@@ -11,8 +11,9 @@
 //@import '~bootstrap/scss/bootstrap';
 
 //see file?you can import own style variable && so on';
-//https://adminlte.io/docs/3.0/dependencies.html
-@import '~admin-lte/build/scss/AdminLTE';
+//https://adminlte.io/docs/3.0/depecatndencies.html
+//@import '~admin-lte/build/scss/adminlte';
+@import '~admin-lte';
 
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 

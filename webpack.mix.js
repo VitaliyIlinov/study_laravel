@@ -1,5 +1,13 @@
 const mix = require('laravel-mix');
 
+//mistake in summernote: module.exports = factory(require("jQuery"));
+mix.webpackConfig({
+    resolve: {
+        alias: {
+            'jQuery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.js')
+        }
+    }
+});
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management

@@ -2,11 +2,8 @@
 FROM php:7.4-fpm
 MAINTAINER vitaliy ilinov <ilinov123@gmail.com>
 
-# console command: id -u
-# 1000 - is USER;
-# && creating file in MOUNT volume will be from current user
-ARG GROUP_ID
-ARG USER
+ARG user
+ARG uid
 
 # Install and enable additional extensions
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
