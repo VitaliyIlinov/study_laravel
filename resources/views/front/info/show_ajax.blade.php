@@ -2,5 +2,5 @@
 <div class="info">
     {!! $model->text !!}
 </div>
-<script>hljs.initHighlightingOnLoad();</script>
+<script>hljs.highlightAll();</script>
 

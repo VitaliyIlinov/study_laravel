@@ -1,21 +1,9 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Variables
-@import 'variables';
-
-//mixins
-@import 'mixins';
-
-// Bootstrap
-//@import '~bootstrap/scss/bootstrap';
-
 //see file?you can import own style variable && so on';
 //https://adminlte.io/docs/3.0/depecatndencies.html
 //@import '~admin-lte/build/scss/adminlte';
-@import '~admin-lte';
+@import "both";
 
-@import '~@fortawesome/fontawesome-free/css/all.min.css';
+@import '~admin-lte';
 
 @import '~toastr/toastr';
 
@@ -23,13 +11,11 @@
 
 @import "~codemirror/theme/monokai.css";
 
-@import "~animate.css";
-
 @import "~summernote/dist/summernote-bs4.min.css";
 
 @import "~datatables.net-bs4";
 
-@import "both";
+
 
 
 main {

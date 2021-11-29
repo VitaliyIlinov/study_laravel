@@ -1,34 +1,16 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Variables
-@import 'variables';
-
-//mixins
-@import 'mixins';
+@import "both";
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-@import '~@fortawesome/fontawesome-free/css/all.min.css';
-
-@import '~animate.css';
-
 //@import "~highlight.js/scss/tomorrow";
 @import "~highlight.js/scss/atom-one-light";
-
-@import "both";
-
 
 $font-primary: scandia-web, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 $primary: #6749b9;
 
 body {
     font-family: $font-primary;
-    font-size: 14px;
-    line-height: 1.8;
-    font-weight: normal;
-    background: #fafafa;
 }
 
 a {
@@ -59,7 +41,9 @@ h1, h2, h3, h4, h5,
     font-family: $font-primary;
     color: $black;
 }
+.hljs {
 
+}
 pre code {
     white-space: break-spaces;
 }

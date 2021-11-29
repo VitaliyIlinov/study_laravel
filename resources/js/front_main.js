@@ -17,4 +17,9 @@ $(document).ready(function () {
     $('#main_content .main_list li a').each(function (i, e) {
         $(e).clone().prependTo($('#main_content').find('div#' + $(e).attr('href').substring(1))).wrap('<h2>');
     })
+
+    $('.info').on('click', "a[href^='#']", function (event) {
+        event.preventDefault();
+        $('html,body').animate({scrollTop: $(this.hash).offset().top}, 500);
+    });
 });

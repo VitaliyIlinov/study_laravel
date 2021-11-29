@@ -1,3 +1,16 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+//mixins
+@import 'mixins';
+
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
+@import '~animate.css';
+
 .d-inline-table {
     display: inline-table !important;
 }
@@ -13,10 +26,10 @@ ul.main_list {
     margin: 0;
     padding: 0;
 
-    & ~ div p {
+    & ~ div{
         font-size: 0.9rem;
         line-height: 1.8em;
-        margin-bottom: 2em;
+        margin-bottom: 1em;
 
     }
 
