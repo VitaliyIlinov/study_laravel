@@ -32,12 +32,6 @@ class SideBar extends Component
 
     private function getRows()
     {
-        return Cache::remember('front_menu', 2, function () {
-            return Category::with([
-                'info' => function (HasMany $query) {
-                    $query->select(['id', 'category_id', 'title', 'slug'])->active()->orderBy('sort');
-                },
-            ])->active()->get()->keyBy('id');
-        });
+        return $this->repository->infoByCategoryCached();
     }
 }

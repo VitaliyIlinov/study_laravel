@@ -4,9 +4,13 @@ namespace App\Repositories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryRepository
 {
+    private const CACHE_KEY = 'front_menu';
+
     public function getTree(Collection $dataset): array
     {
         $tree = [];
@@ -37,6 +41,22 @@ class CategoryRepository
         $this->sort($tree);
 
         return $tree;
+    }
+
+    public function infoByCategoryCached()
+    {
+        return Cache::remember(self::CACHE_KEY, 3600, function () {
+            return Category::with([
+                'info' => function (HasMany $query) {
+                    $query->select(['id', 'category_id', 'title', 'slug'])->active()->orderBy('sort');
+                },
+            ])->active()->get()->keyBy('id');
+        });
+    }
+
+    public function infoByCategoryCachedClear(): bool
+    {
+        return Cache::forget(self::CACHE_KEY);
     }
 
     private function sort(&$tree): void

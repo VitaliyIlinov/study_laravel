@@ -176,6 +176,10 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\SessionConfigRepServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
+        /*
+         * Custom Service Providers...
+         */
+        App\Providers\Observers::class,
     ],
 
     /*

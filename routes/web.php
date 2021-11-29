@@ -18,5 +18,5 @@ use Illuminate\Support\Facades\Route;
 //});
 Route::get('/', 'DashboardController@index')->name('home');
 Route::prefix('info')->group(function (\Illuminate\Routing\Router $router) {
-    $router->get('/{info}', 'InfoController@show');
+    $router->get('/{info}', 'InfoController@show')->middleware('cache.headers:public;max_age=3600;must_revalidate;etag');
 });
