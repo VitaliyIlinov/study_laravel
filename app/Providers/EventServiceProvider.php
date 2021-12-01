@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\CategoryAction;
+use App\Events\InfoAction;
 use App\Events\FileUploaded;
+use App\Listeners\ClearSideBarMenu;
 use App\Listeners\SaveFileModel;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +25,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         FileUploaded::class =>[
             SaveFileModel::class
+        ],
+        CategoryAction::class =>[
+            ClearSideBarMenu::class
+        ],
+        InfoAction::class =>[
+            ClearSideBarMenu::class
         ]
     ];
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\InfoAction;
 use App\Models\Traits\JsonTimestampSerializable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,11 @@ use Illuminate\Support\Str;
 class Info extends Model
 {
     use JsonTimestampSerializable;
+
+    protected $dispatchesEvents = [
+        'saved' => InfoAction::class,
+        'deleted' => InfoAction::class,
+    ];
 
     protected $fillable = ['title', 'text', 'slug', 'status', 'category_id', 'sort'];
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\CategoryAction;
 use App\Models\Traits\JsonTimestampSerializable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,11 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use JsonTimestampSerializable;
+
+    protected $dispatchesEvents = [
+        'saved' => CategoryAction::class,
+        'deleted' => CategoryAction::class,
+    ];
 
     protected $fillable = ['name', 'status', 'parent_id', 'sort'];
 
