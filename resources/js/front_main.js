@@ -14,7 +14,7 @@ $(document).ready(function () {
     });
 
     //add h2 from main list to main content
-    $('#main_content .main_list li a').each(function (i, e) {
+    $('#main_content .main_list li a[href^=\'#\']').each(function (i, e) {
         $(e).clone().prependTo($('#main_content').find('div#' + $(e).attr('href').substring(1))).wrap('<h2>');
     })
 
