@@ -24,13 +24,11 @@
         }, 0);
     }).on("hidden.bs.modal", '.modal', function (event) {
         $(".modal:visible").length && $("body").addClass("modal-open");
-    });
-    $(document).on('inserted.bs.tooltip', function (event) {
+    }).on('inserted.bs.tooltip', function (event) {
         var zIndex = 100000 + (10 * $(".modal:visible").length);
         var tooltipId = $(event.target).attr("aria-describedby");
         $("#" + tooltipId).css("z-index", zIndex);
-    });
-    $(document).on('inserted.bs.popover', function (event) {
+    }).on('inserted.bs.popover', function (event) {
         var zIndex = 100000 + (10 * $(".modal:visible").length);
         var popoverId = $(event.target).attr("aria-describedby");
         $("#" + popoverId).css("z-index", zIndex);

@@ -2,7 +2,9 @@
 
 include .env
 
-CURRENT_UID=$(shell id -u):$(shell id -g)
+CURRENT_UID=$(shell id -u)
+CURRENT_GID=$(shell id -g)
+
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
 MYSQL_DUMP=dumps/dump.sql
 
@@ -22,7 +24,7 @@ build : check
 
 code-sniff:
 	echo "Checking the standard code..."
-	docker-compose exec -T app ./vendor/bin/phpcs ./
+	docker-compose exec -T app ./vendor/bin/phpcs ./${ARGS}
 
 up:
 	docker-compose up -d
@@ -30,15 +32,8 @@ up:
 down:
 	@docker-compose down
 
-npm-install:
-	@make down
-	echo "install as root"
-	docker run -ti --rm -v $(shell pwd):/var/www $(APP_NAME) npm install
-
-compose-up:
-	@make up
+composer:
 	@docker-compose exec -T app composer install
-	@docker-compose exec -T app npm run dev
 
 bash:
 	@docker-compose exec app bash
@@ -49,7 +44,7 @@ logs:
 config:
 	@docker-compose config
 
-clean:
+clean: #chmod -R 777 storage/
 	@rm -R ./storage/logs/*
 
 mysql-dump:
@@ -72,5 +67,5 @@ help:
 	@echo ' - mysql-restore Restore backup of all databases'
 	@echo ' - up            Create and start containers in the background'
 	@echo ' - down          Stop and remove containers, networks, images, and volumes'
-	@echo ' - dependency    Bash to container & Install composer and npm'
+	@echo ' - composer      Bash to container & Install composer and npm'
 	@echo ' - help          Show this help and exit'

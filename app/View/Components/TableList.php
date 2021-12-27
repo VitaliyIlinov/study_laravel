@@ -29,6 +29,16 @@ class TableList extends Component
      */
     protected $currentPrefix;
 
+    protected $defaultSettings = [
+        'createIcon' => '<i class="fas fa-lg fa-plus"></i>',
+        'editIcon' => '<i class="far fa-edit"></i>',
+        'deleteIcon' => '<i class="fas fa-trash"></i>',
+        'btnClass' => 'btn p-1',
+        'afterCreateRowEvent' => 'createRow',
+        'afterSaveRowEvent' => 'saveRow',
+        'afterDeleteRowEvent' => 'deleteRow',
+    ];
+
     /**
      * Create a new component instance.
      *
@@ -70,39 +80,56 @@ class TableList extends Component
         return DIRECTORY_SEPARATOR . $this->currentPrefix . DIRECTORY_SEPARATOR . $args;
     }
 
-    public function buildCreateButton(?string $link = null, $iClass = 'fas fa-lg fa-plus')
+    public function buildCreateButton(?string $link = null)
     {
         $link = is_string($link) ?$link: $this->getLink('create');
-        return $this->generateButton($link, 'get', $iClass, 'createRow', $this->crudAjax);
+        return $this->generateButton(
+            $link,
+            'get',
+            $this->defaultSettings['createIcon'],
+            $this->defaultSettings['afterCreateRowEvent'],
+            $this->crudAjax
+        );
     }
 
-    public function buildEditButton($id, $iClass = 'far fa-edit')
+    public function buildEditButton($id)
     {
         $link = is_string($id) ?$id: $this->getLink('edit', $id);
-        return $this->generateButton($link, 'get', $iClass, 'saveRow', $this->crudAjax);
+        return $this->generateButton(
+            $link,
+            'get',
+            $this->defaultSettings['editIcon'],
+            $this->defaultSettings['afterSaveRowEvent'],
+            $this->crudAjax
+        );
     }
 
     public function buildDeleteButton($id, $iClass = 'fas fa-trash')
     {
         $link = is_string($id) ?$id: $this->getLink($id);
-        return $this->generateButton($link, 'delete', $iClass, 'deleteRow', true);
+        return $this->generateButton(
+            $link,
+            'delete',
+            $this->defaultSettings['deleteIcon'],
+            $this->defaultSettings['afterDeleteRowEvent']
+        );
     }
 
     private function generateButton(
         string $href,
         string $method,
-        string $iClass,
+        string $iconClass,
         string $jsOnSuccess,
-        bool $crudAjax
+        bool $crudAjax = true
     ) {
         return strtr(
-            "<a [:href] data-method=':method' data-onsuccess=':OnSuccess' class=':class'><i class=':iClass'></i></a>",
+            "<a [:href] data-method=':method' data-onsuccess=':OnSuccess' class=':class'>:Icon</a>",
             [
                 '[:href]'    => $crudAjax ? "data-href='{$href}'" : "href='{$href}'",
                 ':method'    => $method,
                 ':OnSuccess' => $jsOnSuccess,
-                ':class'     => 'btn p-1',
-                ':iClass'    => $iClass,
+                ':class' => $this->defaultSettings['btnClass'],
+                ':Icon' => $iconClass,
             ]
         );
     }
