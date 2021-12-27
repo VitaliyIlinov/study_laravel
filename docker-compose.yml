@@ -74,5 +74,5 @@ networks:
   app-network:
     driver: bridge
 volumes:
-  db:
+  study:
     driver: local
