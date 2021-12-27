@@ -54,7 +54,7 @@ services:
     ports:
       - '${FORWARD_DB_PORT:-3307}:3306'
     volumes:
-      - 'db:/var/lib/mysql'
+      - 'study:/var/lib/mysql'
       - './storage/logs/mysql:/var/log/mysql:rw'
       - './docker/configs/mysql/conf.d:/etc/mysql/conf.d'
     networks:
