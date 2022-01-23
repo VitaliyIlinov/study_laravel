@@ -45,7 +45,7 @@ config:
 	@docker-compose config
 
 clean: #chmod -R 777 storage/
-	@rm -R ./storage/logs/*
+	@find storage -name "*.log" -delete
 
 mysql-dump:
 	@docker exec db mysqldump --extended-insert=FALSE -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"
