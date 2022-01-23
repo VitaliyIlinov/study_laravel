@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\EnvController;
 use App\Http\Middleware\OnlyAjax;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,17 @@ Route::prefix('config')->group(function (Router $router) {
     $router->post('/create', 'ConfigController@store');
     $router->delete('/{config}', 'ConfigController@destroy');
 });
+/*Route::prefix('env')->group(function (Router $router) {
+    $router->get('/', [EnvController::class, 'index'])->name('env_list');
+    $router->get('/create', [EnvController::class, 'create']);
+    $router->get('/edit/{envKey}', [EnvController::class, 'show']);
+
+    $router->group(['middleware' => OnlyAjax::class], function (Router $router) {
+        $router->post('/edit/{envKey}', [EnvController::class, 'update']);
+        $router->post('/create', [EnvController::class, 'store']);
+        $router->delete('/{envKey}', [EnvController::class, 'destroy']);
+    });
+});*/
 Route::prefix('session')->group(function (Router $router) {
     $router->get('/edit', 'SessionController@get');
     $router->post('/edit', 'SessionController@set')->name('session_set');

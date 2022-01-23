@@ -50,6 +50,11 @@ class AdminMenuSideBarComposer
                 'icon_class'      => 'fas fa-tools',
                 'additional_text' => '<span class="right badge badge-danger">New</span>',
             ],
+          /*  [
+                'url'             => route('env_list'),
+                'trans'           => 'Env List',
+                'icon_class'      => 'fas fa-tools',
+            ],*/
             [
                 'url'        => route('todo_list'),
                 'trans'      => 'To Do list',
