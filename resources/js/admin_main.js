@@ -155,16 +155,6 @@ dataTable = (id ='dataTable') => {
     });
 }
 
-animateCSS = (element, animation, prefix = 'animate__') => {
-    const animationName = `${prefix}${animation}`;
-
-    element.addClass(`${prefix}animated ${animationName}`);
-
-    element.on("animationend", function () {
-        element.removeClass(`${prefix}animated ${animationName}`);
-    })
-};
-
 formEdit = (el, response, onSuccess = null) => {
     var modal = $('#modal');
     var form = $(response.form).on('submit', function (e) {
@@ -203,23 +193,6 @@ formEdit = (el, response, onSuccess = null) => {
     modal.find('.modal-title').html("<span>" + title + "</span>");
     modal.find('.modal-body').html(form);
     modal.modal();
-}
-
-ajaxSend = (data) => {
-    var options = $.extend(true, {
-        dataType: 'json',
-        method: 'post',
-        url: '',
-        data: {},
-        success: function (data) {
-            toastr.success(data);
-        },
-        error: function (e) {
-            toastr.error(e.responseJSON.message, 'Error', {timeOut: 3500});
-        }
-    }, data);
-
-    $.ajax(options);
 }
 
 deleteRow = (el, response) => {

@@ -14,7 +14,7 @@ class InfoController extends Controller
 
         if ($request->ajax()) {
             return response()->json([
-                'result' => view('front.info.show_ajax', [
+                'content' => view('front.info.show_ajax', [
                     'model' => $info,
                 ])->render(),
             ]);

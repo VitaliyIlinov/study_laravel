@@ -1,6 +1,6 @@
 <nav id="sidebar" class="test">
     <div class="p-4 pt-5">
-        <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(/logo.png);"></a>
+        <a href="/" class="img logo rounded-circle mb-5" style="background-image: url(/logo.png);"></a>
         <ul class="list-unstyled components mb-5">
             @include('front.info.child_category',['categories'=>$getMenu()])
         </ul>

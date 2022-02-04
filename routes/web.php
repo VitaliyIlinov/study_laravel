@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,6 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 Route::get('/', 'DashboardController@index')->name('home');
-Route::prefix('info')->group(function (\Illuminate\Routing\Router $router) {
+Route::prefix('info')->group(function (Router $router) {
     $router->get('/{info}', 'InfoController@show')->middleware('cache.headers:public;max_age=3600;must_revalidate;etag');
 });
