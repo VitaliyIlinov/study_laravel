@@ -10,6 +10,7 @@
 /storage/*.key
 /storage/mysql
 /vendor
+/.idea
 .env
 .env.backup
 .docker-compose.env
