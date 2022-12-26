@@ -13,13 +13,16 @@ $(document).ready(function () {
         },
 
         set: function (key, data) {
-            this.data[key] = data;
+            localStorage.setItem(key, JSON.stringify(data));
+            // this.data[key] = data;
         },
         get: function (key) {
-            return this.data[key];
+            return JSON.parse(localStorage.getItem(key));
+            //return this.data[key];
         },
         isExist: function (key) {
-            return this.data[key] !== undefined;
+            return localStorage.getItem(key) !== null;
+            // return this.data[key] !== undefined;
         },
 
     };

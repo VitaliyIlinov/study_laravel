@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
-<!-- https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file -->
-<ruleset name="custom">
-    <description>Coding standard based on Zend with some additions.</description>
+<ruleset name="PHP_CodeSniffer">
+    <description>The coding standard for our project.</description>
+    <rule ref="PSR12"/>
 
     <file>app</file>
     <file>bootstrap</file>
     <file>config</file>
     <file>database</file>
     <file>resources</file>
-    <file>routes</file>
     <file>tests</file>
 
     <exclude-pattern>bootstrap/cache/*</exclude-pattern>
@@ -17,17 +16,8 @@
     <exclude-pattern>*/seeds/*</exclude-pattern>
     <exclude-pattern>*.blade.php</exclude-pattern>
     <exclude-pattern>*.js</exclude-pattern>
-    <exclude-pattern>*/tests/*$</exclude-pattern>
-    <exclude-pattern>*/*\.(inc|css|js)$</exclude-pattern>
-    <exclude-pattern>docker/*</exclude-pattern>
-    <exclude-pattern>*vendor/*</exclude-pattern>
-    <exclude-pattern>storage/*</exclude-pattern>
-    <exclude-pattern>*/config/*</exclude-pattern>
-    <arg name="basepath" value="."/>
+
+    <!-- Show progression -->
     <arg name="colors"/>
-    <arg name="parallel" value="75"/>
-    <arg value="np"/>
-
-    <rule ref="PSR2"/>
-
+    <arg value="n"/>
 </ruleset>

@@ -5,8 +5,6 @@ MAINTAINER vitaliy ilinov <ilinov123@gmail.com>
 ARG UID
 ARG GID
 
-WORKDIR /var/www
-
 # Install and enable additional extensions
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 
@@ -14,10 +12,15 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 ## Install extensions by docker-php-ext-install.
 RUN install-php-extensions @composer \
     gd \
+    exif \
     imagick \
     zip \
-    xdebug \
-    pdo_mysql
+    opcache \
+    memcached \
+    pcntl \
+    redis \
+    pdo_mysql \
+    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -34,12 +37,13 @@ RUN apt-get update && apt-get install -y \
     default-mysql-client \
     curl
 
+ARG XDEBUG="off"
+RUN if [ "$XDEBUG" = "on" ] ; then pecl install xdebug && docker-php-ext-enable xdebug; fi
 
-COPY ./ /docker
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+WORKDIR /var/www
+
+COPY ./after-build.sh /docker/after-build.sh
+RUN bash /docker/after-build.sh
 
 #Create user
 RUN groupadd --gid $GID $UID && useradd --uid $UID --gid $GID -m $UID
-
-#additional
-RUN bash /docker/after-build.sh

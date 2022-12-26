@@ -1,33 +1,33 @@
 version: '3'
 #https://www.digitalocean.com/community/tutorials/how-to-containerize-a-laravel-application-for-development-with-docker-compose-on-ubuntu-18-04-ru
 services:
-  #PHP Service
   app:
     build:
       context: ./docker
-      dockerfile: Dockerfile
       args:
         UID: '${CURRENT_UID}'
         GID: '${CURRENT_GID}'
-    image: '${APP_NAME}'
+        XDEBUG: '${XDEBUG:-on}'
+    image: '${APP_NAME}-app'
     restart: unless-stopped
-    container_name: app
+    container_name: '${APP_NAME}-app'
     # current user id and group id
     user: '${CURRENT_UID}:${CURRENT_GID}'
     volumes:
       - './:/var/www'
       - './storage/logs/php:/var/log/php'
-      - './docker/configs/php/conf.d:/usr/local/etc/php/conf.d'
-    #      - ./docker/php-fpm/pool.d/www.conf:/usr/local/etc/php-fpm.d/custom.conf
+      - './docker/configs/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     env_file:
       - docker-compose.env
     networks:
-      - app-network
+      - study-network
 
   #Nginx Service https://hub.docker.com/_/nginx
   nginx:
     image: nginx:latest
-    container_name: nginx
+    container_name: '${APP_NAME}-nginx'
     restart: unless-stopped
     ports:
       - '${APP_PORT:-80}:80'
@@ -37,12 +37,12 @@ services:
       - './storage/logs/nginx:/var/log/nginx'
       - './docker/configs/nginx/conf.d/:/etc/nginx/conf.d/'
     networks:
-      - app-network
+      - study-network
 
   #MySQL Service https://hub.docker.com/_/mysql
   db:
     image: mysql:8.0.12
-    container_name: db
+    container_name: '${APP_NAME}-db'
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
@@ -58,21 +58,23 @@ services:
       - './storage/logs/mysql:/var/log/mysql:rw'
       - './docker/configs/mysql/conf.d:/etc/mysql/conf.d'
     networks:
-      - app-network
+      - study-network
 
   adminer:
     image: adminer
-    container_name: adminer
+    container_name: '${APP_NAME}-adminer'
     restart: always
     ports:
-      - "8080:8080"
+      - '${ADMINER_PORT:-8080}:8080'
     networks:
-      - app-network
+      - study-network
 
 #Docker Networks
 networks:
-  app-network:
+  study-network:
     driver: bridge
+
+#Volumes
 volumes:
   study:
     driver: local

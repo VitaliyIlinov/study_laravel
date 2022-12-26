@@ -9,6 +9,7 @@ help: ## This help.
 .DEFAULT_GOAL := help
 
 include .env
+dc := docker-compose
 
 CURRENT_UID=$(shell id -u)
 CURRENT_GID=$(shell id -g)
@@ -25,42 +26,40 @@ ifeq ($(APP_NAME),)
 endif
 
 build : check ## Build docker images
-	echo "build..."
-	docker-compose build --force-rm
+	$(dc) build --force-rm
 
-code-sniff: ## Checking the standard code
-	echo "vendor/bin/phpcs $(git diff --name-status [CURRENT_BRANCH] | grep '\.php$' | grep -v "^[RD]" | awk '{ print $2 }')"
-	docker-compose exec -T app ./vendor/bin/phpcs ./${ARGS}
+code-sniff: ## Run code sniff
+	$(dc) exec -T app ./vendor/bin/phpcs $(git diff --name-only)
 
 lint: ## Checking the standard code
 	find . -name '*.php' -exec php -l {} \; | grep "error:"
 
-up: ## Create and start containers in the background
-	docker-compose up -d
+up: ## Run containers
+	$(dc) up -d --remove-orphans
 
 down: ## Remove docker containers
-	docker-compose down
+	@$(dc) down
 
 composer-install: up ## Install php dependencies
-	docker-compose exec -T app composer install
+	@$(dc) exec -T app composer install
 
-bash: ## Enter in container
-	docker-compose exec app bash
+bash: ## Bash to app container
+	@$(dc) exec app bash
 
-logs: ## Show container logs
-	docker-compose logs $(ARGS)
+logs: ## Docker logs
+	@$(dc) logs $(ARGS)
 
-config: ## Show docker config
-	docker-compose config
+config: ## Show container config
+	@$(dc) config
 
 clean: ## Clean App logs chmod -R 777 storage/
 	find storage -name "*.log" -delete
 
-mysql-dump: ## Create backup of all databases
-	docker exec db mysqldump --extended-insert=FALSE -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"
+mysql-dump: ## Make Mysql dump to $(MYSQL_DUMP)
+	@$(dc) exec db mysqldump --extended-insert=FALSE -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"
 
-mysql-restore: ## Restore backup of all databases
-	docker exec -i db mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) < $(MYSQL_DUMP)
+mysql-restore: ## Restore mysqlDB from $(MYSQL_DUMP)
+	@$(dc) exec -T db mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) < $(MYSQL_DUMP)
 
 init: build composer-install mysql-restore ## first run
 	docker-compose exec -T app npm install && npm run dev
