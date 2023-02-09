@@ -4,13 +4,21 @@ namespace App\Models;
 
 use App\Events\CategoryAction;
 use App\Models\Traits\JsonTimestampSerializable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 /**
- * Class Category
  * @mixin Builder
- * @package App\Models
+ * @mixin QueryBuilder
+ * @property int $id
+ * @property string $name
+ * @property int $parent_id
+ * @property int $status
+ * @property int $sort
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class Category extends Model
 {

@@ -115,7 +115,8 @@ dataTable = (id ='dataTable') => {
         $(this).html(title + '<br><input class="form-control" type="text" placeholder="Search ' + title + '" />');
     });
     $('#dataTable').DataTable({
-        "pageLength":25,
+        "pageLength": 25,
+        "order": [],
         "search": {
             "search": $.urlParam('search')
         },

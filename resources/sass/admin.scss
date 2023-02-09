@@ -82,3 +82,15 @@ table.dataTable {
         }
     }
 }
+
+//summernote
+.note-editor.note-frame {
+    //control button group
+    .note-toolbar.card-header {
+        position: sticky;
+        top: 0;
+        text-align: center;
+        background-color: #d9e7e9;
+        z-index: 1;
+    }
+}

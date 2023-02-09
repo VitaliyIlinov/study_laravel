@@ -104,7 +104,10 @@ class InfoController extends Controller
 
     public function index()
     {
-        return $this->crudIndex(Info::all()->keyBy('id'), 'Info List');
+        return $this->crudIndex(
+            Info::orderBy('category_id')->orderBy('sort')->get()->keyBy('id'),
+            'Info List'
+        );
     }
 
     public function create(Request $request)
