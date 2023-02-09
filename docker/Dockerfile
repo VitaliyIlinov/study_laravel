@@ -8,20 +8,6 @@ ARG GID
 # Install and enable additional extensions
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 
-## https://github.com/mlocati/docker-php-extension-installer
-## Install extensions by docker-php-ext-install.
-RUN install-php-extensions @composer \
-    gd \
-    exif \
-    imagick \
-    zip \
-    opcache \
-    memcached \
-    pcntl \
-    redis \
-    pdo_mysql \
-    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
-
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -36,6 +22,19 @@ RUN apt-get update && apt-get install -y \
     npm \
     default-mysql-client \
     curl
+
+## https://github.com/mlocati/docker-php-extension-installer
+RUN install-php-extensions @composer \
+    gd \
+    exif \
+    imagick \
+    zip \
+    opcache \
+    memcached \
+    pcntl \
+    redis \
+    pdo_mysql \
+    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 ARG XDEBUG="off"
 RUN if [ "$XDEBUG" = "on" ] ; then pecl install xdebug && docker-php-ext-enable xdebug; fi

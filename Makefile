@@ -20,12 +20,14 @@ MYSQL_DUMP=dumps/dump.sql
 .SILENT: ;               # no need for @
 .EXPORT_ALL_VARIABLES: ; # send all vars to shell
 
+default: help
+
 check:
 ifeq ($(APP_NAME),)
 	$(error Missed APP_NAME argument.)
 endif
 
-build : check ## Build docker images
+build: check## Run build
 	$(dc) build --force-rm
 
 code-sniff: ## Run code sniff
@@ -38,22 +40,22 @@ up: ## Run containers
 	$(dc) up -d --remove-orphans
 
 down: ## Remove docker containers
-	@$(dc) down
+	$(dc) down
 
 composer-install: up ## Install php dependencies
-	@$(dc) exec -T app composer install
+	$(dc) exec -T app composer install
 
 bash: ## Bash to app container
-	@$(dc) exec app bash
+	$(dc) exec app bash
 
 logs: ## Docker logs
-	@$(dc) logs $(ARGS)
+	$(dc) logs $(ARGS)
 
 config: ## Show container config
-	@$(dc) config
+	$(dc) config
 
-clean: ## Clean App logs chmod -R 777 storage/
-	find storage -name "*.log" -delete
+clean: ## Remove *.log from storage folder
+	@find storage -name "*.log" -delete
 
 mysql-dump: ## Make Mysql dump to $(MYSQL_DUMP)
 	@$(dc) exec db mysqldump --extended-insert=FALSE -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"
