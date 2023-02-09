@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    var $width = $(window).width();
+
     setActive();
     setAnchor();
 
@@ -43,6 +45,9 @@ $(document).ready(function () {
                 animateCSS($('[data-render="content"]').html(data.content), 'fadeIn');
                 setAnchor();
                 setActive();
+                if ($width < 800) {
+                    $('#sidebar').toggleClass('active');
+                }
                 hljs.highlightAll();
             };
             if (ob.isExist($href)) {
@@ -57,7 +62,7 @@ $(document).ready(function () {
                     ob.success($href, onsuccess);
                 },
                 statusCode: {
-                    500: function(jqXHR) {
+                    500: function (jqXHR) {
                         toastr.error(jqXHR.responseText.message);
                     }
                 },
@@ -84,7 +89,7 @@ $(document).ready(function () {
         });
 });
 
-function setActive(){
+function setActive() {
     $('#sidebar').find('.open').removeClass('open');
     $('#sidebar a[href="' + window.location.href.split("#")[0] + '"]').parents('li').addClass('open').parents('ul').show(0, function () {
         $(this).closest('li').addClass('open');
@@ -97,8 +102,8 @@ function setAnchor() {
         $(e).clone().prependTo($('#main_content').find('div#' + $(e).attr('href').substring(1))).wrap('<h2>');
     });
 
-    $('.info').on('click', "a[href^='#']", function (event) {
+    $('.info, #arrow-top').on('click', "a[href^='#']", function (event) {
         event.preventDefault();
-        $('html,body').animate({scrollTop: $(this.hash).offset().top}, 500);
+        $('html,body').animate({scrollTop: $(this.hash).offset().top - 75}, 500);
     });
 }

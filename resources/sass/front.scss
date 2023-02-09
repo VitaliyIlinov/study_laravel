@@ -12,6 +12,9 @@ $primary: #6749b9;
 body {
     font-family: $font-primary;
 }
+/*html {
+    scroll-behavior: smooth;
+}*/
 
 a {
     transition: .3s all ease;
@@ -41,9 +44,11 @@ h1, h2, h3, h4, h5,
     font-family: $font-primary;
     color: $black;
 }
+
 .hljs {
 
 }
+
 pre code {
     white-space: break-spaces;
 }
@@ -85,6 +90,27 @@ pre code {
     border-radius: 0;
     margin-bottom: 40px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+#arrow-top {
+    position: fixed;
+    top: 90%;
+    right: 10px;
+    cursor: pointer;
+    color: #49b966;
+    border-radius: 110%;
+    display: inline;
+    background-color: #6749b99c;
+    padding: 15px;
+    width: 57px;
+    text-align: center;
+
+    &:hover {
+        background-color: #6749b9b8;
+    }
 }
 
 .navbar-btn {
