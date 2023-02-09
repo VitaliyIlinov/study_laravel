@@ -1,6 +1,8 @@
 <div class="col-12">
     <form method="{{$getMethod()}}" action="{{$getAction()}}" class="px-md-4 needs-validation">
         @csrf
+        <button type="submit" class="btn btn-primary sticky-top w-100 mb-3">Submit
+        </button>
         @foreach ($getFields() as $name => $field)
             @continue(!isset($field['type']))
             @if (in_array($field['type'],['text','number','email']))
@@ -26,7 +28,6 @@
                 @include('admin.helpers.editor', ['id' => $name])
             @endif
         @endforeach
-        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 

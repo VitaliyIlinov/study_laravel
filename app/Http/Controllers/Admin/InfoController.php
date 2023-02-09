@@ -40,19 +40,23 @@ class InfoController extends Controller
     protected function fields(): array
     {
         return [
-            'id'            => [
+            'id' => [
                 'show_in_table' => true,
-                'trans'         => 'Id',
+                'trans' => 'Id',
             ],
-            'status'        => [
-                'show_in_table' => false,
-                'type'          => 'checkbox',
-                'trans'         => 'status',
+            'sort' => [
+                'show_in_table' => true,
+                'type' => 'number',
             ],
-            'category_id'   => [
+            'status' => [
                 'show_in_table' => false,
-                'type'          => 'option',
-                'values'        => function () {
+                'type' => 'checkbox',
+                'trans' => 'status',
+            ],
+            'category_id' => [
+                'show_in_table' => false,
+                'type' => 'option',
+                'values' => function () {
                     return $this->repository->getCategoryForHtmlOption();
                 },
                 'trans'         => 'Category ID',
@@ -87,10 +91,6 @@ class InfoController extends Controller
                     $category = $category ?? Category::all()->keyBy('id');
                     return $category[$info->category_id]->name;
                 },
-            ],
-            'sort'          => [
-                'show_in_table' => true,
-                'type'          => 'number',
             ],
             'updated_at'    => [
                 'show_in_table' => true,
