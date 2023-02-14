@@ -83,7 +83,7 @@
                     },
                     onMediaDelete: function ($target, $editable) {
                         ajaxSend({
-                            url: '{{route('fileDelete')}}',
+                            url: '{{route('file.delete')}}',
                             method: 'delete',
                             data: {
                                 filePath: $target.attr('src')
@@ -101,12 +101,12 @@
 
                 ajaxSend({
                     data: data,
-                    url: '{{route('fileUpload')}}',
+                    url: '{{route('file.store')}}',
                     cache: false,
                     contentType: false,
                     processData: false,
                     success: function (url) {
-                        $('#<?=$id?>').summernote("insertImage", url.link);
+                        $('#<?= $id ?>').summernote("insertImage", url.link);
                     }
                 });
             }

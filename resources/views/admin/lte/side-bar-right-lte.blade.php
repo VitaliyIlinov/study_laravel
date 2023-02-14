@@ -27,7 +27,7 @@
                     key: $(this).attr('name'),
                     value: $(this).val(),
                 },
-                url: '{{ route('session_set') }}',
+                url: '{{ route('session.set') }}',
                 success: function (data) {
                     toastr.success(data, 'Title', {timeOut: 500});
                 },

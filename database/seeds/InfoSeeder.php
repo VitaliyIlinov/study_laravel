@@ -1,17 +1,14 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Info;
 use Illuminate\Database\Seeder;
 
 class InfoSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        factory(Info::class, CategorySeeder::AMOUNT * 3)->create();
+        Info::factory(CategorySeeder::AMOUNT * 3)->create();
     }
 }

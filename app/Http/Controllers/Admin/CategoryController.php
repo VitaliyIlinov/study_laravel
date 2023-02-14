@@ -57,7 +57,7 @@ class CategoryController extends Controller
 
     public function store(StoreCategory $request)
     {
-        return $this->crudUpdate($this->mergeStatus($request), new Category(), 'category_list');
+        return $this->crudUpdate($this->mergeStatus($request), new Category(), 'category.list');
     }
 
     public function show(Category $category, Request $request)
@@ -67,7 +67,7 @@ class CategoryController extends Controller
 
     public function update(StoreCategory $request, Category $category)
     {
-        return $this->crudUpdate($this->mergeStatus($request), $category, 'category_list');
+        return $this->crudUpdate($this->mergeStatus($request), $category, 'category.list');
     }
 
     /**

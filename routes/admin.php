@@ -1,6 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\EnvController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ConfigController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FileController;
+use App\Http\Controllers\Admin\InfoController;
+use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\SessionController;
+use App\Http\Controllers\Admin\TodoListController;
+use App\Http\Controllers\TestController;
 use App\Http\Middleware\OnlyAjax;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
@@ -16,33 +24,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'DashboardController@index')->name('home');
-Route::prefix('category')->group(function (Router $router) {
-    $router->get('/', 'CategoryController@index')->name('category_list');
-    $router->get('/edit/{category}', 'CategoryController@show');
-    $router->post('/edit/{category}', 'CategoryController@update');
-    $router->get('/create', 'CategoryController@create');
-    $router->post('/create', 'CategoryController@store');
-    $router->delete('/{category}', 'CategoryController@destroy');
+Route::get('/', [DashboardController::class, 'index'])->name('home');
+Route::prefix('category')->as('category.')->group(function (Router $router) {
+    $router->get('/', [CategoryController::class, 'index'])->name('list');
+    $router->get('/edit/{category}', [CategoryController::class, 'show']);
+    $router->post('/edit/{category}', [CategoryController::class, 'update']);
+    $router->get('/create', [CategoryController::class, 'create']);
+    $router->post('/create', [CategoryController::class, 'store']);
+    $router->delete('/{category}', [CategoryController::class, 'destroy']);
     $router->group(['prefix' => 'ajax', 'middleware' => OnlyAjax::class], function (Router $router) {
-        $router->post('/sort_update', 'CategoryController@ajaxUpdateSort')->name('ajaxCatUpdate');
+        $router->post('/sort_update', [CategoryController::class, 'ajaxUpdateSort'])->name('ajaxCatUpdate');
     });
 });
-Route::prefix('info')->group(function (Router $router) {
-    $router->get('/', 'InfoController@index')->name('info_list');
-    $router->get('/edit/{info}', 'InfoController@show');
-    $router->post('/edit/{info}', 'InfoController@update');
-    $router->get('/create', 'InfoController@create');
-    $router->post('/create', 'InfoController@store');
-    $router->delete('/{info}', 'InfoController@destroy');
+Route::prefix('info')->as('info.')->group(function (Router $router) {
+    $router->get('/', [InfoController::class, 'index'])->name('list');
+    $router->get('/edit/{info}', [InfoController::class, 'show']);
+    $router->post('/edit/{info}', [InfoController::class, 'update']);
+    $router->get('/create', [InfoController::class, 'create']);
+    $router->post('/create', [InfoController::class, 'store']);
+    $router->delete('/{info}', [InfoController::class, 'destroy']);
 });
-Route::prefix('config')->group(function (Router $router) {
-    $router->get('/', 'ConfigController@index')->name('config_list');
-    $router->get('/edit/{config}', 'ConfigController@show');
-    $router->post('/edit/{config}', 'ConfigController@update');
-    $router->get('/create', 'ConfigController@create');
-    $router->post('/create', 'ConfigController@store');
-    $router->delete('/{config}', 'ConfigController@destroy');
+Route::prefix('config')->as('config.')->group(function (Router $router) {
+    $router->get('/', [ConfigController::class, 'index'])->name('list');
+    $router->get('/edit/{config}', [ConfigController::class, 'show']);
+    $router->post('/edit/{config}', [ConfigController::class, 'update']);
+    $router->get('/create', [ConfigController::class, 'create']);
+    $router->post('/create', [ConfigController::class, 'store']);
+    $router->delete('/{config}', [ConfigController::class, 'destroy']);
 });
 /*Route::prefix('env')->group(function (Router $router) {
     $router->get('/', [EnvController::class, 'index'])->name('env_list');
@@ -55,31 +63,31 @@ Route::prefix('config')->group(function (Router $router) {
         $router->delete('/{envKey}', [EnvController::class, 'destroy']);
     });
 });*/
-Route::prefix('session')->group(function (Router $router) {
-    $router->get('/edit', 'SessionController@get');
-    $router->post('/edit', 'SessionController@set')->name('session_set');
-    $router->delete('/', 'SessionController@destroy');
+Route::prefix('session')->as('session.')->group(function (Router $router) {
+    $router->get('/edit', [SessionController::class, 'get']);
+    $router->post('/edit', [SessionController::class, 'set'])->name('set');
+    $router->delete('/', [SessionController::class, 'forget']);
 });
-Route::prefix('todo')->group(function (Router $router) {
-    $router->get('/', 'TodoListController@index')->name('todo_list');
-    $router->get('/edit/{todoList}', 'TodoListController@show');
-    $router->post('/edit/{todoList}', 'TodoListController@update');
-    $router->get('/create', 'TodoListController@create');
-    $router->post('/create', 'TodoListController@store');
-    $router->delete('/{todoList}', 'TodoListController@destroy');
+Route::prefix('todo')->as('todo.')->group(function (Router $router) {
+    $router->get('/', [TodoListController::class, 'index'])->name('list');
+    $router->get('/edit/{todoList}', [TodoListController::class, 'show']);
+    $router->post('/edit/{todoList}', [TodoListController::class, 'update']);
+    $router->get('/create', [TodoListController::class, 'create']);
+    $router->post('/create', [TodoListController::class, 'store']);
+    $router->delete('/{todoList}', [TodoListController::class, 'destroy']);
     $router->group(['prefix' => 'ajax', 'middleware' => OnlyAjax::class], function (Router $router) {
-        $router->post('/sort_update', 'TodoListController@ajaxUpdateSort')->name('ajaxToDoUpdate');
-        $router->post('/change_status/{todoList}', 'TodoListController@changeStatus')->name('todoStatus');
+        $router->post('/sort_update', [TodoListController::class, 'ajaxUpdateSort'])->name('ajax-update');
+        $router->post('/change_status/{todoList}', [TodoListController::class, 'changeStatus'])->name('change-status');
     });
 });
-Route::prefix('questions')->group(function (Router $router) {
-    $router->get('/', 'QuestionController@index')->name('main_question');
+Route::prefix('questions')->as('question.')->group(function (Router $router) {
+    $router->get('/', [QuestionController::class, 'index'])->name('main');
 });
 
-Route::prefix('file')->group(function (Router $router) {
-    $router->post('/store', 'FileController@store')->name('fileUpload');
-    $router->delete('/delete', 'FileController@delete')->name('fileDelete');
+Route::prefix('file')->as('file.')->group(function (Router $router) {
+    $router->post('/store', [FileController::class, 'store'])->name('store');
+    $router->delete('/delete', [FileController::class, 'delete'])->name('delete');
 });
-Route::prefix('test')->group(function (Router $router) {
-    $router->get('/', 'TestController@index')->name('test');
+Route::prefix('test')->as('test.')->group(function (Router $router) {
+    $router->get('/', [TestController::class, 'test'])->name('test');
 });

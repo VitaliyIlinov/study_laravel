@@ -35,19 +35,19 @@ class AdminMenuSideBarComposer
                 'icon_class' => 'fas fa-tachometer-alt',
             ],
             [
-                'url'        => route('category_list'),
-                'trans'      => 'Category',
+                'url' => route('category.list'),
+                'trans' => 'Category',
                 'icon_class' => 'fas fa-copy',
             ],
             [
-                'url'        => route('info_list'),
-                'trans'      => 'Info',
+                'url' => route('info.list'),
+                'trans' => 'Info',
                 'icon_class' => 'fas fa-edit',
             ],
             [
-                'url'             => route('config_list'),
-                'trans'           => 'Config',
-                'icon_class'      => 'fas fa-tools',
+                'url' => route('config.list'),
+                'trans' => 'Config',
+                'icon_class' => 'fas fa-tools',
                 'additional_text' => '<span class="right badge badge-danger">New</span>',
             ],
           /*  [
@@ -56,13 +56,13 @@ class AdminMenuSideBarComposer
                 'icon_class'      => 'fas fa-tools',
             ],*/
             [
-                'url'        => route('todo_list'),
-                'trans'      => 'To Do list',
+                'url' => route('todo.list'),
+                'trans' => 'To Do list',
                 'icon_class' => 'fas fa-tasks',
             ],
             [
-                'url'        => route('main_question'),
-                'trans'      => 'Interview Questions',
+                'url' => route('question.main'),
+                'trans' => 'Interview Questions',
                 'icon_class' => 'fas fa-question',
             ],
 

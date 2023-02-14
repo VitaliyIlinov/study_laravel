@@ -1,17 +1,14 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\TodoList;
 use Illuminate\Database\Seeder;
 
 class TodoListSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        factory(TodoList::class, 10)->create();
+        TodoList::factory(10)->create();
     }
 }

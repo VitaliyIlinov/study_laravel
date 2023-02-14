@@ -6,6 +6,7 @@ use App\Events\InfoAction;
 use App\Models\Traits\JsonTimestampSerializable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Str;
@@ -26,6 +27,7 @@ use Illuminate\Support\Str;
 class Info extends Model
 {
     use JsonTimestampSerializable;
+    use HasFactory;
 
     protected $dispatchesEvents = [
         'saved' => InfoAction::class,

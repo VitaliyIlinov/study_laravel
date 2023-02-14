@@ -117,7 +117,7 @@ class InfoController extends Controller
 
     public function store(StoreInfo $request)
     {
-        return $this->crudUpdate($this->mergeStatus($request), new Info(), 'info_list');
+        return $this->crudUpdate($this->mergeStatus($request), new Info(), 'info.list');
     }
 
     public function show(Info $info, Request $request)
@@ -127,7 +127,7 @@ class InfoController extends Controller
 
     public function update(StoreInfo $request, Info $info)
     {
-        return $this->crudUpdate($this->mergeStatus($request), $info, 'info_list');
+        return $this->crudUpdate($this->mergeStatus($request), $info, 'info.list');
     }
 
     public function destroy(Info $info)

@@ -63,7 +63,7 @@ class ConfigController extends Controller
 
     public function store(ConfigRequest $request)
     {
-        return $this->crudUpdate($request, new Config(), 'config_list');
+        return $this->crudUpdate($request, new Config(), 'config.list');
     }
 
     public function show(Config $config, Request $request)
@@ -73,7 +73,7 @@ class ConfigController extends Controller
 
     public function update(ConfigRequest $request, Config $config)
     {
-        return $this->crudUpdate($request, $config, 'config_list');
+        return $this->crudUpdate($request, $config, 'config.list');
     }
 
     public function destroy(Config $config)

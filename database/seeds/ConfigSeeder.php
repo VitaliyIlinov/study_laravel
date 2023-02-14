@@ -1,17 +1,14 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Config;
 use Illuminate\Database\Seeder;
 
 class ConfigSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        factory(Config::class, 10)->create();
+        Config::factory(10)->create();
     }
 }

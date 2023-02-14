@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Category;
 use App\Models\Info;
 use Illuminate\Database\Seeder;
@@ -45,17 +47,12 @@ class CategoryInfoSeeder extends Seeder
         ['id' => 36, 'name' => 'Structural patterns', 'parent_id' => 30],
     ];
 
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
         foreach ($this->rows as $row) {
             $cat = Category::create($row);
-            factory(Info::class, 2)->create([
-                'title'       => $cat->name . " title info",
+            Info::factory()->create([
+                'title' => $cat->name . " title info",
                 'category_id' => $cat->id,
             ]);
         }

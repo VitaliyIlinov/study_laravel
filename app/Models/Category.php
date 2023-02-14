@@ -6,6 +6,7 @@ use App\Events\CategoryAction;
 use App\Models\Traits\JsonTimestampSerializable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
@@ -23,6 +24,7 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 class Category extends Model
 {
     use JsonTimestampSerializable;
+    use HasFactory;
 
     protected $dispatchesEvents = [
         'saved' => CategoryAction::class,

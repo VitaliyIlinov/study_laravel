@@ -67,12 +67,12 @@ class TodoListController extends Controller
 
     public function store(TodoRequest $request)
     {
-        return $this->crudUpdate($this->mergeStatus($request), new TodoList(), 'todo_list');
+        return $this->crudUpdate($this->mergeStatus($request), new TodoList(), 'todo.list');
     }
 
     public function update(TodoRequest $request, TodoList $todoList)
     {
-        return $this->crudUpdate($this->mergeStatus($request), $todoList, 'todo_list');
+        return $this->crudUpdate($this->mergeStatus($request), $todoList, 'todo.list');
     }
 
     public function destroy(TodoList $todoList): JsonResponse

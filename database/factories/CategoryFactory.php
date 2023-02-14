@@ -1,14 +1,19 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 use App\Models\Category;
-use Faker\Generator as Faker;
+use Database\Seeders\CategorySeeder;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Category::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'parent_id' => $faker->numberBetween(0, CategorySeeder::AMOUNT -1),
-        'sort' => rand(1, 20),
-    ];
-});
+final class CategoryFactory extends Factory
+{
+    protected $model = Category::class;
+
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'parent_id' => $this->faker->numberBetween(0, CategorySeeder::AMOUNT - 1),
+            'sort' => rand(1, 20),
+        ];
+    }
+}

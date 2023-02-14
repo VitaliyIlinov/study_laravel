@@ -15,7 +15,7 @@
                         <i role="button" class="fas fa-bars handle"></i>
                         <div style="display: inline-block" class="custom-control custom-checkbox">
                             <input onchange="sendActive(this)"
-                                   data-url="{{route('todoStatus', $row->id)}}"
+                                   data-url="{{route('todo.change-status', $row->id)}}"
                                    class="custom-control-input"
                                    type="checkbox"
                                    {{ $row->status ?'checked':''}}
@@ -24,8 +24,8 @@
                             <label for="{{$row->id}}" data-name="description"
                                    class="custom-control-label">{!! $row->description !!}</label>
                         </div>
-                        <span class="badge badge-success" data-name="label">{{$row->label}}</span>
-                        <span class="badge badge-primary" data-name="updated_at">{{$row->updated_at}}</span>
+                        <span class="badge badge-success" data-name="label">{{$row->label}}</span> <span
+                            class="badge badge-primary" data-name="updated_at">{{$row->updated_at}}</span>
                         <span class="badge">
                         <a data-href="{{action('Admin\TodoListController@show',$row->id)}}" data-method="get"
                            data-onsuccess="saveRow" class="btn">
@@ -83,7 +83,7 @@
                         data: {
                             list: order.join("|")
                         },
-                        url: '{{ route('ajaxToDoUpdate') }}'
+                        url: '{{ route('todo.ajax-update') }}'
                     });
                 },
             },
