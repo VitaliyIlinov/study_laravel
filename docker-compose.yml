@@ -9,8 +9,6 @@ services:
     image: '${APP_NAME}-app'
     restart: unless-stopped
     container_name: '${APP_NAME}-app'
-    # current user id and group id
-    user: '${CURRENT_UID}:${CURRENT_GID}'
     volumes:
       - './:/var/www'
       - './storage/logs/php:/var/log/php'
