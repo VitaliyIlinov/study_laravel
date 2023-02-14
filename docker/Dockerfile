@@ -2,9 +2,6 @@
 FROM php:8.0-fpm
 MAINTAINER vitaliy ilinov <ilinov123@gmail.com>
 
-ARG UID
-ARG GID
-
 # Install and enable additional extensions
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 
@@ -43,6 +40,3 @@ WORKDIR /var/www
 
 COPY ./after-build.sh /docker/after-build.sh
 RUN bash /docker/after-build.sh
-
-#Create user
-RUN groupadd --gid $GID $UID && useradd --uid $UID --gid $GID -m $UID

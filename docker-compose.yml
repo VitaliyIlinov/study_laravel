@@ -5,8 +5,6 @@ services:
     build:
       context: ./docker
       args:
-        UID: '${CURRENT_UID}'
-        GID: '${CURRENT_GID}'
         XDEBUG: '${XDEBUG:-on}'
     image: '${APP_NAME}-app'
     restart: unless-stopped
