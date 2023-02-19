@@ -12,6 +12,7 @@ $primary: #6749b9;
 body {
     font-family: $font-primary;
 }
+
 /*html {
     scroll-behavior: smooth;
 }*/
@@ -101,12 +102,13 @@ pre code {
     right: 10px;
     cursor: pointer;
     color: #49b966;
-    border-radius: 110%;
-    display: inline;
+    border-radius: 50%;
     background-color: #6749b99c;
-    padding: 15px;
-    width: 57px;
-    text-align: center;
+
+    a {
+        padding: 15px 20px;
+        display: inline-block;
+    }
 
     &:hover {
         background-color: #6749b9b8;
