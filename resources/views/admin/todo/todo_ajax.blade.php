@@ -25,8 +25,8 @@
                                    class="custom-control-label">{!! $row->description !!}</label>
                         </div>
                         <span class="badge badge-success" data-name="label">{{$row->label}}</span> <span
-                            class="badge badge-primary" data-name="updated_at">{{$row->updated_at}}</span>
-                        <span class="badge">
+                            class="badge badge-primary" data-name="updated_at">{{$row->updated_at}}</span> <span
+                            class="badge">
                         <a data-href="{{action('Admin\TodoListController@show',$row->id)}}" data-method="get"
                            data-onsuccess="saveRow" class="btn">
                             <i class="far fa-edit"></i>
