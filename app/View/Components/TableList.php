@@ -82,7 +82,7 @@ class TableList extends Component
 
     public function buildCreateButton(?string $link = null)
     {
-        $link = is_string($link) ?$link: $this->getLink('create');
+        $link = is_string($link) ? $link : $this->getLink('create');
         return $this->generateButton(
             $link,
             'get',
@@ -94,7 +94,7 @@ class TableList extends Component
 
     public function buildEditButton($id)
     {
-        $link = is_string($id) ?$id: $this->getLink('edit', $id);
+        $link = is_string($id) ? $id : $this->getLink('edit', $id);
         return $this->generateButton(
             $link,
             'get',
@@ -106,7 +106,7 @@ class TableList extends Component
 
     public function buildDeleteButton($id, $iClass = 'fas fa-trash')
     {
-        $link = is_string($id) ?$id: $this->getLink($id);
+        $link = is_string($id) ? $id : $this->getLink($id);
         return $this->generateButton(
             $link,
             'delete',

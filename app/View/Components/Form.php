@@ -5,6 +5,7 @@ namespace App\View\Components;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class Form extends Component
 {
@@ -45,12 +46,12 @@ class Form extends Component
         $this->currentPrefix = DIRECTORY_SEPARATOR . Route::current()->getPrefix() . DIRECTORY_SEPARATOR;
         $this->fields = $fields;
         $this->row = $row;
-        $this->method ='post';
+        $this->method = 'post';
         if ($this->isFormCreate()) {
             $this->action = $this->currentPrefix . 'create';
         } else {
-            $this->method ='post';
-            $this->action = $this->currentPrefix. 'edit' . DIRECTORY_SEPARATOR . $this->row->id;
+            $this->method = 'post';
+            $this->action = $this->currentPrefix . 'edit' . DIRECTORY_SEPARATOR . $this->row->id;
         }
     }
 
@@ -90,7 +91,7 @@ class Form extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return View|string
      */
     public function render()
     {

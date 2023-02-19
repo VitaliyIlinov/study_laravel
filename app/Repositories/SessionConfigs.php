@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class SessionConfigs implements SessionConfigsInterface
 {
-
     public const AVAILABLE_KEYS = [
         'editor' => ['froala_editor', 'code_mirror', 'default'],
     ];

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
+
 use App\Models\TodoList;
 use Google\Client;
 use Google_Service_Sheets;
@@ -12,7 +13,6 @@ use Revolution\Google\Sheets\Facades\Sheets;
 
 final class TestController extends Controller
 {
-
     private $spreadsheetId = '1Jji5XP82JdaFn-Mf7fo7Zg0ELuWOE_BroREgispvK40';
 
     private function rep()
@@ -124,5 +124,4 @@ final class TestController extends Controller
         $result = $service->spreadsheets_values->update($spreadsheetId, $range, $body, $params ?? []);
         var_dump($result->getUpdatedData());
     }
-
 }

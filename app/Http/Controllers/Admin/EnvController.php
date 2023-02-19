@@ -14,7 +14,6 @@ use stdClass;
 
 class EnvController extends Controller
 {
-
     use CrudService {
         CrudService::index as crudIndex;
         CrudService::show as crudShow;

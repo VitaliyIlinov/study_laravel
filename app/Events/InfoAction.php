@@ -9,16 +9,16 @@ use Illuminate\Queue\SerializesModels;
 
 class InfoAction
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     /**
      * Create a new event instance.
-     *
      * @return void
      */
     public function __construct(Info $info)
     {
-        $r=1;
+        $r = 1;
     }
-
 }
