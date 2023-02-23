@@ -137,6 +137,8 @@ dataTable = (id = 'dataTable') => {
                             $(this).val()
                         );
 
+                        let href = window.location.href.split('?')[0] + '?search=' + val;
+                        window.history.pushState({href: href}, null, href);
                         column
                             .search(val ? '^' + val + '$' : '', true, false)
                             .draw();
