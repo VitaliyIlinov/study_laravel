@@ -82,7 +82,7 @@ $(document).ready(function () {
         },
     };
 
-    $('.content-wrapper').on('click', 'a.btn[href]', function (e) {
+    $('.content-wrapper').on('click', '#dataTable a.btn[href]', function (e) {
         //edit,delete,create buttons
         e.preventDefault();
         var target = $(this);
@@ -97,7 +97,7 @@ $(document).ready(function () {
             },
         };
         ajaxSend(options);
-    }).on('click', '#form [type=button]', function (e) {
+    }).on('click', '#form .submit-btn [type=button]', function (e) {
         tableActions.getContent(window.history.state.prev);
     });
 

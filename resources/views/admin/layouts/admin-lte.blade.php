@@ -231,6 +231,6 @@
 <!-- ./wrapper -->
 
 @stack('scripts')
-@include('admin.helpers.modal')
+{{--@include('admin.helpers.modal')--}}
 </body>
 </html>
