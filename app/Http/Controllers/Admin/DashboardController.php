@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
-    protected const IS_CRUD_BY_AJAX = true;
-
     public function index()
     {
         if (request()->ajax()) {

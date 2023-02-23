@@ -36,44 +36,49 @@ Route::prefix('category')->as('category.')->group(function (Router $router) {
         $router->post('/sort_update', [CategoryController::class, 'ajaxUpdateSort'])->name('ajaxCatUpdate');
     });
 });
+
 Route::prefix('info')->as('info.')->group(function (Router $router) {
     $router->get('/', [InfoController::class, 'index'])->name('list');
-    $router->get('/edit/{info}', [InfoController::class, 'show']);
-    $router->post('/edit/{info}', [InfoController::class, 'update']);
     $router->get('/create', [InfoController::class, 'create']);
     $router->post('/create', [InfoController::class, 'store']);
+    $router->get('/{info}', [InfoController::class, 'show']);
+    $router->post('/{info}', [InfoController::class, 'update']);
     $router->delete('/{info}', [InfoController::class, 'destroy']);
 });
+
 Route::prefix('config')->as('config.')->group(function (Router $router) {
     $router->get('/', [ConfigController::class, 'index'])->name('list');
-    $router->get('/edit/{config}', [ConfigController::class, 'show']);
-    $router->post('/edit/{config}', [ConfigController::class, 'update']);
     $router->get('/create', [ConfigController::class, 'create']);
     $router->post('/create', [ConfigController::class, 'store']);
+    $router->get('/{config}', [ConfigController::class, 'show']);
+    $router->post('/{config}', [ConfigController::class, 'update']);
     $router->delete('/{config}', [ConfigController::class, 'destroy']);
 });
+
 /*Route::prefix('env')->group(function (Router $router) {
     $router->get('/', [EnvController::class, 'index'])->name('env_list');
     $router->get('/create', [EnvController::class, 'create']);
-    $router->get('/edit/{envKey}', [EnvController::class, 'show']);
+    $router->get('/{envKey}', [EnvController::class, 'show']);
 
     $router->group(['middleware' => OnlyAjax::class], function (Router $router) {
-        $router->post('/edit/{envKey}', [EnvController::class, 'update']);
+        $router->post('/{envKey}', [EnvController::class, 'update']);
         $router->post('/create', [EnvController::class, 'store']);
         $router->delete('/{envKey}', [EnvController::class, 'destroy']);
     });
 });*/
+
 Route::prefix('session')->as('session.')->group(function (Router $router) {
     $router->get('/edit', [SessionController::class, 'get']);
     $router->post('/edit', [SessionController::class, 'set'])->name('set');
     $router->delete('/', [SessionController::class, 'forget']);
 });
+
 Route::prefix('todo')->as('todo.')->group(function (Router $router) {
     $router->get('/', [TodoListController::class, 'index'])->name('list');
-    $router->get('/edit/{todoList}', [TodoListController::class, 'show']);
-    $router->post('/edit/{todoList}', [TodoListController::class, 'update']);
-    $router->get('/create', [TodoListController::class, 'create']);
+    $router->get('/create', [TodoListController::class, 'create'])->name('create');
     $router->post('/create', [TodoListController::class, 'store']);
+    $router->get('/{todoList}', [TodoListController::class, 'show']);
+    $router->post('/{todoList}', [TodoListController::class, 'update']);
     $router->delete('/{todoList}', [TodoListController::class, 'destroy']);
     $router->group(['prefix' => 'ajax', 'middleware' => OnlyAjax::class], function (Router $router) {
         $router->post('/sort_update', [TodoListController::class, 'ajaxUpdateSort'])->name('ajax-update');

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\Traits;
 
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,24 +16,22 @@ trait CrudService
 {
     /**
      * Display a listing of the resource.
-     *
-     * @param Collection  $rows
+     * @param Collection $rows
      * @param string|null $title
-     * @param string      $view
+     * @param string $view
      * @return mixed
      */
     public function index(Collection $rows, ?string $title = null, string $view = 'admin.helpers.tables.list')
     {
         $data = [
-            'fields'   => $this->getFields(),
-            'title'    => $title,
-            'rows'     => $rows,
-            'crudAjax' => static::IS_CRUD_BY_AJAX,
+            'fields' => $this->getFields(),
+            'title' => $title,
+            'rows' => $rows,
         ];
         if (request()->ajax()) {
             return response()->json([
                 'content' => view("{$view}_ajax", $data)->render(),
-                'title'   => $title,
+                'title' => $title,
             ]);
         }
 
@@ -43,29 +40,24 @@ trait CrudService
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @param Request $request
-     * @return mixed
-     * @throws Throwable
      */
-    public function create(Request $request)
+    public function create(Request $request, string $title = 'Create form'): View|JsonResponse
     {
         if ($request->ajax()) {
             return response()->json([
-                'form' => view('admin.helpers.forms.ajax_form', [
-                    'fields' => $this->getFields(),
-                ])->render(),
+                'content' => view('admin.helpers.forms.ajax_form', ['fields' => $this->getFields()])->render(),
+                'title' => $title,
             ]);
         }
         return view('admin.helpers.forms.form', [
             'fields' => $this->getFields(),
+            'title' => $title,
         ]);
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param Model   $model
+     * @param Model $model
      * @param Request $request
      * @return Application|Factory|JsonResponse|View
      * @throws Throwable
@@ -74,49 +66,45 @@ trait CrudService
     {
         if ($request->ajax()) {
             return response()->json([
-                'form' => view('admin.helpers.forms.ajax_form', [
+                'content' => view('admin.helpers.forms.ajax_form', [
                     'row' => $model,
                     'fields' => $this->getFields(),
                 ])->render(),
-                'id' => $model->{$model->getKeyName()}
+                'title' => 'Id: ' . $model->{$model->getKeyName()},
             ]);
         }
         return view('admin.helpers.forms.form', [
-            'row'    => $model,
+            'row' => $model,
             'fields' => $this->getFields(),
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
-     *
      * @param Request $request
-     * @param Model   $model
-     * @param string  $route
+     * @param Model $model
      * @return JsonResponse|RedirectResponse
      */
-    public function store(Request $request, Model $model, string $route)
+    public function store(Request $request, Model $model)
     {
         $result = $model->fill($request->all())->save();
         if ($request->ajax()) {
             return response()->json([
-                'result'  => $result,
-                'model'   => $model->toArray(),
+                'result' => $result,
+                'model' => $model->toArray(),
                 'message' => 'Row was created',
             ]);
         }
-        return redirect()->route($route)->with('success', 'Row was created');
+        return redirect()->action([self::class, 'index'])->with('success', 'Row was created');
     }
 
     /**
      * Update the specified resource in storage.
-     *
      * @param Request $request
-     * @param Model   $model
-     * @param string  $route
+     * @param Model $model
      * @return JsonResponse|RedirectResponse
      */
-    public function update(Request $request, Model $model, string $route)
+    public function update(Request $request, Model $model)
     {
         $result = $model->fill($request->all())->save();
         if ($request->ajax()) {
@@ -128,25 +116,26 @@ trait CrudService
                 }
             }
             return response()->json([
-                'result'  => $result,
-                'model'   => array_merge($model->getChanges(), $customData),
+                'result' => $result,
+                'model' => array_merge($model->getChanges(), $customData),
                 'message' => 'Row was updated',
             ]);
         }
-        return redirect()->back()->with('success', 'Row was updated');
+        return redirect()->action([self::class, 'index'])->with('success', 'Row was updated');
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param Model $model
-     * @return JsonResponse
-     * @throws Exception
      */
     public function destroy(Model $model)
     {
         $model->delete();
-        return response()->json(['message' => 'success']);
+        if (request()->ajax()) {
+            return response()->json([
+                'message' => 'Row was deleted',
+            ]);
+        }
+        return redirect()->action([self::class, 'index'])->with('success', 'Row was deleted');
     }
 
     /**
@@ -167,10 +156,4 @@ trait CrudService
     }
 
     abstract protected function fields(): array;
-
-    protected function mergeStatus(Request $request): Request
-    {
-        $request->request->add(['status' => $request->get('status') ? 1 : 0]);
-        return $request;
-    }
 }

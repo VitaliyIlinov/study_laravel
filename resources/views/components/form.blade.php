@@ -1,33 +1,42 @@
 <div class="col-12">
-    <form method="{{$getMethod()}}" action="{{$getAction()}}" class="px-md-4 needs-validation">
+    <form id="form" method="{{$getMethod()}}" action="{{$getAction()}}" class="px-md-4 orm-horizontal needs-validation">
         @csrf
-        <button type="submit" class="btn btn-primary sticky-top w-100 mb-3">Submit
-        </button>
-        @foreach ($getFields() as $name => $field)
-            @continue(!isset($field['type']))
-            @if (in_array($field['type'],['text','number','email']))
-                <div class="form-group">
-                    {!! $buildLabel($name) !!}
-                    {!! $buildInput($name) !!}
+        <div class="card-header submit-btn">
+            <button type="submit" class="btn btn-info">Submit</button>
+            <button type="button" class="btn btn-default float-right">Cancel</button>
+        </div>
+        <div class="card-body">
+            @foreach ($getFields() as $name => $field)
+                @continue(!isset($field['type']))
+                <div class="form-group row">
+                    @if (in_array($field['type'],['text','number','email']))
+                        {!! $buildLabel($name) !!}
+                        <div class="col-sm-10">
+                            {!! $buildInput($name) !!}
+                        </div>
+                    @elseif ($field['type'] ==='checkbox')
+                        {!! $buildLabel($name) !!}
+                        <div class="col-sm-10">
+                            {!! $buildCheckbox($name) !!}
+                        </div>
+                    @elseif ($field['type'] ==='option')
+                        {!! $buildLabel($name) !!}
+                        <div class="col-sm-10">
+                            {!! $buildSelect($name) !!}
+                        </div>
+                    @elseif ($field['type'] ==='textarea')
+                        {!! $buildLabel($name) !!}
+                        <div class="col-sm-12">
+                            {!! $buildTextarea($name) !!}
+                        </div>
+                        @include('admin.helpers.editor', ['id' => $name])
+                    @endif
+                    @error($name)
+                    <span style="display: block" class="error invalid-feedback">{{ $errors->first($name) }}</span>
+                    @enderror
                 </div>
-            @elseif ($field['type'] ==='checkbox')
-                <div class="form-check form-group">
-                    {!! $buildCheckbox($name,'form-check-input') !!}
-                    {!! $buildLabel($name,'form-check-label') !!}
-                </div>
-            @elseif ($field['type'] ==='option')
-                <div class="form-group">
-                    {!! $buildLabel($name) !!}
-                    {!! $buildSelect($name) !!}
-                </div>
-            @elseif ($field['type'] ==='textarea')
-                <div class="form-group">
-                    {!! $buildLabel($name) !!}
-                    {!! $buildTextarea($name) !!}
-                </div>
-                @include('admin.helpers.editor', ['id' => $name])
-            @endif
-        @endforeach
+            @endforeach
+        </div>
     </form>
 </div>
 

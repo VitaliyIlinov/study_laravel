@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Traits\CrudService;
 use App\Http\Controllers\Controller;
-use Dotenv\Loader\Lines;
-use Dotenv\Loader\Parser;
-use Dotenv\Regex\Regex;
+use Dotenv\Parser\Lines;
+use Dotenv\Parser\Parser;
+use Dotenv\Util\Regex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
@@ -22,8 +22,6 @@ class EnvController extends Controller
         CrudService::update as crudUpdate;
         CrudService::store as crudStore;
     }
-
-    protected const IS_CRUD_BY_AJAX = true;
 
     /**
      * Display a listing of the resource.

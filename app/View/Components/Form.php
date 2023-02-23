@@ -36,9 +36,8 @@ class Form extends Component
 
     /**
      * Create a new component instance.
-     *
-     * @param array      $fields
-     * @param array      $options
+     * @param array $fields
+     * @param array $options
      * @param Model|null $row
      */
     public function __construct(array $fields, array $options = [], ?Model $row = null)
@@ -51,7 +50,7 @@ class Form extends Component
             $this->action = $this->currentPrefix . 'create';
         } else {
             $this->method = 'post';
-            $this->action = $this->currentPrefix . 'edit' . DIRECTORY_SEPARATOR . $this->row->id;
+            $this->action = $this->currentPrefix . $this->row->id;
         }
     }
 
@@ -79,7 +78,6 @@ class Form extends Component
         return $this->fields;
     }
 
-
     /**
      * if model is empty -> form create
      */
@@ -90,7 +88,6 @@ class Form extends Component
 
     /**
      * Get the view / contents that represent the component.
-     *
      * @return View|string
      */
     public function render()
@@ -98,10 +95,10 @@ class Form extends Component
         return view('components.form');
     }
 
-    public function buildLabel(string $name, $classname = '')
+    public function buildLabel(string $name, $classname = 'col-sm-2 col-form-label')
     {
         return strtr("<label for=':for' class=':class'>:value</label>", [
-            ':for'   => $name,
+            ':for' => $name,
             ':class' => $classname,
             ':value' => $this->fields[$name]['trans'] ?? $name,
         ]);
@@ -112,17 +109,17 @@ class Form extends Component
         return strtr(
             "<input type=':type' autocomplete='off' :other class=':class' name=':name' id=':id' placeholder=':placeholder'>",
             [
-                ':type'        => $this->fields[$name]['type'],
-                ':class'       => $classname,
-                ':name'        => $name,
-                ':id'          => $name,
+                ':type' => $this->fields[$name]['type'],
+                ':class' => $classname,
+                ':name' => $name,
+                ':id' => $name,
                 ':placeholder' => $name,
-                ':other'       => $attributes,
+                ':other' => $attributes,
             ]
         );
     }
 
-    public function buildCheckbox(string $name, string $classname = 'form-check-input')
+    public function buildCheckbox(string $name, string $classname = 'form-control')
     {
         return $this->generateInput($name, $classname, $this->getValue($name) ? ' checked' : '');
     }
@@ -135,9 +132,9 @@ class Form extends Component
     public function buildSelect(string $name, string $classname = 'form-control')
     {
         return strtr("<select class=':class' id=':id' name=':name'>:options</select>", [
-            ':class'   => $classname,
-            ':id'      => $name,
-            ':name'    => $name,
+            ':class' => $classname,
+            ':id' => $name,
+            ':name' => $name,
             ':options' => implode(' ', $this->getOptions($name)),
         ]);
     }
@@ -146,10 +143,10 @@ class Form extends Component
     {
         return strtr("<textarea cols='40' class=':class' id=':id' name=':name' rows=':rows'\">:value</textarea>", [
             ':class' => $classname,
-            ':id'    => $name,
-            ':name'  => $name,
+            ':id' => $name,
+            ':name' => $name,
             ':value' => $this->getValue($name),
-            ':rows'  => 15,
+            ':rows' => 15,
         ]);
     }
 

@@ -170,6 +170,13 @@
         <!-- /.sidebar -->
     </aside>
 
+
+    @if(Session::has('success'))
+        <script>
+            toastr.success('{{Session::get('success')}}');
+        </script>
+    @endif
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->

@@ -12,10 +12,10 @@ class Category extends TableList
      */
     private $repository;
 
-    public function __construct(CategoryRepository $repository, array $fields, Collection $rows, bool $crudAjax = false)
+    public function __construct(CategoryRepository $repository, array $fields, Collection $rows)
     {
         $this->repository = $repository;
-        parent::__construct($fields, $rows, $crudAjax);
+        parent::__construct($fields, $rows);
     }
 
     public function render()

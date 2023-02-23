@@ -2,8 +2,8 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">
-                <a data-href="{{action('Admin\TodoListController@create')}}" data-method="get"
-                   data-onsuccess="createRow" class="btn">
+                <a href="{{route('todo.create')}}" data-method="get"
+                   data-onsuccess="showForm" class="btn">
                     <i class="fas fa-lg fa-plus"></i>
                 </a>
             </h3>
@@ -27,11 +27,11 @@
                         <span class="badge badge-success" data-name="label">{{$row->label}}</span> <span
                             class="badge badge-primary" data-name="updated_at">{{$row->updated_at}}</span> <span
                             class="badge">
-                        <a data-href="{{action('Admin\TodoListController@show',$row->id)}}" data-method="get"
-                           data-onsuccess="saveRow" class="btn">
+                        <a href="{{action('Admin\TodoListController@show',$row->id)}}" data-method="get"
+                           data-onsuccess="showEditForm" class="btn">
                             <i class="far fa-edit"></i>
                         </a>
-                        <a data-href="{{action('Admin\TodoListController@destroy',$row->id)}}" data-method="delete"
+                        <a href="{{action('Admin\TodoListController@destroy',$row->id)}}" data-method="delete"
                            data-onsuccess="deleteRow" class="btn">
                             <i class="fas fa-trash"></i>
                         </a>

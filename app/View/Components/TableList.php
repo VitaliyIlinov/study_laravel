@@ -20,11 +20,6 @@ class TableList extends Component
     protected $rows;
 
     /**
-     * @var bool
-     */
-    protected $crudAjax;
-
-    /**
      * @var string|null
      */
     protected $currentPrefix;
@@ -34,8 +29,8 @@ class TableList extends Component
         'editIcon' => '<i class="far fa-edit"></i>',
         'deleteIcon' => '<i class="fas fa-trash"></i>',
         'btnClass' => 'btn p-1',
-        'afterCreateRowEvent' => 'createRow',
-        'afterSaveRowEvent' => 'saveRow',
+        'afterCreateRowEvent' => 'showForm',
+        'afterSaveRowEvent' => 'showEditForm',
         'afterDeleteRowEvent' => 'deleteRow',
     ];
 
@@ -44,13 +39,11 @@ class TableList extends Component
      *
      * @param array      $fields
      * @param Collection $rows
-     * @param bool       $crudAjax
      */
-    public function __construct(array $fields, Collection $rows, bool $crudAjax = false)
+    public function __construct(array $fields, Collection $rows)
     {
         $this->fields = $fields;
         $this->rows = $rows;
-        $this->crudAjax = $crudAjax;
         $this->currentPrefix = Route::current()->getPrefix();
     }
 
@@ -88,19 +81,17 @@ class TableList extends Component
             'get',
             $this->defaultSettings['createIcon'],
             $this->defaultSettings['afterCreateRowEvent'],
-            $this->crudAjax
         );
     }
 
     public function buildEditButton($id)
     {
-        $link = is_string($id) ? $id : $this->getLink('edit', $id);
+        $link = is_string($id) ? $id : $this->getLink($id);
         return $this->generateButton(
             $link,
             'get',
             $this->defaultSettings['editIcon'],
             $this->defaultSettings['afterSaveRowEvent'],
-            $this->crudAjax
         );
     }
 
@@ -120,13 +111,12 @@ class TableList extends Component
         string $method,
         string $iconClass,
         string $jsOnSuccess,
-        bool $crudAjax = true
     ) {
         return strtr(
             "<a [:href] data-method=':method' data-onsuccess=':OnSuccess' class=':class'>:Icon</a>",
             [
-                '[:href]'    => $crudAjax ? "data-href='{$href}'" : "href='{$href}'",
-                ':method'    => $method,
+                '[:href]' => "href='{$href}'",
+                ':method' => $method,
                 ':OnSuccess' => $jsOnSuccess,
                 ':class' => $this->defaultSettings['btnClass'],
                 ':Icon' => $iconClass,

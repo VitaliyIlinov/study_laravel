@@ -6,14 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCategory extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    protected function prepareForValidation()
     {
-        return true;
+        $this->merge([
+            'status' => $this->boolean('status'),
+        ]);
     }
 
     /**

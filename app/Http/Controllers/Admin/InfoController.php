@@ -13,16 +13,6 @@ use Illuminate\Support\Str;
 
 class InfoController extends Controller
 {
-    /**
-     * @var CategoryRepository
-     */
-    private $repository;
-
-    public function __construct(CategoryRepository $categoryRepository)
-    {
-        $this->repository = $categoryRepository;
-    }
-
     use CrudService {
         CrudService::index as crudIndex;
         CrudService::show as crudShow;
@@ -32,7 +22,15 @@ class InfoController extends Controller
         CrudService::store as crudStore;
     }
 
-    protected const IS_CRUD_BY_AJAX = true;
+    /**
+     * @var CategoryRepository
+     */
+    private $repository;
+
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->repository = $categoryRepository;
+    }
 
     /**
      * @return array
@@ -44,10 +42,13 @@ class InfoController extends Controller
                 'show_in_table' => true,
                 'trans' => 'Id',
             ],
-            'sort' => [
+            'title' => [
                 'show_in_table' => true,
-                'type' => 'number',
+                'show_table_filter' => true,
+                'type' => 'text',
+                'trans' => 'Title',
             ],
+
             'status' => [
                 'show_in_table' => false,
                 'type' => 'checkbox',
@@ -59,43 +60,41 @@ class InfoController extends Controller
                 'values' => function () {
                     return $this->repository->getCategoryForHtmlOption();
                 },
-                'trans'         => 'Category ID',
+                'trans' => 'Category ID',
             ],
-            'title'         => [
-                'show_in_table'     => true,
+            'slug' => [
+                'show_in_table' => false,
                 'show_table_filter' => true,
-                'type'              => 'text',
-                'trans'             => 'Title',
+                'type' => 'text',
+                'trans' => 'slug',
             ],
-            'slug'         => [
-                'show_in_table'     => false,
-                'show_table_filter' => true,
-                'type'              => 'text',
-                'trans'             => 'slug',
+            'sort' => [
+                'show_in_table' => true,
+                'type' => 'number',
             ],
-            'text'          => [
-                'show_in_table'     => false,
+            'text' => [
+                'show_in_table' => false,
                 'show_table_filter' => 'input',
-                'trans'             => 'Text',
-                'type'              => 'textarea',
-                'callback'          => function (Info $info) {
+                'trans' => 'Text',
+                'type' => 'textarea',
+                'callback' => function (Info $info) {
                     return $this->textFormatter($info->text);
                 },
             ],
             'category_name' => [
-                'show_in_table'     => true,
+                'show_in_table' => true,
                 'show_table_filter' => 'select',
-                'trans'             => 'Category name',
-                'callback'          => function (Info $info) {
+                'trans' => 'Category name',
+                'callback' => function (Info $info) {
                     static $category;
                     $category = $category ?? Category::all()->keyBy('id');
                     return $category[$info->category_id]->name;
                 },
             ],
-            'updated_at'    => [
+            'updated_at' => [
                 'show_in_table' => true,
-                'trans'         => 'updated_at',
-                'callback'      => function (Info $info) {
+                'trans' => 'updated_at',
+                'callback' => function (Info $info) {
                     return $info->updated_at->format('Y-m-d H:i');
                 },
             ],
@@ -115,9 +114,9 @@ class InfoController extends Controller
         return $this->crudCreate($request);
     }
 
-    public function store(StoreInfo $request)
+    public function store(StoreInfo $request, Info $info)
     {
-        return $this->crudUpdate($this->mergeStatus($request), new Info(), 'info.list');
+        return $this->crudStore($request, $info);
     }
 
     public function show(Info $info, Request $request)
@@ -127,7 +126,7 @@ class InfoController extends Controller
 
     public function update(StoreInfo $request, Info $info)
     {
-        return $this->crudUpdate($this->mergeStatus($request), $info, 'info.list');
+        return $this->crudUpdate($request, $info);
     }
 
     public function destroy(Info $info)

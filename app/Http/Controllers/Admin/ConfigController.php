@@ -19,8 +19,6 @@ class ConfigController extends Controller
         CrudService::store as crudStore;
     }
 
-    protected const IS_CRUD_BY_AJAX = true;
-
     protected function fields(): array
     {
         return [
@@ -61,9 +59,9 @@ class ConfigController extends Controller
         return $this->crudCreate($request);
     }
 
-    public function store(ConfigRequest $request)
+    public function store(ConfigRequest $request, Config $config)
     {
-        return $this->crudUpdate($request, new Config(), 'config.list');
+        return $this->crudStore($request, $config);
     }
 
     public function show(Config $config, Request $request)
@@ -73,7 +71,7 @@ class ConfigController extends Controller
 
     public function update(ConfigRequest $request, Config $config)
     {
-        return $this->crudUpdate($request, $config, 'config.list');
+        return $this->crudUpdate($request, $config);
     }
 
     public function destroy(Config $config)

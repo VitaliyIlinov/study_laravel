@@ -20,8 +20,6 @@ class TodoListController extends Controller
         CrudService::store as crudStore;
     }
 
-    protected const IS_CRUD_BY_AJAX = true;
-
     protected function fields(): array
     {
         return [
@@ -65,14 +63,14 @@ class TodoListController extends Controller
         return $this->crudShow($todoList, $request);
     }
 
-    public function store(TodoRequest $request)
+    public function store(TodoRequest $request, TodoList $todoList)
     {
-        return $this->crudUpdate($this->mergeStatus($request), new TodoList(), 'todo.list');
+        return $this->crudStore($request, $todoList);
     }
 
     public function update(TodoRequest $request, TodoList $todoList)
     {
-        return $this->crudUpdate($this->mergeStatus($request), $todoList, 'todo.list');
+        return $this->crudUpdate($request, $todoList);
     }
 
     public function destroy(TodoList $todoList): JsonResponse

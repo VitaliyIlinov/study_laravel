@@ -19,8 +19,6 @@ class CategoryController extends Controller
         CrudService::store as crudStore;
     }
 
-    protected const IS_CRUD_BY_AJAX = true;
-
     protected function fields(): array
     {
         return [
@@ -55,9 +53,9 @@ class CategoryController extends Controller
         return $this->crudCreate($request);
     }
 
-    public function store(StoreCategory $request)
+    public function store(StoreCategory $request, Category $category)
     {
-        return $this->crudUpdate($this->mergeStatus($request), new Category(), 'category.list');
+        return $this->crudStore($request, $category);
     }
 
     public function show(Category $category, Request $request)
@@ -67,7 +65,7 @@ class CategoryController extends Controller
 
     public function update(StoreCategory $request, Category $category)
     {
-        return $this->crudUpdate($this->mergeStatus($request), $category, 'category.list');
+        return $this->crudUpdate($request, $category);
     }
 
     /**
