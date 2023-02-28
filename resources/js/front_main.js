@@ -1,33 +1,62 @@
 $(document).ready(function () {
 
-    var $width = $(window).width();
+    let $width = $(window).width();
 
-    setActive();
-    setAnchor();
-
-    var ob = {
+    let repository = {
         data: {},
-        success: function (key, onsuccess) {
-
-            if (onsuccess && $.isFunction(onsuccess)) {
-                onsuccess(this.get(key));
-            }
+        run: function (key) {
+            this.renderContent(this.get(key), key);
+            console.log('Is hit ' + key);
         },
+        renderContent: function (response, href) {
+            window.history.pushState({href: href}, response.title, href);
+            animateCSS($('[data-render="content"]').html(response.content), 'fadeIn');
+            setAnchor();
+            setActive();
+            if ($width < 800) {
+                $('#sidebar').toggleClass('active');
+            }
+            hljs.highlightAll();
+        },
+        getContent: function ($href) {
+            let _this = this;
 
+            if (this.isExist($href)) {
+                this.run($href);
+                return;
+            }
+
+            ajaxSend({
+                method: 'get',
+                url: $href,
+                success: function (data) {
+                    _this.set($href, data).renderContent(data, $href);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(jqXHR + ':' + textStatus);
+                },
+            });
+        },
         set: function (key, data) {
             localStorage.setItem(key, JSON.stringify(data));
-            // this.data[key] = data;
+            return this;
         },
         get: function (key) {
             return JSON.parse(localStorage.getItem(key));
-            //return this.data[key];
         },
         isExist: function (key) {
             return localStorage.getItem(key) !== null;
-            // return this.data[key] !== undefined;
         },
-
+        delete(key) {
+            localStorage.removeItem(this.dbPrefix + key);
+        },
+        dropAll() {
+            localStorage.clear();
+        }
     };
+
+    setActive();
+    setAnchor();
 
     $('#sidebar').on('click', 'a[href="#"]', function (e) {
         e.preventDefault();
@@ -38,54 +67,7 @@ $(document).ready(function () {
     })
         .on('click', 'a[href!="#"]', function (e) {
             e.preventDefault();
-            var $this = $(this);
-            var $href = $this.attr('href');
-            var onsuccess = function (data) {
-                window.history.pushState({href: $href}, data.title, $href);
-                animateCSS($('[data-render="content"]').html(data.content), 'fadeIn');
-                setAnchor();
-                setActive();
-                if ($width < 800) {
-                    $('#sidebar').toggleClass('active');
-                }
-                hljs.highlightAll();
-            };
-            if (ob.isExist($href)) {
-                ob.success($href, onsuccess);
-                return;
-            }
-            ajaxSend({
-                method: 'get',
-                url: $href,
-                success: function (data) {
-                    ob.set($href, data);
-                    ob.success($href, onsuccess);
-                },
-                statusCode: {
-                    500: function (jqXHR) {
-                        toastr.error(jqXHR.responseText.message);
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    let msg = '';
-                    if (jqXHR.status === 0) {
-                        msg = 'Not connect.\n Verify Network.';
-                    } else if (jqXHR.status === 404) {
-                        msg = 'Requested page not found. [404]';
-                    } else if (jqXHR.status === 500) {
-                        msg = 'Internal Server Error [500].';
-                    } else if (textStatus === 'parsererror') {
-                        msg = 'Requested JSON parse failed.';
-                    } else if (textStatus === 'timeout') {
-                        msg = 'Time out error.';
-                    } else if (textStatus === 'abort') {
-                        msg = 'Ajax request aborted.';
-                    } else {
-                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-                    }
-                    toastr.error(msg);
-                },
-            });
+            repository.getContent($(this).attr('href'));
         });
 });
 

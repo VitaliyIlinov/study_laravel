@@ -56,6 +56,12 @@ services:
     networks:
       - study-network
 
+  redis:
+    container_name: '${APP_NAME}-redis'
+    image: 'redis:alpine'
+    networks:
+      - study-network
+
   adminer:
     image: adminer
     container_name: '${APP_NAME}-adminer'
