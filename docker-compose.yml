@@ -39,7 +39,8 @@ services:
   db:
     image: mysql:8.0.12
     container_name: '${APP_NAME}-db'
-    restart: unless-stopped
+    ports:
+      - '${FORWARD_DB_PORT:-3307}:3306'
     environment:
       MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ROOT_HOST: "%"
@@ -47,18 +48,37 @@ services:
       MYSQL_USER: '${DB_USERNAME}'
       MYSQL_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    ports:
-      - '${FORWARD_DB_PORT:-3307}:3306'
     volumes:
       - 'study:/var/lib/mysql'
       - './storage/logs/mysql:/var/log/mysql:rw'
       - './docker/configs/mysql/conf.d:/etc/mysql/conf.d'
+      - './docker/configs/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
     networks:
       - study-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
+      retries: 3
+      timeout: 5s
 
   redis:
     container_name: '${APP_NAME}-redis'
     image: 'redis:alpine'
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - 'study-redis:/data'
+    networks:
+      - study-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      retries: 3
+      timeout: 5s
+
+  memcached:
+    image: 'memcached:alpine'
+    container_name: '${APP_NAME}-memcached'
+    ports:
+      - '${FORWARD_MEMCACHED_PORT:-11211}:11211'
     networks:
       - study-network
 
@@ -79,4 +99,5 @@ networks:
 #Volumes
 volumes:
   study:
+  study-redis:
     driver: local

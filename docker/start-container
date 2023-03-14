@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+#commands:
+##supervisorctl status
+##service supervisor start
+
+#automatic start but show as "not running" by service supervisor status
+#or you can use in container to start manual
+#exec service supervisor start
+exec /usr/bin/supervisord -n -c /etc/supervisor/conf.d/supervisord.conf
