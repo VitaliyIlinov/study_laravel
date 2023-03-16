@@ -7,7 +7,7 @@
     <div style="position: fixed">
         {!! $buildCreateButton() !!}
         <a class="btn btn-primary" href="#" role="button"
-           onclick="ajaxSend({url:'{{ route('category.ajaxCatUpdate') }}',data:{list:JSON.parse(localStorage.getItem('cat_list'))}});localStorage.removeItem('cat_list');">
+           onclick="ajaxSend({url:'{{ route('admin.category.ajaxCatUpdate') }}',data:{list:JSON.parse(localStorage.getItem('cat_list'))}});localStorage.removeItem('cat_list');">
             Save
         </a>
     </div>

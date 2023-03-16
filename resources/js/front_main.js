@@ -10,7 +10,7 @@ $(document).ready(function () {
         },
         renderContent: function (response, href) {
             window.history.pushState({href: href}, response.title, href);
-            animateCSS($('[data-render="content"]').html(response.content), 'fadeIn');
+            animateCSS($('#main_content').html(response.content), 'fadeIn');
             setAnchor();
             setActive();
             if ($width < 800) {

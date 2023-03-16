@@ -83,7 +83,7 @@
                     },
                     onMediaDelete: function ($target, $editable) {
                         ajaxSend({
-                            url: '{{route('file.delete')}}',
+                            url: '{{route('admin.file.delete')}}',
                             method: 'delete',
                             data: {
                                 filePath: $target.attr('src')
@@ -101,7 +101,7 @@
 
                 ajaxSend({
                     data: data,
-                    url: '{{route('file.store')}}',
+                    url: '{{route('admin.file.store')}}',
                     cache: false,
                     contentType: false,
                     processData: false,

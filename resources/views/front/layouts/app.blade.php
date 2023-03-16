@@ -45,18 +45,18 @@
                             <a class="nav-link" href="#">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin">ADMIN</a>
+
                         </li>
                     </ul>
                 </div>
+                </div>
+            </nav>
+            <div id="main_content" class="position-relative">
+                @yield('content',
+                'https://colorlib.com/wp/bootstrap-sidebar/
+                https://colorlib.com/etc/bootstrap-sidebar/sidebar-02/#'
+                )
             </div>
-        </nav>
-        <div id="main_content">
-            @yield('content',
-            'https://colorlib.com/wp/bootstrap-sidebar/
-            https://colorlib.com/etc/bootstrap-sidebar/sidebar-02/#'
-            )
-        </div>
             <div id="arrow-top" data-anchor="content">
                 <a href="#content">
                     <i class="fas fa-lg fa-arrow-up"></i>

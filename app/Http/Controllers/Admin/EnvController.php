@@ -87,7 +87,7 @@ class EnvController extends Controller
                 'message' => 'Row was created',
             ]);
         }
-        return redirect()->route('env_list')->with('success', 'Row was created');
+        return redirect()->route('admin.env_list')->with('success', 'Row was created');
     }
 
     /**

@@ -41,7 +41,7 @@ Route::prefix('info')->as('info.')->group(function (Router $router) {
     $router->get('/', [InfoController::class, 'index'])->name('list');
     $router->get('/create', [InfoController::class, 'create']);
     $router->post('/create', [InfoController::class, 'store']);
-    $router->get('/{info}', [InfoController::class, 'show']);
+    $router->get('/{info}', [InfoController::class, 'show'])->name('show');
     $router->post('/{info}', [InfoController::class, 'update']);
     $router->delete('/{info}', [InfoController::class, 'destroy']);
 });

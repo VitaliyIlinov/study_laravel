@@ -30,22 +30,22 @@ class AdminMenuSideBarComposer
                 ],
             ],
             [
-                'url'        => route('home'),
-                'trans'      => 'Dashboard',
+                'url' => route('admin.home'),
+                'trans' => 'Dashboard',
                 'icon_class' => 'fas fa-tachometer-alt',
             ],
             [
-                'url' => route('category.list'),
+                'url' => route('admin.category.list'),
                 'trans' => 'Category',
                 'icon_class' => 'fas fa-copy',
             ],
             [
-                'url' => route('info.list'),
+                'url' => route('admin.info.list'),
                 'trans' => 'Info',
                 'icon_class' => 'fas fa-edit',
             ],
             [
-                'url' => route('config.list'),
+                'url' => route('admin.config.list'),
                 'trans' => 'Config',
                 'icon_class' => 'fas fa-tools',
                 'additional_text' => '<span class="right badge badge-danger">New</span>',
@@ -56,12 +56,12 @@ class AdminMenuSideBarComposer
                 'icon_class'      => 'fas fa-tools',
             ],*/
             [
-                'url' => route('todo.list'),
+                'url' => route('admin.todo.list'),
                 'trans' => 'To Do list',
                 'icon_class' => 'fas fa-tasks',
             ],
             [
-                'url' => route('question.main'),
+                'url' => route('admin.question.main'),
                 'trans' => 'Interview Questions',
                 'icon_class' => 'fas fa-question',
             ],

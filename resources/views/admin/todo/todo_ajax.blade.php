@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">
-                <a href="{{route('todo.create')}}" data-method="get"
+                <a href="{{route('admin.todo.create')}}" data-method="get"
                    data-onsuccess="showForm" class="btn">
                     <i class="fas fa-lg fa-plus"></i>
                 </a>
@@ -15,7 +15,7 @@
                         <i role="button" class="fas fa-bars handle"></i>
                         <div style="display: inline-block" class="custom-control custom-checkbox">
                             <input onchange="sendActive(this)"
-                                   data-url="{{route('todo.change-status', $row->id)}}"
+                                   data-url="{{route('admin.todo.change-status', $row->id)}}"
                                    class="custom-control-input"
                                    type="checkbox"
                                    {{ $row->status ?'checked':''}}
@@ -83,7 +83,7 @@
                         data: {
                             list: order.join("|")
                         },
-                        url: '{{ route('todo.ajax-update') }}'
+                        url: '{{ route('admin.todo.ajax-update') }}'
                     });
                 },
             },
