@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Factories;
+
 use App\Models\Info;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
