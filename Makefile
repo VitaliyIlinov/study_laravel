@@ -10,7 +10,8 @@ help: ## This help.
 
 include .env
 dc := docker-compose
-
+CONTAINER_NAME := app
+CONTAINER_USER ?= $(shell id -u)
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
 MYSQL_DUMP=dumps/dump.sql
 
@@ -23,12 +24,30 @@ check:
 ifeq ($(APP_NAME),)
 	$(error Missed APP_NAME argument.)
 endif
+ifeq ($(CONTAINER_USER),)
+	$(error Missed CONTAINER_USER argument.)
+endif
 
 build: check## Run build
-	$(dc) build --force-rm
+	$(dc) build --force-rm --build-arg USER="$(CONTAINER_USER)"
+	make up
+	make composer-install
+	$(dc) exec "$(CONTAINER_NAME)" php artisan key:gen
+	$(dc) exec "$(CONTAINER_NAME)" php artisan migrate:fresh --seed
+	$(dc) exec "$(CONTAINER_NAME)" php artisan storage:link
+	$(dc) run --rm "$(CONTAINER_NAME)" npm install
+	$(dc) run --rm "$(CONTAINER_NAME)" npm run dev
 
 code-sniff: ## Run code sniff
-	$(dc) exec -T app ./vendor/bin/phpcs $(git diff --name-only)
+	$(dc) exec -T "$(CONTAINER_NAME)" ./vendor/bin/phpcs $(git diff --name-only)
+
+run: ## Run all necessary dependency
+	make up
+	make composer-install
+	$(dc) exec "$(CONTAINER_NAME)" php artisan migrate
+	$(dc) exec "$(CONTAINER_NAME)" php artisan db:seed
+	$(dc) exec "$(CONTAINER_NAME)" npm install
+	$(dc) exec "$(CONTAINER_NAME)" npm run dev
 
 lint: ## Checking the standard code
 	find . -name '*.php' -exec php -l {} \; | grep "error:"
@@ -40,10 +59,10 @@ down: ## Remove docker containers
 	$(dc) down
 
 composer-install: up ## Install php dependencies
-	$(dc) exec -T app composer install
+	$(dc) exec -T  "$(CONTAINER_NAME)" composer install --optimize-autoloader --no-interaction --ansi --no-suggest
 
-bash: ## Bash to app container
-	$(dc) exec app bash
+bash: ## Bash to main container
+	$(dc) exec "$(CONTAINER_NAME)" bash
 
 logs: ## Docker logs
 	$(dc) logs $(ARGS)

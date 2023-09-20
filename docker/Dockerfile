@@ -3,47 +3,19 @@
 FROM php:8.0-fpm
 MAINTAINER vitaliy ilinov <ilinov123@gmail.com>
 
-ARG NODE_VERSION=18
 ARG XDEBUG="off"
-
+ARG NODE_VERSION=18
+ARG USER
 WORKDIR /var/www
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV TZ=Europe/Kyiv
+ENV TZ=UTC
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Install and enable additional extensions
-COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
-## https://github.com/mlocati/docker-php-extension-installer
-RUN install-php-extensions @composer \
-    gd \
-    exif \
-    imagick \
-    zip \
-    opcache \
-    memcached \
-    pcntl \
-    redis \
-    pdo_mysql \
-    && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
-
-RUN if [ "$XDEBUG" = "on" ] ; then pecl install xdebug && docker-php-ext-enable xdebug; fi
-
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    locales \
-    nano \
-    zip \
-    unzip \
-    git \
-    git \
-    supervisor \
-    make \
-    wget \
-    default-mysql-client \
-    curl \
+RUN apt-get update \
+    && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor cron nano default-mysql-client sqlite3 libcap2-bin libpng-dev dnsutils \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -sLS https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm \
@@ -51,8 +23,27 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+RUN install-php-extensions pdo pdo_mysql sockets zip redis
+
+
+# xdebug
+RUN if [ "$XDEBUG" = "on" ] ;  \
+    then pecl install xdebug && docker-php-ext-enable xdebug \
+        && echo "xdebug.mode = develop,debug" >> /usr/local/etc/php/conf.d/xdebug.ini \
+        && echo "xdebug.discover_client_host=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+        && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/xdebug.ini \
+        && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/xdebug.ini; \
+    fi
+
 COPY start-container /usr/local/bin/start-container
 COPY configs/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chmod +x /usr/local/bin/start-container
+
+RUN useradd -G root -u $USER -d /home/$USER $USER
+RUN mkdir -p /home/$USER && chown -R $USER:$USER /home/$USER
+USER $USER
+
 
 #ENTRYPOINT ["start-container"]

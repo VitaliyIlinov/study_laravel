@@ -6,6 +6,7 @@ services:
       context: ./docker
       args:
         XDEBUG: '${XDEBUG:-on}'
+        USER: '${CONTAINER_USER}'
     image: '${APP_NAME}-app'
     restart: unless-stopped
     container_name: '${APP_NAME}-app'
@@ -37,10 +38,10 @@ services:
 
   #MySQL Service https://hub.docker.com/_/mysql
   db:
-    image: mysql:8.0.12
+    image: mysql:8.0
     container_name: '${APP_NAME}-db'
     ports:
-      - '${FORWARD_DB_PORT:-3307}:3306'
+      - '${FORWARD_DB_PORT:-3306}:3306'
     environment:
       MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ROOT_HOST: "%"
@@ -61,8 +62,9 @@ services:
       timeout: 5s
 
   redis:
-    container_name: '${APP_NAME}-redis'
     image: 'redis:alpine'
+    container_name: '${APP_NAME}-redis'
+    restart: unless-stopped
     volumes:
       - 'study-redis:/data'
     networks:
