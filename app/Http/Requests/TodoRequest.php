@@ -6,22 +6,17 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class TodoRequest extends FormRequest
 {
-    protected function prepareForValidation()
+    protected function prepareForValidation(): void
     {
         $this->merge([
             'status' => $this->boolean('status'),
         ]);
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'description' => 'required|string',
+            'description' => ['required', 'string'],
         ];
     }
 }

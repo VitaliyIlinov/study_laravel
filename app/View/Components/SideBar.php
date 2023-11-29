@@ -10,10 +10,7 @@ use Illuminate\View\Component;
 
 class SideBar extends Component
 {
-    /**
-     * @var CategoryRepository
-     */
-    private $repository;
+    private CategoryRepository $repository;
 
     public function __construct(CategoryRepository $repository)
     {
@@ -25,7 +22,7 @@ class SideBar extends Component
         return view('components.side-bar');
     }
 
-    public function getMenu()
+    public function getMenu(): array
     {
         return $this->repository->getSortTree($this->getRows());
     }

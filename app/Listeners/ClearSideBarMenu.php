@@ -8,22 +8,18 @@ use App\Repositories\CategoryRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class ClearSideBarMenu
+class ClearSideBarMenu implements ShouldQueue
 {
-    private $categoryRepository;
+    use InteractsWithQueue;
+
+    private CategoryRepository $categoryRepository;
 
     public function __construct(CategoryRepository $repository)
     {
         $this->categoryRepository = $repository;
     }
 
-    /**
-     * Handle the event.
-     *
-     * @param  CategoryAction|InfoAction  $event
-     * @return void
-     */
-    public function handle($event)
+    public function handle(CategoryAction|InfoAction $event): void
     {
         $this->categoryRepository->infoByCategoryCachedClear();
     }

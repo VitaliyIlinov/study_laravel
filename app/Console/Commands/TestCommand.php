@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\Testjob;
+use App\Jobs\TestJob;
 use App\Models\Info;
 use Illuminate\Console\Command;
 
@@ -26,7 +26,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        Testjob::dispatch(Info::first());
+        TestJob::dispatch(Info::first());
         return Command::SUCCESS;
     }
 }

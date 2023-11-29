@@ -8,12 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class SessionConfigRepServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
         $this->app->bind(
             SessionConfigsInterface::class,

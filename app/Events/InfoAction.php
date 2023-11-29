@@ -13,10 +13,6 @@ class InfoAction
     use InteractsWithSockets;
     use SerializesModels;
 
-    /**
-     * Create a new event instance.
-     * @return void
-     */
     public function __construct(Info $info)
     {
         $r = 1;

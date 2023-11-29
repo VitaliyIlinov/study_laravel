@@ -10,7 +10,7 @@ class Category extends TableList
     /**
      * @var CategoryRepository
      */
-    private $repository;
+    private CategoryRepository $repository;
 
     public function __construct(CategoryRepository $repository, array $fields, Collection $rows)
     {
@@ -23,7 +23,7 @@ class Category extends TableList
         return view('components.category');
     }
 
-    public function getMenu()
+    public function getMenu(): array
     {
         return $this->repository->getSortTree($this->getRows());
     }

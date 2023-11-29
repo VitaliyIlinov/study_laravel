@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 /**
@@ -20,6 +21,7 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  * @property int $sort
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @method self active()
  */
 class Category extends Model
 {
@@ -33,15 +35,12 @@ class Category extends Model
 
     protected $fillable = ['name', 'status', 'parent_id', 'sort'];
 
-    /**
-     * Get the comments for the blog post.
-     */
-    public function info()
+    public function info(): HasMany
     {
         return $this->hasMany(Info::class);
     }
 
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('status', 1);
     }

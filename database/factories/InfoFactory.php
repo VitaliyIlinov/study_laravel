@@ -11,7 +11,7 @@ final class InfoFactory extends Factory
 {
     protected $model = Info::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'title' => $this->faker->name,

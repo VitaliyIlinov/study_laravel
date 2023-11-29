@@ -18,14 +18,14 @@ class Message extends Component
     /**
      * @var array
      */
-    public $messages = [];
+    public array $messages = [];
 
-    public $isToastr;
+    public bool $isToastr;
 
     /**
      * Create a new component instance.
      *
-     * @param bool         $isToastr
+     * @param bool $isToastr
      */
     public function __construct(bool $isToastr = true)
     {
@@ -43,16 +43,15 @@ class Message extends Component
         return view('components.message');
     }
 
-    public function isToastrScript()
+    public function isToastrScript(): bool
     {
         return $this->isToastr;
     }
 
     /**
-     * @return void
      * @see resources/views/components/message.blade.php
      */
-    private function getMessages()
+    private function getMessages(): void
     {
         foreach (self::MESSAGE_KEYS as $key) {
             if (Session::has($key)) {

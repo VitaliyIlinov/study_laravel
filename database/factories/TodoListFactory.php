@@ -9,7 +9,7 @@ final class TodoListFactory extends Factory
 {
     protected $model = TodoList::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'description' => $this->faker->text(100),

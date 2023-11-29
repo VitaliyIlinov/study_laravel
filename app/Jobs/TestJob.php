@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class Testjob implements ShouldQueue
+class TestJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -19,20 +19,12 @@ class Testjob implements ShouldQueue
 
     private Info $info;
 
-    /**
-     * Create a new job instance.
-     * @return void
-     */
     public function __construct(Info $info)
     {
         $this->info = $info;
     }
 
-    /**
-     * Execute the job.
-     * @return void
-     */
-    public function handle(Info $info)
+    public function handle(Info $info): void
     {
         Log::channel('single')->error(__CLASS__);
     }

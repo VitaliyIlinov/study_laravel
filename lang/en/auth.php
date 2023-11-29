@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
+    'failed' => 'The username or password is incorrect. Check the correctness of the specified data.',
+    'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    'user_banned' => 'The user account has banned. Contact your administrator.',
 ];

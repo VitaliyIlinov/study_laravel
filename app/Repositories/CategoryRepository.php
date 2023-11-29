@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Category;
+use App\Models\Info;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
@@ -46,11 +47,11 @@ class CategoryRepository
     public function infoByCategoryCached()
     {
         return Cache::remember(self::CACHE_KEY, 3600, function () {
-            return Category::with([
-                'info' => function (HasMany $query) {
+            return Category::active()->with([
+                'info' => function (HasMany|Info $query) {
                     $query->select(['id', 'category_id', 'title', 'slug'])->active()->orderBy('sort');
                 },
-            ])->active()->get()->keyBy('id');
+            ])->get()->keyBy('id');
         });
     }
 

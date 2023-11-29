@@ -6,25 +6,20 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreInfo extends FormRequest
 {
-    protected function prepareForValidation()
+    protected function prepareForValidation(): void
     {
         $this->merge([
             'status' => $this->boolean('status'),
         ]);
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'title' => 'required|max:255',
-            'category_id' => 'required|int',
-            'text' => 'required|string',
-            'sort' => 'required|int',
+            'title' => ['required', 'max:255'],
+            'category_id' => ['required', 'int'],
+            'text' => ['required', 'string'],
+            'sort' => ['required', 'int'],
         ];
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 
 class CategoryInfoSeeder extends Seeder
 {
-    private $rows = [
+    private array $rows = [
         ['id' => 1, 'name' => 'Solid', 'parent_id' => 0],
         ['id' => 2, 'name' => 'Single responsibility', 'parent_id' => 1],
         ['id' => 3, 'name' => 'Open closed', 'parent_id' => 1],

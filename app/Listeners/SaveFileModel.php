@@ -4,26 +4,14 @@ namespace App\Listeners;
 
 use App\Events\FileUploaded;
 use App\Models\File;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
-class SaveFileModel
+class SaveFileModel implements ShouldQueue
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
+    use InteractsWithQueue;
 
-    /**
-     * Handle the event.
-     *
-     * @param FileUploaded $event
-     * @return void
-     */
-    public function handle(FileUploaded $event)
+    public function handle(FileUploaded $event): void
     {
         $fileModel = new File();
         $fileModel->name = $event->getFileName();

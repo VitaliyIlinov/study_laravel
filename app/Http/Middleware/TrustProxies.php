@@ -9,12 +9,16 @@ class TrustProxies extends Middleware
 {
     /**
      * The trusted proxies for this application.
-     * @var array|string|null
+     *
+     * @var array<int, string>|string|null
      */
-    protected $proxies = [
-        '192.168.64.1', //solomono fordelil.solomono.net
-    ];
+    protected $proxies;
 
+    /**
+     * The headers that should be used to detect proxies.
+     *
+     * @var int
+     */
     protected $headers =
         Request::HEADER_X_FORWARDED_FOR |
         Request::HEADER_X_FORWARDED_HOST |

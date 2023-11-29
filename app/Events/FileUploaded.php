@@ -13,20 +13,11 @@ class FileUploaded
     use InteractsWithSockets;
     use SerializesModels;
 
-    /**
-     * @var UploadedFile
-     */
-    private $uploadedFile;
+    private UploadedFile $uploadedFile;
 
-    /**
-     * @var string
-     */
-    private $fileName;
+    private string $fileName;
 
-    /**
-     * @var string
-     */
-    private $filePath;
+    private string $filePath;
 
     public function __construct(UploadedFile $uploadedFile, string $filePath, string $fileName)
     {
@@ -35,25 +26,16 @@ class FileUploaded
         $this->fileName = $fileName;
     }
 
-    /**
-     * @return UploadedFile
-     */
     public function getUploadedFile(): UploadedFile
     {
         return $this->uploadedFile;
     }
 
-    /**
-     * @return string
-     */
     public function getFileName(): string
     {
         return $this->fileName;
     }
 
-    /**
-     * @return string
-     */
     public function getFilePath(): string
     {
         return $this->filePath;

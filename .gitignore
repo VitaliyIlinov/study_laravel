@@ -1,4 +1,6 @@
+/.phpunit.cache
 /node_modules
+/public/build
 /public/hot
 /public/storage
 #webpack
@@ -10,12 +12,15 @@
 /storage/*.key
 /storage/mysql
 /vendor
-/.idea
 .env
 .env.backup
-.docker-compose.env
+.env.production
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
+auth.json
 npm-debug.log
 yarn-error.log
+/.fleet
+/.idea
+/.vscode

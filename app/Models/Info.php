@@ -23,6 +23,7 @@ use Illuminate\Support\Str;
  * @property int $sort
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @method self active()
  */
 class Info extends Model
 {

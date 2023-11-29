@@ -9,37 +9,19 @@ use Illuminate\View\View;
 
 class Form extends Component
 {
-    /**
-     * @var array
-     */
-    private $fields;
+    private array $fields;
 
     /**
      * @var Model|null
      */
     private $row;
 
-    /**
-     * @var string
-     */
-    private $method;
+    private ?Model $method;
 
-    /**
-     * @var string
-     */
-    private $action;
+    private string $action;
 
-    /**
-     * @var string|null
-     */
-    private $currentPrefix;
+    private string $currentPrefix;
 
-    /**
-     * Create a new component instance.
-     * @param array $fields
-     * @param array $options
-     * @param Model|null $row
-     */
     public function __construct(array $fields, array $options = [], ?Model $row = null)
     {
         $this->currentPrefix = DIRECTORY_SEPARATOR . Route::current()->getPrefix() . DIRECTORY_SEPARATOR;
@@ -54,25 +36,16 @@ class Form extends Component
         }
     }
 
-    /**
-     * @return string
-     */
     public function getAction(): string
     {
         return $this->action;
     }
 
-    /**
-     * @return string
-     */
     public function getMethod(): string
     {
         return $this->method;
     }
 
-    /**
-     * @return array
-     */
     public function getFields(): array
     {
         return $this->fields;
@@ -95,7 +68,7 @@ class Form extends Component
         return view('components.form');
     }
 
-    public function buildLabel(string $name, $classname = 'col-sm-2 col-form-label')
+    public function buildLabel(string $name, $classname = 'col-sm-2 col-form-label'): string
     {
         return strtr("<label for=':for' class=':class'>:value</label>", [
             ':for' => $name,
@@ -104,7 +77,7 @@ class Form extends Component
         ]);
     }
 
-    private function generateInput(string $name, string $classname = 'form-control', ?string $attributes = null)
+    private function generateInput(string $name, string $classname = 'form-control', ?string $attributes = null): string
     {
         return strtr(
             "<input type=':type' autocomplete='off' :other class=':class' name=':name' id=':id' placeholder=':placeholder'>",
@@ -119,17 +92,17 @@ class Form extends Component
         );
     }
 
-    public function buildCheckbox(string $name, string $classname = 'form-control')
+    public function buildCheckbox(string $name, string $classname = 'form-control'): string
     {
         return $this->generateInput($name, $classname, $this->getValue($name) ? ' checked' : '');
     }
 
-    public function buildInput(string $name, string $classname = 'form-control')
+    public function buildInput(string $name, string $classname = 'form-control'): string
     {
         return $this->generateInput($name, $classname, "value='{$this->getValue($name)}'");
     }
 
-    public function buildSelect(string $name, string $classname = 'form-control')
+    public function buildSelect(string $name, string $classname = 'form-control'): string
     {
         return strtr("<select class=':class' id=':id' name=':name'>:options</select>", [
             ':class' => $classname,
@@ -139,7 +112,7 @@ class Form extends Component
         ]);
     }
 
-    public function buildTextarea(string $name, string $classname = 'form-control')
+    public function buildTextarea(string $name, string $classname = 'form-control'): string
     {
         return strtr("<textarea cols='40' class=':class' id=':id' name=':name' rows=':rows'\">:value</textarea>", [
             ':class' => $classname,

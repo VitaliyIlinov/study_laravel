@@ -11,10 +11,7 @@ class SessionConfigs implements SessionConfigsInterface
         'editor' => ['froala_editor', 'code_mirror', 'default'],
     ];
 
-    /**
-     * @var Request
-     */
-    private $request;
+    private Request $request;
 
     public function __construct(Request $request)
     {
