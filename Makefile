@@ -71,8 +71,11 @@ config: ## Show container config
 clean: ## Remove *.log from storage folder
 	@find storage -name "*.log" -delete
 
+mysql: ## Bash to mysql container
+	$(dc) exec mysql bash
+
 mysql-dump: ## Make Mysql dump to $(MYSQL_DUMP)
-	@$(dc) exec mysql mysqldump --extended-insert=FALSE -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"
+	@$(dc) exec mysql mysqldump --extended-insert=FALSE $(DB_DATABASE) > "$(MYSQL_DUMP)"
 
 mysql-restore: ## Restore mysqlDB from $(MYSQL_DUMP)
-	@$(dc) exec -T mysql mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) < $(MYSQL_DUMP)
+	@$(dc) exec -T mysql mysql $(DB_DATABASE) < $(MYSQL_DUMP)

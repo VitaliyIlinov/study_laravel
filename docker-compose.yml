@@ -51,8 +51,11 @@ services:
       MYSQL_USER: '${DB_USERNAME}'
       MYSQL_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      # for mysqldump
+      MYSQL_PWD: '${DB_PASSWORD}'
     volumes:
       - 'study:/var/lib/mysql'
+      - './docker/etc/mysql/conf.d:/etc/mysql/conf.d'
       - './docker/etc/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
     networks:
       - study-network
