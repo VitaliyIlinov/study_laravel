@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Symlink the git pre-commit hook to its destination: run ./git-hook-install.sh
+# Symlink the git pre-commit hook to its destination: run ./docker/git-hooks/git-hook-install.sh
 
 PROJECT_DIR="$(dirname $(dirname $(dirname "$(realpath "$0")")))"
 echo "Base project dir location: ${PROJECT_DIR}"

@@ -1,8 +1,9 @@
 #!/bin/sh
 
+cd docker || exit
 ##to make sum link run git-hook-install
 dockerRun() {
-    docker-compose exec -T app "$@"
+     docker-compose exec -T main "$@"
 }
 
 error() {
@@ -37,7 +38,7 @@ fi
 echo "Checking PHP Lint..."
 for FILE in $SFILES
 do
-    FILE="/var/www/"$FILE;
+    FILE="/var/www/html/"$FILE;
     dockerRun php -l -d display_errors=0 $FILE
     if [ $? != 0 ]
     then
@@ -50,8 +51,8 @@ done
 echo "Running Code Sniffer."
 for FILE in $SFILES
 do
-    FILE="/var/www/"$FILE;
-    dockerRun ./vendor/bin/phpcs -n -p $FILE
+    FILE="/var/www/html/"$FILE;
+    dockerRun ./vendor/bin/phpcs -n -p "$FILE"
     if [ $? != 0 ]
     then
       error "Fix the error before commit!"

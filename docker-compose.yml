@@ -1,7 +1,8 @@
-version: '3'
+version: "3.7"
 #https://www.digitalocean.com/community/tutorials/how-to-containerize-a-laravel-application-for-development-with-docker-compose-on-ubuntu-18-04-ru
+
 services:
-  app:
+  main:
     build:
       context: ./docker
       args:
@@ -11,13 +12,13 @@ services:
     restart: unless-stopped
     container_name: '${APP_NAME}-app'
     volumes:
-      - './:/var/www'
+      - './:/var/www/html'
       - './storage/logs/php:/var/log/php'
-      - './docker/configs/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini'
+      - './docker/etc/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini'
     extra_hosts:
       - "host.docker.internal:host-gateway"
     env_file:
-      - docker-compose.env
+      - ./docker/docker-compose.env
     networks:
       - study-network
 
@@ -30,16 +31,17 @@ services:
       - '${APP_PORT:-80}:80'
       - '${APP_PORT_SSL:-443}:443'
     volumes:
-      - './:/var/www'
+      - './:/var/www/html'
       - './storage/logs/nginx:/var/log/nginx'
-      - './docker/configs/nginx/conf.d/:/etc/nginx/conf.d/'
+      - './docker/etc/nginx/default.conf:/etc/nginx/conf.d/default.conf'
     networks:
       - study-network
 
   #MySQL Service https://hub.docker.com/_/mysql
-  db:
+  mysql:
     image: mysql:8.0
     container_name: '${APP_NAME}-db'
+    restart: unless-stopped
     ports:
       - '${FORWARD_DB_PORT:-3306}:3306'
     environment:
@@ -51,9 +53,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     volumes:
       - 'study:/var/lib/mysql'
-      - './storage/logs/mysql:/var/log/mysql:rw'
-      - './docker/configs/mysql/conf.d:/etc/mysql/conf.d'
-      - './docker/configs/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+      - './docker/etc/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
     networks:
       - study-network
     healthcheck:
@@ -62,7 +62,7 @@ services:
       timeout: 5s
 
   redis:
-    image: 'redis:alpine'
+    image: redis:alpine
     container_name: '${APP_NAME}-redis'
     restart: unless-stopped
     volumes:
@@ -75,7 +75,7 @@ services:
       timeout: 5s
 
   memcached:
-    image: 'memcached:alpine'
+    image: memcached:alpine
     container_name: '${APP_NAME}-memcached'
     ports:
       - '${FORWARD_MEMCACHED_PORT:-11211}:11211'

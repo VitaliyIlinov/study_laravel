@@ -2,7 +2,7 @@
 
 ##to make sum link run git-hook-install
 dockerRun() {
-    docker-compose exec -T app "$@"
+    docker-compose exec -T main "$@"
 }
 
 error() {

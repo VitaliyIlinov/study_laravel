@@ -10,7 +10,7 @@ help: ## This help.
 
 include .env
 dc := docker-compose
-CONTAINER_NAME := app
+CONTAINER_NAME := main
 CONTAINER_USER ?= $(shell id -u)
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
 MYSQL_DUMP=dumps/dump.sql
@@ -30,7 +30,6 @@ endif
 
 build: check## Run build
 	$(dc) build --force-rm --build-arg USER="$(CONTAINER_USER)"
-	make up
 	make composer-install
 	$(dc) exec "$(CONTAINER_NAME)" php artisan key:gen
 	$(dc) exec "$(CONTAINER_NAME)" php artisan migrate:fresh --seed
@@ -42,7 +41,6 @@ code-sniff: ## Run code sniff
 	$(dc) exec -T "$(CONTAINER_NAME)" ./vendor/bin/phpcs $(git diff --name-only)
 
 run: ## Run all necessary dependency
-	make up
 	make composer-install
 	$(dc) exec "$(CONTAINER_NAME)" php artisan migrate
 	$(dc) exec "$(CONTAINER_NAME)" php artisan db:seed
@@ -74,11 +72,7 @@ clean: ## Remove *.log from storage folder
 	@find storage -name "*.log" -delete
 
 mysql-dump: ## Make Mysql dump to $(MYSQL_DUMP)
-	@$(dc) exec db mysqldump --extended-insert=FALSE -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"
+	@$(dc) exec mysql mysqldump --extended-insert=FALSE -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) > "$(MYSQL_DUMP)"
 
 mysql-restore: ## Restore mysqlDB from $(MYSQL_DUMP)
-	@$(dc) exec -T db mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) < $(MYSQL_DUMP)
-
-init: build composer-install mysql-restore ## first run
-	docker-compose exec -T app npm install && npm run dev
-
+	@$(dc) exec -T mysql mysql -u"$(DB_USERNAME)" -p"$(DB_PASSWORD)" $(DB_DATABASE) < $(MYSQL_DUMP)
