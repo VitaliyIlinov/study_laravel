@@ -82,6 +82,9 @@ $(document).ready(function () {
         },
     };
 
+    // to work delete button in category
+    // $('.content-wrapper').on('click', 'a.btn[href][data-method]', function (e) {
+
     $('.content-wrapper').on('click', '#dataTable a.btn[href]', function (e) {
         //edit,delete,create buttons
         e.preventDefault();

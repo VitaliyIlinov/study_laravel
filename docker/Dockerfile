@@ -1,6 +1,6 @@
 #https://hub.docker.com/_/php
 #source: https://github.com/laravel/sail
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 MAINTAINER vitaliy ilinov <ilinov123@gmail.com>
 
 ARG XDEBUG="off"
@@ -47,6 +47,5 @@ RUN chmod +x /usr/local/bin/start-container
 RUN useradd -G root -u $USER -d /home/$USER $USER
 RUN mkdir -p /home/$USER && chown -R $USER:$USER /home/$USER
 USER $USER
-
 
 #ENTRYPOINT ["start-container"]

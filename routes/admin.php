@@ -27,10 +27,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [DashboardController::class, 'index'])->name('home');
 Route::prefix('category')->as('category.')->group(function (Router $router) {
     $router->get('/', [CategoryController::class, 'index'])->name('list');
-    $router->get('/{category}', [CategoryController::class, 'show']);
-    $router->post('/{category}', [CategoryController::class, 'update']);
     $router->get('/create', [CategoryController::class, 'create']);
     $router->post('/create', [CategoryController::class, 'store']);
+    $router->get('/{category}', [CategoryController::class, 'show']);
+    $router->post('/{category}', [CategoryController::class, 'update']);
     $router->delete('/{category}', [CategoryController::class, 'destroy']);
     $router->group(['prefix' => 'ajax', 'middleware' => OnlyAjax::class], function (Router $router) {
         $router->post('/sort_update', [CategoryController::class, 'ajaxUpdateSort'])->name('ajaxCatUpdate');

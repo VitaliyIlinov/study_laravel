@@ -78,4 +78,4 @@ mysql-dump: ## Make Mysql dump to $(MYSQL_DUMP)
 	@$(dc) exec mysql mysqldump --extended-insert=FALSE $(DB_DATABASE) > "$(MYSQL_DUMP)"
 
 mysql-restore: ## Restore mysqlDB from $(MYSQL_DUMP)
-	@$(dc) exec -T mysql mysql $(DB_DATABASE) < $(MYSQL_DUMP)
+	@$(dc) exec -T mysql mysql -p"12345" $(DB_DATABASE) < $(MYSQL_DUMP)

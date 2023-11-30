@@ -11,12 +11,9 @@ class Form extends Component
 {
     private array $fields;
 
-    /**
-     * @var Model|null
-     */
-    private $row;
+    private ?Model $row;
 
-    private ?Model $method;
+    private string $method;
 
     private string $action;
 

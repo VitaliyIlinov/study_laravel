@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.34, for Linux (x86_64)
 --
--- Host: localhost    Database: laravel
+-- Host: localhost    Database: study
 -- ------------------------------------------------------
 -- Server version	8.0.34
 
@@ -123,7 +123,7 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `files`;
-/*!40101 SET @saved_cs_client     = @@`character_set_client` */;
+/*!40101 SET @`saved_cs_client` = @@`character_set_client` */;
 /*!50503 SET character_set_client = `utf8mb4` */;
 CREATE TABLE `files`
 (
@@ -155,17 +155,17 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `infos`;
-/*!40101 SET @saved_cs_client     = @@`character_set_client` */;
+/*!40101 SET @`saved_cs_client` = @@`character_set_client` */;
 /*!50503 SET character_set_client = `utf8mb4` */;
 CREATE TABLE `infos`
 (
     `id`          bigint unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `text` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` tinyint(1) NOT NULL             DEFAULT '1',
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` DEFAULT NULL,
+    `status`      tinyint(1)      NOT NULL                               DEFAULT '1',
     `category_id` bigint unsigned NOT NULL,
-    `sort`        tinyint         NOT NULL DEFAULT '0',
+    `sort`        tinyint         NOT NULL                               DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -174,7 +174,7 @@ CREATE TABLE `infos`
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 144
   DEFAULT CHARSET = `utf8mb4`
-  COLLATE = `utf8mb4_unicode_ci`;
+  COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -264,13 +264,13 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `migrations`;
-/*!40101 SET @saved_cs_client     = @@`character_set_client` */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET @`saved_cs_client` = @@`character_set_client` */;
+/*!50503 SET character_set_client = `utf8mb4` */;
 CREATE TABLE `migrations`
 (
-    `id`      int unsigned                                                    NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` NOT NULL,
-    `batch`   int NOT NULL,
+    `id`        int unsigned                                                      NOT NULL AUTO_INCREMENT,
+    `migration` varchar(255) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+  `batch` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -299,23 +299,23 @@ DROP TABLE IF EXISTS `personal_access_tokens`;
 /*!50503 SET character_set_client = `utf8mb4` */;
 CREATE TABLE `personal_access_tokens`
 (
-    `id`             bigint unsigned                           NOT NULL AUTO_INCREMENT,
-    `tokenable_type` varchar(255) COLLATE `utf8mb4_unicode_ci` NOT NULL,
-    `tokenable_id`   bigint unsigned                           NOT NULL,
-    `name`           varchar(255) COLLATE `utf8mb4_unicode_ci` NOT NULL,
-    `token`          varchar(64) COLLATE `utf8mb4_unicode_ci`  NOT NULL,
-    `abilities`      text COLLATE `utf8mb4_unicode_ci`,
-    `last_used_at`   timestamp                                 NULL DEFAULT NULL,
-    `expires_at`     timestamp                                 NULL DEFAULT NULL,
-    `created_at`     timestamp                                 NULL DEFAULT NULL,
-    `updated_at`     timestamp                                 NULL DEFAULT NULL,
+    `id`             bigint unsigned                                                   NOT NULL AUTO_INCREMENT,
+    `tokenable_type` varchar(255) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `tokenable_id`   bigint unsigned                                                   NOT NULL,
+    `name`           varchar(255) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci` NOT NULL,
+    `token`          varchar(64) CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci`  NOT NULL,
+    `abilities`      text CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci`,
+    `last_used_at`   timestamp                                                         NULL DEFAULT NULL,
+    `expires_at`     timestamp                                                         NULL DEFAULT NULL,
+    `created_at`     timestamp                                                         NULL DEFAULT NULL,
+    `updated_at`     timestamp                                                         NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
     KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`, `tokenable_id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = `utf8mb4`
   COLLATE = `utf8mb4_unicode_ci`;
-/*!40101 SET character_set_client = @`saved_cs_client` */;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `personal_access_tokens`
@@ -324,8 +324,7 @@ CREATE TABLE `personal_access_tokens`
 LOCK TABLES `personal_access_tokens` WRITE;
 /*!40000 ALTER TABLE `personal_access_tokens`
     DISABLE KEYS */;
-/*!40000 ALTER TABLE `personal_access_tokens`
-    ENABLE KEYS */;
+/*!40000 ALTER TABLE `personal_access_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -335,12 +334,11 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `todo_lists`;
 /*!40101 SET @`saved_cs_client` = @@`character_set_client` */;
 /*!50503 SET character_set_client = `utf8mb4` */;
-CREATE TABLE `todo_lists`
-(
-    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  `label` tinytext CHARACTER SET `utf8mb4` COLLATE utf8mb4_unicode_ci,
+CREATE TABLE `todo_lists` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `description` text CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` NOT NULL,
+  `status`      tinyint(1)                                              NOT NULL DEFAULT '1',
+  `label`       tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `sort` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -370,7 +368,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @`saved_cs_client` = @@`character_set_client` */;
-/*!50503 SET character_set_client = `utf8mb4` */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -399,8 +397,8 @@ UNLOCK TABLES;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@`OLD_COLLATION_CONNECTION` */;
-/*!40111 SET SQL_NOTES = @`OLD_SQL_NOTES` */;
+/*!40101 SET CHARACTER_SET_RESULTS = @`OLD_CHARACTER_SET_RESULTS` */;
+/*!40101 SET COLLATION_CONNECTION = @`OLD_COLLATION_CONNECTION` */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-30  7:45:38
+-- Dump completed on 2023-11-30  9:55:14
