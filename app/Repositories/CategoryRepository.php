@@ -46,7 +46,7 @@ class CategoryRepository
 
     public function infoByCategoryCached()
     {
-        return Cache::remember(self::CACHE_KEY, 3600, function () {
+        return Cache::remember(self::CACHE_KEY, 1, function () {
             return Category::active()->with([
                 'info' => function (HasMany|Info $query) {
                     $query->select(['id', 'category_id', 'title', 'slug'])->active()->orderBy('sort');

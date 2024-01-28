@@ -11,6 +11,8 @@ services:
     image: '${APP_NAME}-app'
     restart: unless-stopped
     container_name: '${APP_NAME}-app'
+    ports:
+        - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
     volumes:
       - './:/var/www/html'
       - './storage/logs/php:/var/log/php'

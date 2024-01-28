@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
+Route::get('{any?}', function () {
+    return view('front.layouts.app');
+})->where('any', '.*');
+//Route::get('/test', [TestController::class, 'test'])->name('test');
+//Route::get('/', [DashboardController::class, 'index'])->name('home');
+//Route::prefix('info')->group(function (Router $router) {
+//    $router->get('/{info}', [InfoController::class, 'show']);
+////        ->middleware('cache.headers:public;max_age=3600;must_revalidate;etag');
 //});
-Route::get('/test', [TestController::class, 'test'])->name('test');
-Route::get('/', [DashboardController::class, 'index'])->name('home');
-Route::prefix('info')->group(function (Router $router) {
-    $router->get('/{info}', [InfoController::class, 'show']);
-//        ->middleware('cache.headers:public;max_age=3600;must_revalidate;etag');
-});
