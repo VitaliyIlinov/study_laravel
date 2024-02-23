@@ -44,6 +44,7 @@ run: ## Run all necessary dependency
 	make composer-install
 	$(dc) exec "$(CONTAINER_NAME)" php artisan migrate
 	$(dc) exec "$(CONTAINER_NAME)" php artisan db:seed
+	$(dc) exec "$(CONTAINER_NAME)" php artisan storage:link
 	$(dc) exec "$(CONTAINER_NAME)" npm install
 	$(dc) exec "$(CONTAINER_NAME)" npm run dev
 

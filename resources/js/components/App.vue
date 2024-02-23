@@ -13,18 +13,8 @@
     </div>
 </template>
 
-<script>
-// Importing Navbar component
-import Navbar from './Navbar.vue';
-
-export default {
-// Registering Navbar component
-    components: {
-        Navbar,
-    },
-// Name of the root component
-    name: 'App',
-}
+<script setup>
+import Navbar from './navbar/Navbar.vue';
 </script>
 
 <style>
